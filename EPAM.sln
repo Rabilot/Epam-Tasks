@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPAM", "EPAM\EPAM.csproj", "{60CE72C7-F2CE-48A6-8F48-2241C61F28E6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Task 0", "Task 0\Task 0.csproj", "{9CA04C11-D88D-431E-8628-572533B6D30E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{60CE72C7-F2CE-48A6-8F48-2241C61F28E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60CE72C7-F2CE-48A6-8F48-2241C61F28E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60CE72C7-F2CE-48A6-8F48-2241C61F28E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60CE72C7-F2CE-48A6-8F48-2241C61F28E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9CA04C11-D88D-431E-8628-572533B6D30E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CA04C11-D88D-431E-8628-572533B6D30E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CA04C11-D88D-431E-8628-572533B6D30E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CA04C11-D88D-431E-8628-572533B6D30E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
