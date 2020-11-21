@@ -2,9 +2,18 @@
 
 namespace Task_0
 {
-    public class Playlist
+    public abstract class Playlist
     {
-        private List<Music> playlist = new List<Music>();
-        
+        private List<MediaFile> playlist;
+
+        protected Playlist(List<MediaFile> playlist)
+        {
+            this.playlist = playlist;
+        }
+
+        public void Play()
+        {
+            
+        }
     }
 }

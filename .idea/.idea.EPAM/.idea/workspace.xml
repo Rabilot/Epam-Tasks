@@ -11,13 +11,8 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/../3 sem/PL/LAB 2.ю/LAB 2/Program.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../3 sem/PL/LAB 2.3/LAB 2/LAB 2/Text.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../3 sem/PL/LAB 2.3/LAB 2/LAB 2/Words.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../3 sem/PL/LAB 2.1/Lab 2/Sentence.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../3 sem/PL/LAB 2.3/LAB 2/LAB 2/Sentence.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../3 sem/PL/LAB 2.3/LAB 2/LAB 2/Program.cs" root0="SKIP_HIGHLIGHTING" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -25,13 +20,20 @@
         <option value="$PROJECT_DIR$/../3 sem/PL/LAB 2.3/LAB 2/LAB 2/Sentence.cs" />
         <option value="$PROJECT_DIR$/../3 sem/PL/LAB 2.ю/LAB 2/Program.cs" />
         <option value="$PROJECT_DIR$/EPAM/Program.cs" />
-        <option value="$PROJECT_DIR$/Task 0/Playlist.cs" />
-        <option value="$PROJECT_DIR$/Task 0/Multimedia.cs" />
         <option value="$PROJECT_DIR$/Task 0/Program.cs" />
         <option value="$PROJECT_DIR$/Task 0/MediaFile.cs" />
         <option value="$PROJECT_DIR$/Task 0/Photo.cs" />
         <option value="$PROJECT_DIR$/Task 0/VideoFile.cs" />
         <option value="$PROJECT_DIR$/Task 0/Music.cs" />
+        <option value="$PROJECT_DIR$/Task 0/Interfaces/IMediaFile.cs" />
+        <option value="$PROJECT_DIR$/Task 0/MediaFile/Photo.cs" />
+        <option value="$PROJECT_DIR$/Task 0/MediaFile/Music.cs" />
+        <option value="$PROJECT_DIR$/Task 0/Interfaces/IMultimedia.cs" />
+        <option value="$PROJECT_DIR$/Task 0/MediaFile/VideoFile.cs" />
+        <option value="$PROJECT_DIR$/Task 0/Playlist.cs" />
+        <option value="$PROJECT_DIR$/Task 0/Player.cs" />
+        <option value="$PROJECT_DIR$/Task 0/MediaFile/MediaFile.cs" />
+        <option value="$PROJECT_DIR$/Task 0/Multimedia.cs" />
       </list>
     </option>
   </component>
@@ -95,7 +97,7 @@
       <workItem from="1605601008093" duration="764000" />
       <workItem from="1605601830918" duration="1853000" />
       <workItem from="1605607470104" duration="1806000" />
-      <workItem from="1605951465323" duration="285000" />
+      <workItem from="1605951465323" duration="8136000" />
     </task>
     <servers />
   </component>
@@ -132,5 +134,9 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="552" y="257" key="Rider.ProjectTemplateDialog.Size/0.0.1920.1050/1920.116.1920.1050@0.0.1920.1050" timestamp="1605459291511" />
+    <state x="788" y="199" key="RiderGenerateDialog" timestamp="1605956366426">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state x="788" y="199" key="RiderGenerateDialog/0.0.1920.1050/1920.116.1920.1050@0.0.1920.1050" timestamp="1605956366426" />
   </component>
 </project>
