@@ -25,13 +25,13 @@
         <option value="$PROJECT_DIR$/../3 sem/PL/LAB 2.3/LAB 2/LAB 2/Sentence.cs" />
         <option value="$PROJECT_DIR$/../3 sem/PL/LAB 2.ю/LAB 2/Program.cs" />
         <option value="$PROJECT_DIR$/EPAM/Program.cs" />
-        <option value="$PROJECT_DIR$/Task 0/Music.cs" />
         <option value="$PROJECT_DIR$/Task 0/Playlist.cs" />
-        <option value="$PROJECT_DIR$/Task 0/Photo.cs" />
-        <option value="$PROJECT_DIR$/Task 0/MediaFile.cs" />
-        <option value="$PROJECT_DIR$/Task 0/VideoFile.cs" />
-        <option value="$PROJECT_DIR$/Task 0/Program.cs" />
         <option value="$PROJECT_DIR$/Task 0/Multimedia.cs" />
+        <option value="$PROJECT_DIR$/Task 0/Program.cs" />
+        <option value="$PROJECT_DIR$/Task 0/MediaFile.cs" />
+        <option value="$PROJECT_DIR$/Task 0/Photo.cs" />
+        <option value="$PROJECT_DIR$/Task 0/VideoFile.cs" />
+        <option value="$PROJECT_DIR$/Task 0/Music.cs" />
       </list>
     </option>
   </component>
@@ -95,6 +95,7 @@
       <workItem from="1605601008093" duration="764000" />
       <workItem from="1605601830918" duration="1853000" />
       <workItem from="1605607470104" duration="1806000" />
+      <workItem from="1605951465323" duration="285000" />
     </task>
     <servers />
   </component>

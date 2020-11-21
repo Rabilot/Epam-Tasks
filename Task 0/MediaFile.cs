@@ -9,5 +9,6 @@ namespace Task_0
         public string DateOfCreation;
         public string DateOfChange;
         public string Type;
+        public string Path;
     }
 }
