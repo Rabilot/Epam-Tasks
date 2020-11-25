@@ -39,7 +39,7 @@ namespace Task_0
             
         }
 
-        public void PlatPlaylist(Playlist playlist)
+        public void PlayPlaylist(Playlist playlist)
         {
             
         }

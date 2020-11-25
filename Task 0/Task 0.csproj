@@ -44,6 +44,7 @@
         <Compile Include="MediaFile\Photo.cs" />
         <Compile Include="MediaFile\VideoFile.cs" />
         <Compile Include="Multimedia.cs" />
+        <Compile Include="Player.cs" />
         <Compile Include="Playlist.cs" />
         <Compile Include="Program.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
