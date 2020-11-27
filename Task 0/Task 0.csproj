@@ -39,6 +39,7 @@
         <Reference Include="System.Xml" />
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="Interfaces\IMultimedia.cs" />
         <Compile Include="Interfaces\IPlayer.cs" />
         <Compile Include="Interfaces\IPlaylist.cs" />
         <Compile Include="MediaFile\MediaFile.cs" />

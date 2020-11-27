@@ -4,7 +4,7 @@ using Task_0.Interfaces;
 
 namespace Task_0
 {
-    public class Multimedia
+    public class Multimedia : IMultimedia
     {
         private List<MediaFile> MediaFiles = new List<MediaFile>();
         //private List<Playlist> Playlists = new List<Playlist>();
