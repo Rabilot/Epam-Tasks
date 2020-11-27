@@ -17,6 +17,10 @@
       <e p="packages" t="ExcludeRecursive" />
       <e p="Task 0" t="IncludeRecursive">
         <e p="bin" t="ExcludeRecursive" />
+        <e p="Interfaces" t="Include">
+          <e p="IPlayer.cs" t="Include" />
+          <e p="IPlaylist.cs" t="Include" />
+        </e>
         <e p="MediaFile" t="Include">
           <e p="MediaFile.cs" t="Include" />
           <e p="Music.cs" t="Include" />
@@ -25,6 +29,7 @@
         </e>
         <e p="Multimedia.cs" t="Include" />
         <e p="obj" t="ExcludeRecursive" />
+        <e p="Player.cs" t="Include" />
         <e p="Playlist.cs" t="Include" />
         <e p="Program.cs" t="Include" />
         <e p="Properties" t="Include">

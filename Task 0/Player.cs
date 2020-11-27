@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using Task_0.Interfaces;
 
 namespace Task_0
 {
-    public class Player
+    public class Player : IPlayer
     {
         public void Play(Playlist playlist)
         {

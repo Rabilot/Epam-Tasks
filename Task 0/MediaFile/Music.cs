@@ -4,10 +4,10 @@ namespace Task_0
 {
     public class Music : MediaFile
     {
-        private int Duration { get; }
-        private string Genres { get; }
-        private string Performer { get; }
-        private string Album { get; }
+        public int Duration { get; }
+        public string Genres { get; }
+        public string Performer { get; }
+        public string Album { get; }
 
         public Music(string name, int size, string dateOfCreation, string type, 
             string path, int duration, string genres, string performer, 

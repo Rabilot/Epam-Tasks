@@ -27,13 +27,15 @@
         <option value="$PROJECT_DIR$/Task 0/Music.cs" />
         <option value="$PROJECT_DIR$/Task 0/Interfaces/IMediaFile.cs" />
         <option value="$PROJECT_DIR$/Task 0/MediaFile/Photo.cs" />
+        <option value="$PROJECT_DIR$/Task 0/MediaFile/VideoFile.cs" />
+        <option value="$PROJECT_DIR$/Task 0/MediaFile/MediaFile.cs" />
         <option value="$PROJECT_DIR$/Task 0/MediaFile/Music.cs" />
         <option value="$PROJECT_DIR$/Task 0/Interfaces/IMultimedia.cs" />
-        <option value="$PROJECT_DIR$/Task 0/MediaFile/VideoFile.cs" />
-        <option value="$PROJECT_DIR$/Task 0/Playlist.cs" />
-        <option value="$PROJECT_DIR$/Task 0/Player.cs" />
-        <option value="$PROJECT_DIR$/Task 0/MediaFile/MediaFile.cs" />
         <option value="$PROJECT_DIR$/Task 0/Multimedia.cs" />
+        <option value="$PROJECT_DIR$/Task 0/Player.cs" />
+        <option value="$PROJECT_DIR$/Task 0/Interfaces/IPlayer.cs" />
+        <option value="$PROJECT_DIR$/Task 0/Playlist.cs" />
+        <option value="$PROJECT_DIR$/Task 0/Interfaces/IPlaylist.cs" />
       </list>
     </option>
   </component>
@@ -98,6 +100,9 @@
       <workItem from="1605601830918" duration="1853000" />
       <workItem from="1605607470104" duration="1806000" />
       <workItem from="1605951465323" duration="8136000" />
+      <workItem from="1606299967513" duration="404000" />
+      <workItem from="1606301524275" duration="2957000" />
+      <workItem from="1606490122278" duration="672000" />
     </task>
     <servers />
   </component>

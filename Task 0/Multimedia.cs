@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using Task_0.Interfaces;
 
 namespace Task_0
 {
-    public class Multimedia 
+    public class Multimedia
     {
         private List<MediaFile> MediaFiles = new List<MediaFile>();
-        private List<Playlist> Playlists = new List<Playlist>();
+        //private List<Playlist> Playlists = new List<Playlist>();
         
 
         public Multimedia GetMultimediaFromDirectory(string path)
@@ -34,16 +35,13 @@ namespace Task_0
             
         }
 
-        public void PlayMediaFile(MediaFile mediaFile)
+        public MediaFile FindMediaFile(string name)
         {
-            
-        }
-
-        public void PlayPlaylist(Playlist playlist)
-        {
-            
+            return null;
         }
         
+        
+
 
         public override string ToString()
         {
