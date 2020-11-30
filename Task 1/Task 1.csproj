@@ -38,15 +38,18 @@
         <Reference Include="System.Xml" />
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="Exceptions\InvalidPriceException.cs" />
         <Compile Include="Gift.cs" />
         <Compile Include="GiftItem.cs" />
         <Compile Include="GiftItem\Candy.cs" />
+        <Compile Include="GiftItem\Cookie.cs" />
+        <Compile Include="GiftItem\Marshmallow.cs" />
+        <Compile Include="GiftItem\Sweetness.cs" />
         <Compile Include="GiftItem\Toy.cs" />
+        <Compile Include="GiftItem\Waffles.cs" />
+        <Compile Include="Interfaces\IGift.cs" />
         <Compile Include="Program.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
-    </ItemGroup>
-    <ItemGroup>
-      <Folder Include="Interfaces" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
     <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

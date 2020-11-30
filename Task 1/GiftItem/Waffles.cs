@@ -1,14 +1,13 @@
 ﻿namespace Task_1.GiftItem
 {
-    public class Candy : Sweetness
+    public class Waffles : Sweetness
     {
-
-        public Candy()
+        public Waffles()
         {
             
         }
 
-        public Candy(double price, double weight, string name, string manufacturer, int caloriesPer100Gram,
+        public Waffles(double price, double weight, string name, string manufacturer, int caloriesPer100Gram,
             int percentOfSugar) : base(price, weight, name, manufacturer, caloriesPer100Gram, percentOfSugar)
         {
             
