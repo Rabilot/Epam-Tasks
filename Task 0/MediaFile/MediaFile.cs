@@ -1,8 +1,9 @@
 ﻿using System;
+using Task_0.Interfaces;
 
 namespace Task_0
 {
-    public abstract class MediaFile 
+    public abstract class MediaFile : IPlay
     {
         public string Name { get; }
         public int Size { get; }

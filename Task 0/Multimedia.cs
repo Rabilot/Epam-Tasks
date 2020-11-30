@@ -7,7 +7,7 @@ namespace Task_0
     public class Multimedia : IMultimedia
     {
         private List<MediaFile> MediaFiles = new List<MediaFile>();
-        //private List<Playlist> Playlists = new List<Playlist>();
+        private List<IPlaylist> Playlists = new List<IPlaylist>();
         
 
         public Multimedia GetMultimediaFromDirectory(string path)
@@ -38,6 +38,7 @@ namespace Task_0
         public MediaFile FindMediaFile(string name)
         {
             return null;
+            if (MediaFiles[0] is Photo) ;
         }
         
         

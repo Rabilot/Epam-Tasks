@@ -2,7 +2,7 @@
 {
     public interface IPlayer
     {
-        void Play(Playlist playlist);
-        void Play(MediaFile mediaFile);
+        void Play(IPlay play);
+        //void Play(MediaFile mediaFile);
     }
 }

@@ -5,14 +5,10 @@ namespace Task_0
 {
     public class Player : IPlayer
     {
-        public void Play(Playlist playlist)
+        public void Play(IPlay play)
         {
-              playlist.Play();
+            play.Play();
         }
-
-        public void Play(MediaFile mediaFile)
-        {
-            mediaFile.Play();
-        }
+        
     }
 }
