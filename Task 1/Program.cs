@@ -14,11 +14,9 @@ namespace Task_1
         {
             Gift gift = MakeGift();
             Console.WriteLine(gift);
-            Serialize(gift);
-            WritePriceRange(gift); 
-            Console.WriteLine("This gift is: \n" + gift.FindByName("Beer"));
+            WritePriceRange(gift);
+            Console.WriteLine("This gift is: " + gift.FindByName("Beer"));
             gift.Remove(0);
-            gift = Deserializegift("Act.xml");
         }
 
         static void WritePriceRange(IGift gift)
@@ -29,9 +27,16 @@ namespace Task_1
                 var min = Convert.ToDouble(Console.ReadLine());
                 var max = Convert.ToDouble(Console.ReadLine());
                 List<GiftItem.GiftItem> giftItems = gift.FindByPriceRange(min, max);
-                foreach (var giftItem in giftItems)
+                if (giftItems.Count != 0)
                 {
-                    Console.WriteLine(giftItem);
+                    foreach (var giftItem in giftItems)
+                    {
+                        Console.WriteLine(giftItem);
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("No items were found!\n");
                 }
             }
             catch (InvalidPriceException e)
@@ -42,7 +47,7 @@ namespace Task_1
             }
         }
 
-        
+
 
         static Gift MakeGift()
         {
@@ -56,32 +61,6 @@ namespace Task_1
             Waffles waffles = new Waffles(2, 100, "FPS", "Waffles & Beer INC.", 310, 35);
             gift.Add(waffles);
             return gift;
-        }
-
-        static Gift Deserializegift(string path)
-        {
-            XmlSerializer serializer = new XmlSerializer(typeof(Gift));
-            try
-            {
-                FileStream fileStream = new FileStream(path, FileMode.Open);
-                Gift gift = (Gift) serializer.Deserialize(fileStream);
-                fileStream.Close();
-                return gift;
-            }
-            catch (FileNotFoundException)
-            {
-                Console.WriteLine($"File {path} not found!");
-                return new Gift();
-            }
-        }
-
-        static void Serialize(Gift gift)
-        {
-            if (gift.IsEmpty()) return;
-            XmlSerializer serializer = new XmlSerializer(typeof(Gift));
-            FileStream fileStream = new FileStream("database.xml", FileMode.OpenOrCreate);
-            serializer.Serialize(fileStream, gift);
-            fileStream.Close();
         }
     }
 }

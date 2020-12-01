@@ -22,6 +22,7 @@ namespace Task_1.GiftItem
         public override string ToString()
         {
             StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.Append($"\n{base.ToString()}");
             stringBuilder.Append($"Calories: {CaloriesPer100Gram}\nPrecentOfSugar: {PercentOfSugar}");
             return stringBuilder.ToString();
         }

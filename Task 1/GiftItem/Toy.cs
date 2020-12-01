@@ -19,7 +19,9 @@ namespace Task_1.GiftItem
 
         public override string ToString()
         {
+            string info = base.ToString();
             StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.Append($"\n{info}");
             stringBuilder.Append($"Material: {Material}");
             return stringBuilder.ToString();
         }
