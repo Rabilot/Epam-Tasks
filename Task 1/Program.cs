@@ -15,7 +15,7 @@ namespace Task_1
             Gift gift = MakeGift();
             Console.WriteLine(gift);
             WritePriceRange(gift);
-            Console.WriteLine("This gift is: " + gift.FindByName("Beer"));
+            Console.WriteLine("\nThis gift is: " + gift.FindByName("Beer"));
             gift.Remove(0);
         }
 
