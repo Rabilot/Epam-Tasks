@@ -12,5 +12,7 @@ namespace Task_1.Interfaces
         bool IsEmpty();
         List<GiftItem.GiftItem> FindByPriceRange(double min, double max);
         int NumberOfGiftItems();
+        double Price();
+        double Weight();
     }
 }

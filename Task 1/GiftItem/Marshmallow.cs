@@ -7,8 +7,8 @@
             
         }
 
-        public Marshmallow(double price, double weight, string name, string manufacturer, int caloriesPer100Gram,
-            int percentOfSugar) : base(price, weight, name, manufacturer, caloriesPer100Gram, percentOfSugar)
+        public Marshmallow(double pricePerKilo, double weight, string name, string manufacturer, int caloriesPer100Gram,
+            int percentOfSugar) : base(pricePerKilo,  weight, name, manufacturer, caloriesPer100Gram, percentOfSugar)
         {
             
         }

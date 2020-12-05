@@ -21,7 +21,7 @@ namespace Task_1
 
         public void Remove(int index)
         {
-            if (!IsEmpty())_gift.RemoveAt(index);
+            if (!IsEmpty()) _gift.RemoveAt(index);
         }
 
         public GiftItem.GiftItem FindByName(string name)
@@ -43,6 +43,18 @@ namespace Task_1
         {
             return _gift.Count;
         }
+
+        public double Price()
+        {
+            return _gift.Sum(item => item.Price);
+        }
+
+
+        public double Weight()
+        {
+            return _gift.Sum(item => item.Weight);
+        }
+        
 
         public override string ToString()
         {

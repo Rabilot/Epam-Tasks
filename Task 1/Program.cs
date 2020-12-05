@@ -16,12 +16,14 @@ namespace Task_1
             Console.WriteLine(gift);
             WritePriceRange(gift);
             Console.WriteLine("\nThis gift is: " + gift.FindByName("Beer"));
+            Console.WriteLine("\nCost of Gift: " + gift.Price());
+            Console.WriteLine("\nWeight of Gift: " + gift.Weight());
             gift.Remove(0);
         }
 
         static void WritePriceRange(IGift gift)
         {
-            Console.WriteLine("Write minimal and maximal price: ");
+            Console.WriteLine("Write minimal and maximal price: \n");
             try
             {
                 var min = Convert.ToDouble(Console.ReadLine());

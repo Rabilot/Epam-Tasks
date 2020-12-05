@@ -27,8 +27,8 @@ namespace Task_1.GiftItem
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.Append("Product: \n");
             stringBuilder.Append(
-                $"Name: {Name}\nManufacturer: {Manufacturer}\nWeight: " +
-                $"Price: {Price}\nWeight: {Weight}\n");
+                $"Name: {Name}\nManufacturer: {Manufacturer}\nWeight: " + 
+                $"{Weight}\nPrice: {Price}\n");
             return stringBuilder.ToString();
         }
     }
