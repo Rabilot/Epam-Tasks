@@ -7,7 +7,7 @@ namespace Task_1.GiftItem
         public int CaloriesPer100Gram{ get; }
         public int PercentOfSugar{ get; }
 
-        public Sweetness(double price, double weight, string name, string manufacturer, int caloriesPer100Gram, 
+        protected Sweetness(double price, double weight, string name, string manufacturer, int caloriesPer100Gram, 
             int percentOfSugar) : base(price, weight, name, manufacturer)
         {
             this.CaloriesPer100Gram = caloriesPer100Gram;

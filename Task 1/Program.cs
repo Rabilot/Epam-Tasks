@@ -12,7 +12,7 @@ namespace Task_1
     {
         public static void Main(string[] args)
         {
-            Gift gift = MakeGift();
+            IGift gift = MakeGift();
             Console.WriteLine(gift);
             WritePriceRange(gift);
             Console.WriteLine("\nThis gift is: " + gift.FindByName("Beer"));
@@ -49,7 +49,7 @@ namespace Task_1
 
 
 
-        static Gift MakeGift()
+        static IGift MakeGift()
         {
             var gift = new Gift();
             Candy candy = new Candy(12, 1450, "Just candy", "Candy INC.", 432, 70);
