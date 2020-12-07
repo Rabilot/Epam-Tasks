@@ -7,55 +7,59 @@ namespace Task_1
 {
     public class Gift : IGift
     {
-        private List<GiftItem.GiftItem> _gift = new List<GiftItem.GiftItem>();
-
-        public void Add(GiftItem.GiftItem giftItem)
+        private readonly List<GiftItem> _gift;
+        
+        public Gift()
+        {
+            _gift = new List<GiftItem>(); // Добавил конструктор
+        }
+        
+        public void Add(GiftItem giftItem)
         {
             _gift.Add(giftItem);
         }
-
-        public void Remove(GiftItem.GiftItem giftItem)
+        
+        public void Remove(GiftItem giftItem)
         {
             _gift.Remove(giftItem);
         }
-
+        
         public void Remove(int index)
         {
             if (!IsEmpty()) _gift.RemoveAt(index);
         }
-
-        public GiftItem.GiftItem FindByName(string name)
+        
+        public GiftItem FindByName(string name)
         {
             return _gift.Find(item => item.Name == name);
         }
 
         public bool IsEmpty()
         {
-            return _gift.Count == 0;
+            return !_gift.Any();
         }
 
-        public List<GiftItem.GiftItem> FindByPriceRange(double min, double max)
+        public List<GiftItem> FindByPriceRange(double min, double max)
         {
             return _gift.Where(item => item.Price >= min && item.Price <= max).ToList();
         }
 
-        public int NumberOfGiftItems()
+        public int GetCount()
         {
             return _gift.Count;
         }
 
-        public double Price()
+        public double GetPrice()
         {
             return _gift.Sum(item => item.Price);
         }
 
 
-        public double Weight()
+        public double GetWeight()
         {
             return _gift.Sum(item => item.Weight);
         }
         
-
         public override string ToString()
         {
             StringBuilder stringBuilder = new StringBuilder();
@@ -64,7 +68,7 @@ namespace Task_1
             {
                 stringBuilder.Append($"{giftItem}\n");
             }
-
+            
             return stringBuilder.ToString();
         }
     }

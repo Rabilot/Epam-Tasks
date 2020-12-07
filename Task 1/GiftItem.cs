@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace Task_1.GiftItem
+namespace Task_1
 {
     public class GiftItem
     {
@@ -9,17 +9,12 @@ namespace Task_1.GiftItem
         public string Name{ get; }
         public string Manufacturer{ get; }
 
-        protected GiftItem()
+        protected GiftItem(double price, double weight, string name, string manufacturer)
         {
-            
-        }
-
-        protected GiftItem(double Price, double Weight, string Name, string Manufacturer)
-        {
-            this.Price = Price;
-            this.Weight = Weight;
-            this.Name = Name;
-            this.Manufacturer = Manufacturer;
+            Price = price;
+            Weight = weight;
+            Name = name;
+            Manufacturer = manufacturer;
         }
 
         public override string ToString()

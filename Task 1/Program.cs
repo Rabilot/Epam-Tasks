@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Xml.Serialization;
+using System.Linq;
 using Task_1.Exceptions;
-using Task_1.GiftItem;
+using Task_1.Elements;
 using Task_1.Interfaces;
 
 namespace Task_1
@@ -16,8 +15,8 @@ namespace Task_1
             Console.WriteLine(gift);
             WritePriceRange(gift);
             Console.WriteLine("\nThis gift is: " + gift.FindByName("Beer"));
-            Console.WriteLine("\nCost of Gift: " + gift.Price());
-            Console.WriteLine("\nWeight of Gift: " + gift.Weight());
+            Console.WriteLine("\nCost of Gift: " + gift.GetPrice());
+            Console.WriteLine("\nWeight of Gift: " + gift.GetWeight());
             gift.Remove(0);
         }
 
@@ -26,10 +25,17 @@ namespace Task_1
             Console.WriteLine("Write minimal and maximal price: \n");
             try
             {
-                var min = Convert.ToDouble(Console.ReadLine());
-                var max = Convert.ToDouble(Console.ReadLine());
-                List<GiftItem.GiftItem> giftItems = gift.FindByPriceRange(min, max);
-                if (giftItems.Count != 0)
+                double min, max;
+                while (!double.TryParse(Console.ReadLine(), out min))
+                {
+                    
+                }
+                while (!double.TryParse(Console.ReadLine(), out max))
+                {
+                    
+                }
+                List<GiftItem> giftItems = gift.FindByPriceRange(min, max);
+                if (giftItems.Any())
                 {
                     foreach (var giftItem in giftItems)
                     {
@@ -44,16 +50,11 @@ namespace Task_1
             catch (InvalidPriceException e)
             {
                 Console.WriteLine(e);
-                Console.WriteLine("Try again: ");
-                WritePriceRange(gift);
             }
         }
-
-
-
         static IGift MakeGift()
         {
-            var gift = new Gift();
+            IGift gift = new Gift(); //??? Правильно ли объявлен?
             Candy candy = new Candy(12, 1450, "Just candy", "Candy INC.", 432, 70);
             gift.Add(candy);
             Cookie cookie = new Cookie(4, 600, "COOKIES!!!", "Cookie INC.", 502, 10);
