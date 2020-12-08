@@ -21,7 +21,7 @@ namespace Task_1.Elements
         {
             var info = base.ToString();
             var stringBuilder = new StringBuilder();
-            stringBuilder.Append($"\n{info}");
+            stringBuilder.Append($"\nThis toy:\n{info}");
             stringBuilder.Append($"Material: {Material}");
             return stringBuilder.ToString();
         }

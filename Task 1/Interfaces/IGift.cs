@@ -12,6 +12,8 @@ namespace Task_1.Interfaces
         List<GiftItem> FindByPriceRange(double min, double max);
         int GetCount();
         double GetPrice();
+        void SortByName();
+        void SortByPrice();
         double GetWeight();
     }
 }

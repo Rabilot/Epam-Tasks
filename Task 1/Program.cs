@@ -14,7 +14,10 @@ namespace Task_1
             IGift gift = MakeGift();
             Console.WriteLine(gift);
             WritePriceRange(gift);
-            Console.WriteLine("\nThis gift is: " + gift.FindByName("Beer"));
+            Console.WriteLine("Sort gift by name...");
+            gift.SortByName();
+            Console.WriteLine(gift);
+            Console.WriteLine("\nThis item of gift is: " + gift.FindByName("Beer"));
             Console.WriteLine("\nCost of Gift: " + gift.GetPrice());
             Console.WriteLine("\nWeight of Gift: " + gift.GetWeight());
             gift.Remove(0);

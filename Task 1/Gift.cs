@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Task_1.Interfaces;
@@ -7,7 +8,7 @@ namespace Task_1
 {
     public class Gift : IGift
     {
-        private readonly List<GiftItem> _gift;
+        private List<GiftItem> _gift;
         
         public Gift()
         {
@@ -59,7 +60,16 @@ namespace Task_1
         {
             return _gift.Sum(item => item.Weight);
         }
-        
+
+        public void SortByName()
+        {
+            _gift = _gift.OrderBy(item => item.Name).ToList();
+        }
+
+        public void SortByPrice()
+        {
+            _gift = _gift.OrderBy(item => item.Price).ToList();
+        }
         public override string ToString()
         {
             StringBuilder stringBuilder = new StringBuilder();

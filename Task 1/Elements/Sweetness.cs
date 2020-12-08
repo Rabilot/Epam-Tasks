@@ -27,7 +27,7 @@ namespace Task_1.Elements
         public override string ToString()
         {
             var stringBuilder = new StringBuilder();
-            stringBuilder.Append($"\n{base.ToString()}");
+            stringBuilder.Append($"{base.ToString()}");
             stringBuilder.Append($"Calories: {CaloriesPer100Gram}{Environment.NewLine}Percent Of Sugar: {PercentOfSugar}" +
                                  $"\nPrice per kilo: {PricePerKilo}");
             return stringBuilder.ToString();

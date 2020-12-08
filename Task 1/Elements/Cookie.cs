@@ -20,7 +20,7 @@ namespace Task_1.Elements
         public override string ToString()
         {
             var stringBuilder = new StringBuilder();
-            stringBuilder.Append($"This cookie: {Environment.NewLine}");
+            stringBuilder.Append($"\nThis cookie: {Environment.NewLine}");
             stringBuilder.Append(base.ToString());
             return stringBuilder.ToString();
         }

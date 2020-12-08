@@ -19,7 +19,7 @@ namespace Task_1.Elements
         public override string ToString()
         {
             var stringBuilder = new StringBuilder();
-            stringBuilder.Append($"This waffles: {Environment.NewLine}");
+            stringBuilder.Append($"\nThis waffles: {Environment.NewLine}");
             stringBuilder.Append(base.ToString());
             return stringBuilder.ToString();
         }
