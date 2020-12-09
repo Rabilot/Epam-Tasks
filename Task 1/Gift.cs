@@ -1,18 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Task_1.Exceptions;
 using Task_1.Interfaces;
+using Task_1.Elements;
 
 namespace Task_1
 {
     public class Gift : IGift
     {
-        private List<GiftItem> _gift;
-        
+        private IList<GiftItem> _gift;
+        private readonly StringBuilder _stringBuilder;
         public Gift()
         {
-            _gift = new List<GiftItem>(); // Добавил конструктор
+            _gift = new List<GiftItem>();
+            _stringBuilder = new StringBuilder();
         }
         
         public void Add(GiftItem giftItem)
@@ -32,7 +34,7 @@ namespace Task_1
         
         public GiftItem FindByName(string name)
         {
-            return _gift.Find(item => item.Name == name);
+            return _gift.FirstOrDefault(item => item.Name == name); 
         }
 
         public bool IsEmpty()
@@ -42,6 +44,11 @@ namespace Task_1
 
         public List<GiftItem> FindByPriceRange(double min, double max)
         {
+            if (min < 0 || max < min)
+            {
+                throw new InvalidPriceException("Invalid price!");
+            }
+            
             return _gift.Where(item => item.Price >= min && item.Price <= max).ToList();
         }
 
@@ -54,7 +61,6 @@ namespace Task_1
         {
             return _gift.Sum(item => item.Price);
         }
-
 
         public double GetWeight()
         {
@@ -70,16 +76,17 @@ namespace Task_1
         {
             _gift = _gift.OrderBy(item => item.Price).ToList();
         }
+        
         public override string ToString()
         {
-            StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.Append("Gift: \n");
+            _stringBuilder.Clear();
+            _stringBuilder.AppendLine("Gift: ");
             foreach (var giftItem in _gift)
             {
-                stringBuilder.Append($"{giftItem}\n");
+                _stringBuilder.AppendLine($"{giftItem}");
             }
             
-            return stringBuilder.ToString();
+            return _stringBuilder.ToString();
         }
     }
 }

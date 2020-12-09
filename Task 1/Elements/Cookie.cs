@@ -1,28 +1,32 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 
 namespace Task_1.Elements
 {
     public class Cookie : Sweetness
     {
+        public FillingOfCooke Filling { get; }
+        private readonly StringBuilder _stringBuilder;
         public Cookie(
             double pricePerKilo,  
             double weight, 
             string name, 
             string manufacturer, 
             int caloriesPer100Gram,
-            int percentOfSugar
+            int percentOfSugar,
+            FillingOfCooke filling
             ) : base(pricePerKilo, weight, name, manufacturer, caloriesPer100Gram, percentOfSugar)
         {
-            
+            Filling = filling;
+            _stringBuilder = new StringBuilder();
         }
         
         public override string ToString()
         {
-            var stringBuilder = new StringBuilder();
-            stringBuilder.Append($"\nThis cookie: {Environment.NewLine}");
-            stringBuilder.Append(base.ToString());
-            return stringBuilder.ToString();
+            _stringBuilder.Clear();
+            _stringBuilder.AppendLine("\nThis cookie: ");
+            _stringBuilder.AppendLine(base.ToString());
+            _stringBuilder.AppendLine($"\n{Filling}");
+            return _stringBuilder.ToString();
         }
     }
 }

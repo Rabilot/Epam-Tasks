@@ -5,7 +5,7 @@ namespace Task_1.Elements
     public class Toy : GiftItem
     {
         public string Material { get; }
-
+        private readonly StringBuilder _stringBuilder;
         public Toy(
             double price, 
             double weight, 
@@ -15,15 +15,16 @@ namespace Task_1.Elements
             ) : base(price, weight, name, manufacturer)
         {
             Material = material;
+            _stringBuilder = new StringBuilder();
         }
 
         public override string ToString()
         {
-            var info = base.ToString();
-            var stringBuilder = new StringBuilder();
-            stringBuilder.Append($"\nThis toy:\n{info}");
-            stringBuilder.Append($"Material: {Material}");
-            return stringBuilder.ToString();
+            _stringBuilder.Clear();
+            _stringBuilder.AppendLine("\nThis toy:");
+            _stringBuilder.AppendLine(base.ToString());
+            _stringBuilder.AppendLine($"Material: {Material}");
+            return _stringBuilder.ToString();
         }
     }
 }

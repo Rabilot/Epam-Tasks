@@ -4,7 +4,7 @@ namespace Task_1.Exceptions
 {
     public class InvalidPriceException : Exception
     {
-        public InvalidPriceException() : base("Invalid price!")
+        public InvalidPriceException(string message) : base(message)
         {
             
         }

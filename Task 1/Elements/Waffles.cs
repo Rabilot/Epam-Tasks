@@ -1,27 +1,31 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 
 namespace Task_1.Elements
 {
     public class Waffles : Sweetness
     {
+        public FillingOfWaffles Filling { get; }
+        private readonly StringBuilder _stringBuilder;
         public Waffles(
             double pricePerKilo, 
             double weight, 
             string name, 
             string manufacturer, 
             int caloriesPer100Gram,
-            int percentOfSugar
+            int percentOfSugar,
+            FillingOfWaffles filling
             ) : base(pricePerKilo, weight, name, manufacturer, caloriesPer100Gram, percentOfSugar)
         {
-            
+            Filling = filling;
+            _stringBuilder = new StringBuilder();
         }
         public override string ToString()
         {
-            var stringBuilder = new StringBuilder();
-            stringBuilder.Append($"\nThis waffles: {Environment.NewLine}");
-            stringBuilder.Append(base.ToString());
-            return stringBuilder.ToString();
+            _stringBuilder.Clear();
+            _stringBuilder.AppendLine("\nThis waffles: ");
+            _stringBuilder.AppendLine(base.ToString());
+            _stringBuilder.AppendLine($"\n{Filling}");
+            return _stringBuilder.ToString();
         }
     }
 }

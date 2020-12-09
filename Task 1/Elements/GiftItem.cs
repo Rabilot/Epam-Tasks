@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace Task_1
+namespace Task_1.Elements
 {
     public class GiftItem
     {
@@ -8,6 +8,7 @@ namespace Task_1
         public double Weight{ get; }
         public string Name{ get; }
         public string Manufacturer{ get; }
+        private readonly StringBuilder _stringBuilder;
 
         protected GiftItem(double price, double weight, string name, string manufacturer)
         {
@@ -15,16 +16,17 @@ namespace Task_1
             Weight = weight;
             Name = name;
             Manufacturer = manufacturer;
+            _stringBuilder = new StringBuilder();
         }
 
         public override string ToString()
         {
-            StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.Append("Product: \n");
-            stringBuilder.Append(
+            _stringBuilder.Clear();
+            _stringBuilder.AppendLine("Product: ");
+            _stringBuilder.AppendLine(
                 $"Name: {Name}\nManufacturer: {Manufacturer}\nWeight: " + 
-                $"{Weight}\nPrice: {Price}\n");
-            return stringBuilder.ToString();
+                $"{Weight}\nPrice: {Price}");
+            return _stringBuilder.ToString();
         }
     }
 }

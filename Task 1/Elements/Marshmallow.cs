@@ -1,27 +1,31 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 
 namespace Task_1.Elements
 {
     public class Marshmallow : Sweetness
     {
+        public ColorOfMarshmallow Color { get; }
+        private readonly StringBuilder _stringBuilder;
         public Marshmallow(
             double pricePerKilo, 
             double weight, 
             string name, 
             string manufacturer, 
             int caloriesPer100Gram,
-            int percentOfSugar
-            ) : base(pricePerKilo, weight, name, manufacturer, caloriesPer100Gram, percentOfSugar)
+            int percentOfSugar,
+            ColorOfMarshmallow color
+        ) : base(pricePerKilo, weight, name, manufacturer, caloriesPer100Gram, percentOfSugar)
         {
-            
+            Color = color;
+            _stringBuilder = new StringBuilder();
         }
         public override string ToString()
         {
-            var stringBuilder = new StringBuilder();
-            stringBuilder.Append($"\nThis marshmallow: {Environment.NewLine}");
-            stringBuilder.Append(base.ToString());
-            return stringBuilder.ToString();
+            _stringBuilder.Clear();
+            _stringBuilder.AppendLine($"\nThis marshmallow: ");
+            _stringBuilder.AppendLine(base.ToString());
+            _stringBuilder.AppendLine($"\n{Color}");
+            return _stringBuilder.ToString();
         }
     }
 }
