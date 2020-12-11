@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Task_1.Library.Elements;
 
-namespace Task_1.Library.Interfaces
+namespace Task_1.Library.Gift
 {
     public interface IGift
     {

@@ -51,8 +51,8 @@
         <Compile Include="Library\Elements\TypeOfCandy.cs" />
         <Compile Include="Library\Elements\Waffles.cs" />
         <Compile Include="Library\Exceptions\InvalidPriceException.cs" />
-        <Compile Include="Library\Gift.cs" />
-        <Compile Include="Library\Interfaces\IGift.cs" />
+        <Compile Include="Library\Gift\Gift.cs" />
+        <Compile Include="Library\Gift\IGift.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
