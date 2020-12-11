@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Task_1.Exceptions;
-using Task_1.Interfaces;
-using Task_1.Elements;
+using Task_1.Library.Exceptions;
+using Task_1.Library.Elements;
+using Task_1.Library.Interfaces;
 
-namespace Task_1
+namespace Task_1.Library
 {
     public class Gift : IGift
     {

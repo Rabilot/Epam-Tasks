@@ -1,31 +1,30 @@
 ﻿using System.Text;
 
-namespace Task_1.Elements
+namespace Task_1.Library.Elements
 {
-    public class Cookie : Sweetness
+    public class Candy : Sweetness
     {
-        public FillingOfCooke Filling { get; }
+        public TypeOfCandy Type { get; }
         private readonly StringBuilder _stringBuilder;
-        public Cookie(
-            double pricePerKilo,  
+        public Candy(
+            double pricePerKilo, 
             double weight, 
             string name, 
             string manufacturer, 
             int caloriesPer100Gram,
             int percentOfSugar,
-            FillingOfCooke filling
-            ) : base(pricePerKilo, weight, name, manufacturer, caloriesPer100Gram, percentOfSugar)
+            TypeOfCandy type
+        ) : base(pricePerKilo,weight, name, manufacturer, caloriesPer100Gram, percentOfSugar)
         {
-            Filling = filling;
+            Type = type;
             _stringBuilder = new StringBuilder();
         }
-        
         public override string ToString()
         {
             _stringBuilder.Clear();
-            _stringBuilder.AppendLine("\nThis cookie: ");
+            _stringBuilder.AppendLine("\nThis candy: ");
             _stringBuilder.AppendLine(base.ToString());
-            _stringBuilder.AppendLine($"\n{Filling}");
+            _stringBuilder.Append($"Type: {Type}");
             return _stringBuilder.ToString();
         }
     }

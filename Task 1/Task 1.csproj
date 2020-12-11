@@ -38,17 +38,21 @@
         <Reference Include="System.Xml" />
     </ItemGroup>
     <ItemGroup>
-        <Compile Include="Exceptions\InvalidPriceException.cs" />
-        <Compile Include="Gift.cs" />
-        <Compile Include="GiftItem.cs" />
-        <Compile Include="Elements\Candy.cs" />
-        <Compile Include="Elements\Cookie.cs" />
-        <Compile Include="Elements\Marshmallow.cs" />
-        <Compile Include="Elements\Sweetness.cs" />
-        <Compile Include="Elements\Toy.cs" />
-        <Compile Include="Elements\Waffles.cs" />
-        <Compile Include="Interfaces\IGift.cs" />
-        <Compile Include="Program.cs" />
+        <Compile Include="Console\Program.cs" />
+        <Compile Include="Library\Elements\Candy.cs" />
+        <Compile Include="Library\Elements\ColorOfMarshmallow.cs" />
+        <Compile Include="Library\Elements\Cookie.cs" />
+        <Compile Include="Library\Elements\FillingOfCooke.cs" />
+        <Compile Include="Library\Elements\FillingOfWaffles.cs" />
+        <Compile Include="Library\Elements\GiftItem.cs" />
+        <Compile Include="Library\Elements\Marshmallow.cs" />
+        <Compile Include="Library\Elements\Sweetness.cs" />
+        <Compile Include="Library\Elements\Toy.cs" />
+        <Compile Include="Library\Elements\TypeOfCandy.cs" />
+        <Compile Include="Library\Elements\Waffles.cs" />
+        <Compile Include="Library\Exceptions\InvalidPriceException.cs" />
+        <Compile Include="Library\Gift.cs" />
+        <Compile Include="Library\Interfaces\IGift.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

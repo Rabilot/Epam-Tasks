@@ -1,7 +1,6 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 
-namespace Task_1.Elements
+namespace Task_1.Library.Elements
 {
     public abstract class Sweetness : GiftItem
     {
@@ -29,8 +28,8 @@ namespace Task_1.Elements
         public override string ToString()
         {
             _stringBuilder.Clear();
-            _stringBuilder.AppendLine($"{base.ToString()}");
-            _stringBuilder.AppendLine($"Calories: {CaloriesPer100Gram}\nPercent Of Sugar: {PercentOfSugar}" +
+            _stringBuilder.Append($"{base.ToString()}");
+            _stringBuilder.Append($"Calories: {CaloriesPer100Gram}\nPercent Of Sugar: {PercentOfSugar}" +
                                  $"\nPrice per kilo: {PricePerKilo}");
             return _stringBuilder.ToString();
         }

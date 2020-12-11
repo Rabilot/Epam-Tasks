@@ -1,58 +1,58 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using Task_1.Exceptions;
-using Task_1.Elements;
-using Task_1.Interfaces;
+using Task_1.Library;
+using Task_1.Library.Elements;
+using Task_1.Library.Exceptions;
+using Task_1.Library.Interfaces;
 
-namespace Task_1
+namespace Task_1.Console
 {
     internal class Program
     {
         public static void Main(string[] args)
         {
             IGift gift = MakeGift();
-            Console.WriteLine(gift);
+            System.Console.WriteLine(gift);
             WritePriceRange(gift);
-            Console.WriteLine("Sort gift by name...");
+            System.Console.WriteLine("Sort gift by name...");
             gift.SortByName();
-            Console.WriteLine(gift);
-            Console.WriteLine($"\nThis item of gift is: {gift.FindByName("Beer")}");
-            Console.WriteLine($"\nCost of Gift: {gift.GetPrice()}");
-            Console.WriteLine($"\nWeight of Gift: {gift.GetWeight()}");
+            System.Console.WriteLine(gift);
+            System.Console.WriteLine($"This item of gift is: {gift.FindByName("Bear")}");
+            System.Console.WriteLine($"Cost of Gift: {gift.GetPrice()}");
+            System.Console.WriteLine($"Weight of Gift: {gift.GetWeight()}");
             gift.Remove(0);
         }
 
         static void WritePriceRange(IGift gift)
         {
-            Console.WriteLine("Write minimal and maximal price: \n");
+            System.Console.WriteLine("Write minimal and maximal price: \n");
             try
             {
                 double min, max;
-                while (!double.TryParse(Console.ReadLine(), out min))
+                while (!double.TryParse(System.Console.ReadLine(), out min))
                 {
-                    Console.WriteLine("Try again: ");
+                    System.Console.WriteLine("Try again: ");
                 }
-                while (!double.TryParse(Console.ReadLine(), out max))
+                while (!double.TryParse(System.Console.ReadLine(), out max))
                 {
-                    Console.WriteLine("Try again: ");
+                    System.Console.WriteLine("Try again: ");
                 }
                 List<GiftItem> giftItems = gift.FindByPriceRange(min, max);
                 if (giftItems.Any())
                 {
                     foreach (var giftItem in giftItems)
                     {
-                        Console.WriteLine(giftItem);
+                        System.Console.WriteLine(giftItem);
                     }
                 }
                 else
                 {
-                    Console.WriteLine("No items were found!\n");
+                    System.Console.WriteLine("No items were found!\n");
                 }
             }
             catch (InvalidPriceException e)
             {
-                Console.WriteLine(e);
+                System.Console.WriteLine(e);
             }
         }
         static IGift MakeGift()
@@ -62,7 +62,7 @@ namespace Task_1
             gift.Add(candy);
             Cookie cookie = new Cookie(4, 600, "COOKIES!!!", "Cookie INC.", 502, 10, FillingOfCooke.Honey);
             gift.Add(cookie);
-            Toy toy = new Toy(60, 1200, "Beer", "Toy INC.", "Plastic");
+            Toy toy = new Toy(60, 1200, "Bear", "Toy INC.", "Plastic");
             gift.Add(toy);
             Waffles waffles = new Waffles(2, 100, "FPS", "Waffles & Beer INC.", 310, 35, FillingOfWaffles.Milk);
             gift.Add(waffles);

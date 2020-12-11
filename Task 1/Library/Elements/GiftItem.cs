@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace Task_1.Elements
+namespace Task_1.Library.Elements
 {
     public class GiftItem
     {

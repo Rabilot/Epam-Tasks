@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Task_1.Exceptions
+namespace Task_1.Library.Exceptions
 {
     public class InvalidPriceException : Exception
     {

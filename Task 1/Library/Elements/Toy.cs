@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace Task_1.Elements
+namespace Task_1.Library.Elements
 {
     public class Toy : GiftItem
     {
@@ -22,8 +22,8 @@ namespace Task_1.Elements
         {
             _stringBuilder.Clear();
             _stringBuilder.AppendLine("\nThis toy:");
-            _stringBuilder.AppendLine(base.ToString());
-            _stringBuilder.AppendLine($"Material: {Material}");
+            _stringBuilder.Append(base.ToString());
+            _stringBuilder.Append($"Material: {Material}");
             return _stringBuilder.ToString();
         }
     }
