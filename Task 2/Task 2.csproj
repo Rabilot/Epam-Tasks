@@ -38,18 +38,16 @@
         <Reference Include="System.Xml" />
     </ItemGroup>
     <ItemGroup>
-        <Compile Include="Elements\IPunctuation.cs" />
-        <Compile Include="Elements\ISentence.cs" />
-        <Compile Include="Elements\IText.cs" />
-        <Compile Include="Elements\ITextParser.cs" />
-        <Compile Include="Elements\IWord.cs" />
-        <Compile Include="Elements\Text.cs" />
-        <Compile Include="Elements\TextParser.cs" />
-        <Compile Include="Elements\Punctuation.cs" />
-        <Compile Include="Elements\Sentence.cs" />
-        <Compile Include="Elements\Word.cs" />
         <Compile Include="Program.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
+        <Compile Include="Text\IText.cs" />
+        <Compile Include="Text\Parser.cs" />
+        <Compile Include="Text\Text.cs" />
+        <Compile Include="Text\TextElements\Sentence\ISentence.cs" />
+        <Compile Include="Text\TextElements\Sentence\Sentence.cs" />
+        <Compile Include="Text\TextElements\Sentence\SentenceElements\Punctuation.cs" />
+        <Compile Include="Text\TextElements\Sentence\SentenceElements\SenteceItem.cs" />
+        <Compile Include="Text\TextElements\Sentence\SentenceElements\Word.cs" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
     <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
