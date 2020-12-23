@@ -1,8 +1,10 @@
 namespace Task_2.Text.TextElements.Sentence.SentenceElements
 {
-    public sealed class Punctuation : SenteceItem
+    public abstract class SentenceItem
     {
-        public Punctuation(string value)
+        public string Value { get; set; }
+
+        public SentenceItem(string value)
         {
             Value = value;
         }

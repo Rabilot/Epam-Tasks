@@ -41,12 +41,15 @@
         <Compile Include="Program.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
         <Compile Include="Text\IText.cs" />
-        <Compile Include="Text\Parser.cs" />
+        <Compile Include="Text\Parser\IParser.cs" />
+        <Compile Include="Text\Parser\TextParser.cs" />
         <Compile Include="Text\Text.cs" />
         <Compile Include="Text\TextElements\Sentence\ISentence.cs" />
         <Compile Include="Text\TextElements\Sentence\Sentence.cs" />
-        <Compile Include="Text\TextElements\Sentence\SentenceElements\Punctuation.cs" />
-        <Compile Include="Text\TextElements\Sentence\SentenceElements\SenteceItem.cs" />
+        <Compile Include="Text\TextElements\Sentence\SentenceElements\Punctuation\EndOfSentenceMark.cs" />
+        <Compile Include="Text\TextElements\Sentence\SentenceElements\Punctuation\Punctuation.cs" />
+        <Compile Include="Text\TextElements\Sentence\SentenceElements\Punctuation\PunctuationMark.cs" />
+        <Compile Include="Text\TextElements\Sentence\SentenceElements\SentenceItem.cs" />
         <Compile Include="Text\TextElements\Sentence\SentenceElements\Word.cs" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

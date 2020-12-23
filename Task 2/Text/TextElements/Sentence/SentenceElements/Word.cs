@@ -1,15 +1,17 @@
 namespace Task_2.Text.TextElements.Sentence.SentenceElements
 {
-    public sealed class Word : SenteceItem
+    public class Word : SentenceItem
     {
-        public Word(string str)
+        private const string ConsonantSymbols = "qwrtypsdfghjklzxcvbnmйцкнгшщзхфвпрлджчсмтб";
+
+        public Word(string str) : base(str)
         {
-            Value = str;
+
         }
 
-        public override string ToString()
+        public bool IsFirstConsonant()
         {
-            return Value;
+            return ConsonantSymbols.Contains(Value[0].ToString());
         }
     }
 }
