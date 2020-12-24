@@ -1,12 +1,11 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Task_2.Text.Parser;
-using Task_2.Text.TextElements.Sentence;
-using Task_2.Text.TextElements.Sentence.SentenceElements;
+using Task_2.Library.Text.Parser;
+using Task_2.Library.Text.TextElements.Sentence;
+using Task_2.Library.Text.TextElements.Sentence.SentenceElements;
 
-namespace Task_2.Text
+namespace Task_2.Library.Text
 {
     public class Text : IText
     {
@@ -54,7 +53,7 @@ namespace Task_2.Text
         {
             foreach (var sentence in _sentences)
             {
-                foreach (Word word in sentence.GetWordsByLength(length))
+                foreach (var word in sentence.GetWordsByLength(length).Where(item => item.IsFirstConsonant()))
                 {
                     sentence.Remove(word);
                 }

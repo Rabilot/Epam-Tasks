@@ -2,11 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Task_2.Text.Parser;
-using Task_2.Text.TextElements.Sentence.SentenceElements;
-using Task_2.Text.TextElements.Sentence.SentenceElements.Punctuation;
+using Task_2.Library.Text.TextElements.Sentence.SentenceElements;
+using Task_2.Library.Text.TextElements.Sentence.SentenceElements.Punctuation;
 
-namespace Task_2.Text.TextElements.Sentence
+namespace Task_2.Library.Text.TextElements.Sentence
 {
     public class Sentence : ISentence
     {
@@ -46,12 +45,21 @@ namespace Task_2.Text.TextElements.Sentence
 
         public void Remove(SentenceItem word)
         {
-            _elementsOfSentence.Remove(word);
+            for (var i = 0; i < _elementsOfSentence.Count; i++)
+            {
+                if (_elementsOfSentence[i] == word)
+                {
+                    if (i > 0)
+                    {
+                        _elementsOfSentence.RemoveAt(i);
+                        _elementsOfSentence.RemoveAt(i - 1);
+                    }else _elementsOfSentence.RemoveAt(i);
+                }
+            }
         }
 
         public void Replace(int length, string str)
         {
-            var words = GetWordsByLength(length);
             foreach (var word in GetWordsByLength(length))
             {
                 word.Value = str;

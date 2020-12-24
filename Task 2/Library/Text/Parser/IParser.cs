@@ -1,4 +1,4 @@
-namespace Task_2.Text.Parser
+namespace Task_2.Library.Text.Parser
 {
     public interface IParser
     {

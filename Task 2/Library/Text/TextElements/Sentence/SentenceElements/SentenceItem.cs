@@ -1,4 +1,4 @@
-namespace Task_2.Text.TextElements.Sentence.SentenceElements
+namespace Task_2.Library.Text.TextElements.Sentence.SentenceElements
 {
     public abstract class SentenceItem
     {

@@ -1,4 +1,4 @@
-namespace Task_2.Text.TextElements.Sentence.SentenceElements.Punctuation
+namespace Task_2.Library.Text.TextElements.Sentence.SentenceElements.Punctuation
 {
     public class PunctuationMark : Punctuation
     {

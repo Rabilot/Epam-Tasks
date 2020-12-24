@@ -1,4 +1,4 @@
-namespace Task_2.Text.TextElements.Sentence.SentenceElements
+namespace Task_2.Library.Text.TextElements.Sentence.SentenceElements
 {
     public class Word : SentenceItem
     {
@@ -6,7 +6,6 @@ namespace Task_2.Text.TextElements.Sentence.SentenceElements
 
         public Word(string str) : base(str)
         {
-
         }
 
         public bool IsFirstConsonant()

@@ -1,6 +1,4 @@
-using System.Collections.Generic;
-
-namespace Task_2.Text.TextElements.Sentence.SentenceElements.Punctuation
+namespace Task_2.Library.Text.TextElements.Sentence.SentenceElements.Punctuation
 {
     public abstract class  Punctuation : SentenceItem
     {

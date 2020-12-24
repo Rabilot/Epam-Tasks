@@ -1,8 +1,8 @@
 using System.Collections.Generic;
-using Task_2.Text.TextElements.Sentence.SentenceElements;
-using Task_2.Text.TextElements.Sentence.SentenceElements.Punctuation;
+using Task_2.Library.Text.TextElements.Sentence.SentenceElements;
+using Task_2.Library.Text.TextElements.Sentence.SentenceElements.Punctuation;
 
-namespace Task_2.Text.TextElements.Sentence
+namespace Task_2.Library.Text.TextElements.Sentence
 {
     public interface ISentence
     {
@@ -10,7 +10,7 @@ namespace Task_2.Text.TextElements.Sentence
         int GetLength();
         EndOfSentenceMark GetEndOfSentenceMark();
         IList<Word> GetWordsByLength(int length);
-        void Remove(SentenceItem index);
+        void Remove(SentenceItem word);
         void Replace(int wordsLength, string str);
     }
 }
