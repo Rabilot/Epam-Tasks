@@ -1,7 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Task_2.Library.Text.Parser;
 using Task_2.Library.Text.TextElements.Sentence;
 using Task_2.Library.Text.TextElements.Sentence.SentenceElements;
 
@@ -9,16 +9,13 @@ namespace Task_2.Library.Text
 {
     public class Text : IText
     {
-        private IList<ISentence> _sentences;
+        private readonly StringBuilder _stringBuilder;
+        private readonly IList<ISentence> _sentences;
 
         public Text()
         {
             _sentences = new List<ISentence>();
-        }
-
-        private Text(IList<ISentence> sentences)
-        {
-            _sentences = sentences;
+            _stringBuilder = new StringBuilder();
         }
 
         public void Add(ISentence sentence)
@@ -28,20 +25,15 @@ namespace Task_2.Library.Text
 
         public Text GetSortedText()
         {
-            var sentences = _sentences.OrderBy(item => item.GetLength()).ToList();
+            var sentences = _sentences.OrderBy(item => item.GetWordsCount()).ToList();
             var sortedText = new Text(sentences);
             return sortedText;
         }
 
-        private IList<ISentence> GetInterrogativeSentences()
-        {
-            return _sentences.Where(sentence => sentence.GetEndOfSentenceMark().Value == "?").ToList();
-        }
-
-        public IList<Word> GetWordsWithoutRepeating(int length)
+        public IList<Word> GetWords(int length, string endMark)
         {
             IList<Word> words = new List<Word>();
-            foreach (var sentence in GetInterrogativeSentences())
+            foreach (var sentence in GetSentences(endMark))
             {
                 words = sentence.GetWordsByLength(length);
             }
@@ -62,26 +54,40 @@ namespace Task_2.Library.Text
         
         public void ReplaceWordToString(int sentenceNumber, int length, string str)
         {
-            for (int i = 0; i < _sentences.Count; i++)
+            if (sentenceNumber < 1)
             {
-                if (i == sentenceNumber - 1)
-                {
-                    _sentences[i].Replace(length, str);
-                }
+                throw new ArgumentException("Invalid sentence number");
             }
-            IParser parser = new TextParser();
-            var text = parser.Parse(ToString());
-            _sentences = text._sentences;
+            try
+            {
+                _sentences[sentenceNumber - 1].Replace(length, str);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
 
         public override string ToString()
         {
-            StringBuilder stringBuilder = new StringBuilder();
+            _stringBuilder.Clear();
             foreach (var sentence in _sentences)
             {
-                stringBuilder.Append(sentence);
+                _stringBuilder.Append(sentence);
             }
-            return stringBuilder.ToString();
+            return _stringBuilder.ToString();
+        }
+                
+        private IList<ISentence> GetSentences(string str)
+        {
+            return _sentences.Where(sentence => sentence.GetEndOfSentenceMark().Value == str).ToList();
+        }
+        
+        private Text(IList<ISentence> sentences)
+        {
+            _sentences = sentences;
+            _stringBuilder = new StringBuilder();
         }
     }
 }

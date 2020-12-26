@@ -7,7 +7,7 @@ namespace Task_2.Library.Text.TextElements.Sentence
     public interface ISentence
     {
         void Add(SentenceItem item);
-        int GetLength();
+        int GetWordsCount();
         EndOfSentenceMark GetEndOfSentenceMark();
         IList<Word> GetWordsByLength(int length);
         void Remove(SentenceItem word);

@@ -30,12 +30,14 @@ namespace Task_2.Library.Text.Parser
             var elements = Regex.Matches(sentenceString, SentenceParserRegEx);
             foreach (var element in elements)
             {
-                if (IsWord(element.ToString()))
+                string elementString = element.ToString();
+                if (IsWord(elementString))
                 {
-                    sentence.Add(new Word(element.ToString()));
-                }else if (IsPunctuation(element.ToString()))
+                    sentence.Add(new Word(elementString));
+                }
+                else if (IsPunctuation(element.ToString()))
                 {
-                    sentence.Add(new PunctuationMark(DeleteTabs(element.ToString())));
+                    sentence.Add(new PunctuationMark(SimplifyEmptyString(element.ToString())));
                 }
                 else if (IsEndOfSentence(element.ToString()))
                 {
@@ -60,9 +62,12 @@ namespace Task_2.Library.Text.Parser
             return _endOfSentence.Any(str.Contains);
         }
 
-        private string DeleteTabs(string str)
+        private string SimplifyEmptyString(string str)
         {
-            if (str.Length > 0 && str[0] == ' ') str = " ";
+            if (str.Length > 0 && string.IsNullOrWhiteSpace(str))
+            {
+                str = " ";
+            }
             return str;
         }
     }

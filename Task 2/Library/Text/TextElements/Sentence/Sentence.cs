@@ -9,10 +9,12 @@ namespace Task_2.Library.Text.TextElements.Sentence
 {
     public class Sentence : ISentence
     {
+        private readonly StringBuilder _stringBuilder;
         private readonly IList<SentenceItem> _elementsOfSentence;
 
         public Sentence()
         {
+            _stringBuilder = new StringBuilder();
             _elementsOfSentence = new List<SentenceItem>();
         }
 
@@ -21,7 +23,7 @@ namespace Task_2.Library.Text.TextElements.Sentence
             _elementsOfSentence.Add(item);
         }
 
-        public int GetLength()
+        public int GetWordsCount()
         {
             return _elementsOfSentence.Count(item => item is Word);
         }
@@ -40,26 +42,32 @@ namespace Task_2.Library.Text.TextElements.Sentence
 
         public IList<Word> GetWordsByLength(int length)
         {
+            if (length < 1)
+            {
+                throw new ArgumentException();
+            }
             return _elementsOfSentence.OfType<Word>().Where(item => item.Value.Length == length).ToList();
         }
 
         public void Remove(SentenceItem word)
         {
-            for (var i = 0; i < _elementsOfSentence.Count; i++)
+            if (_elementsOfSentence.IndexOf(word) != -1)
             {
-                if (_elementsOfSentence[i] == word)
+                int index = _elementsOfSentence.IndexOf(word);
+                _elementsOfSentence.RemoveAt(index);
+                if (index > 0)
                 {
-                    if (i > 0)
-                    {
-                        _elementsOfSentence.RemoveAt(i);
-                        _elementsOfSentence.RemoveAt(i - 1);
-                    }else _elementsOfSentence.RemoveAt(i);
+                    _elementsOfSentence.RemoveAt(index - 1);
                 }
             }
         }
 
         public void Replace(int length, string str)
         {
+            if (str == null)
+            {
+                throw new ArgumentNullException();
+            }
             foreach (var word in GetWordsByLength(length))
             {
                 word.Value = str;
@@ -68,14 +76,14 @@ namespace Task_2.Library.Text.TextElements.Sentence
 
         public override string ToString()
         {
-            StringBuilder stringBuilder = new StringBuilder();
+            _stringBuilder.Clear();
             foreach (var element in _elementsOfSentence)
             {
-                stringBuilder.Append(element);
+                _stringBuilder.Append(element);
             }
-            stringBuilder.Append(' ');
+            _stringBuilder.Append(' ');
             
-            return stringBuilder.ToString();
+            return _stringBuilder.ToString();
         }
     }
 }
