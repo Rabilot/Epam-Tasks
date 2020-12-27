@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Task_2.Library.Text.TextElements.Sentence;
 using Task_2.Library.Text.TextElements.Sentence.SentenceElements;
+
 namespace Task_2.Library.Text
 {
     public interface IText

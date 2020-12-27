@@ -8,7 +8,7 @@ namespace Task_2.Library.Text.TextElements.Sentence.SentenceElements
         {
             Value = value;
         }
-        
+
         public override string ToString()
         {
             return Value;

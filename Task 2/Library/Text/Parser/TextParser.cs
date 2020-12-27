@@ -21,6 +21,7 @@ namespace Task_2.Library.Text.Parser
             {
                 text.Add(ParseSentence(sentence));
             }
+
             return text;
         }
 
@@ -44,9 +45,10 @@ namespace Task_2.Library.Text.Parser
                     sentence.Add(new EndOfSentenceMark(element.ToString()));
                 }
             }
+
             return sentence;
         }
-        
+
         private bool IsPunctuation(string str)
         {
             return _punctuation.Any(str.Contains);
@@ -68,6 +70,7 @@ namespace Task_2.Library.Text.Parser
             {
                 str = " ";
             }
+
             return str;
         }
     }

@@ -51,13 +51,14 @@ namespace Task_2.Library.Text
                 }
             }
         }
-        
+
         public void ReplaceWordToString(int sentenceNumber, uint length, string str)
         {
             if (sentenceNumber < 1 || sentenceNumber > _sentences.Count)
             {
                 throw new ArgumentException("Invalid sentence number");
             }
+
             _sentences[sentenceNumber - 1].Replace(length, str);
         }
 
@@ -68,14 +69,15 @@ namespace Task_2.Library.Text
             {
                 _stringBuilder.Append(sentence);
             }
+
             return _stringBuilder.ToString();
         }
-                
+
         private IList<ISentence> GetSentences(string str)
         {
             return _sentences.Where(sentence => sentence.GetEndOfSentenceMark().Value == str).ToList();
         }
-        
+
         private Text(IList<ISentence> sentences)
         {
             _sentences = sentences;

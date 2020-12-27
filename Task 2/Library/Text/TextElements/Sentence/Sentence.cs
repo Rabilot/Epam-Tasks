@@ -34,6 +34,7 @@ namespace Task_2.Library.Text.TextElements.Sentence
             {
                 return mark;
             }
+
             throw new Exception("End of sentence not found!");
         }
 
@@ -43,6 +44,7 @@ namespace Task_2.Library.Text.TextElements.Sentence
             {
                 throw new ArgumentException($"Значение length = {length} не попадает в ожидаемый диапазон");
             }
+
             return _elementsOfSentence.OfType<Word>().Where(item => item.Value.Length == length).ToList();
         }
 
@@ -65,6 +67,7 @@ namespace Task_2.Library.Text.TextElements.Sentence
             {
                 throw new ArgumentNullException();
             }
+
             foreach (var word in GetWordsByLength(length))
             {
                 word.Value = str;
@@ -78,8 +81,9 @@ namespace Task_2.Library.Text.TextElements.Sentence
             {
                 _stringBuilder.Append(element);
             }
+
             _stringBuilder.Append(' ');
-            
+
             return _stringBuilder.ToString();
         }
     }

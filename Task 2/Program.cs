@@ -1,9 +1,9 @@
 ﻿using System;
+using System.Configuration;
 using Task_2.Library.Text;
 using Task_2.Library.Text.Parser;
-using Task_2.Writer;
-using System.Configuration;
 using Task_2.Reader;
+using Task_2.Writer;
 
 namespace Task_2
 {
@@ -23,7 +23,8 @@ namespace Task_2
                 Console.WriteLine(e.Message);
                 return;
             }
-            IInfoWriter fileWriter;
+
+            FileWriter fileWriter;
             try
             {
                 fileWriter = new FileWriter(config.Get("outputFile"));
@@ -33,6 +34,7 @@ namespace Task_2
                 Console.WriteLine(e.Message);
                 return;
             }
+
             IInfoWriter consoleWriter = new ConsoleWriter();
             IParser textParser = new TextParser();
             IText text;
@@ -45,6 +47,7 @@ namespace Task_2
                 Console.WriteLine($"Parsing error: {e.Message}");
                 return;
             }
+
             fileWriter.WriteLine(text.ToString());
             fileWriter.WriteLine("\nTask 1.1:");
             fileWriter.WriteLine(text.GetSortedText().ToString());
@@ -66,7 +69,9 @@ namespace Task_2
             {
                 Console.WriteLine(e.Message);
             }
-            consoleWriter.WriteLine("Task 1.3: Из текста удалить все слова заданной длины, начинающиеся на согласную букву.");
+
+            consoleWriter.WriteLine(
+                "Task 1.3: Из текста удалить все слова заданной длины, начинающиеся на согласную букву.");
             try
             {
                 consoleWriter.WriteLine("Enter word length: ");
@@ -79,6 +84,7 @@ namespace Task_2
             {
                 Console.WriteLine(e.Message);
             }
+
             consoleWriter.WriteLine("Task 1.4: В некотором предложении текста слова заданной длины заменить " +
                                     "указанной подстрокой, длина которой может не совпадать с длиной слова.");
             try

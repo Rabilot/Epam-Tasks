@@ -6,11 +6,12 @@ namespace Task_2.Reader
     {
         public string Read(string path)
         {
-            FileStream fileStream = File.OpenRead(path);
-            var streamReader = new StreamReader(fileStream);
-            var textString = streamReader.ReadToEnd();
-            fileStream.Close();
-            return textString;
+            using (var fileStream = File.OpenRead(path))
+            {
+                var streamReader = new StreamReader(fileStream);
+                var textString = streamReader.ReadToEnd();
+                return textString;
+            }
         }
     }
 }
