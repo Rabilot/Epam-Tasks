@@ -9,8 +9,8 @@ namespace Task_2.Library.Text.TextElements.Sentence
         void Add(SentenceItem item);
         int GetWordsCount();
         EndOfSentenceMark GetEndOfSentenceMark();
-        IList<Word> GetWordsByLength(int length);
+        IList<Word> GetWordsByLength(uint length);
         void Remove(SentenceItem word);
-        void Replace(int wordsLength, string str);
+        void Replace(uint wordsLength, string str);
     }
 }

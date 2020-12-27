@@ -30,7 +30,7 @@ namespace Task_2.Library.Text
             return sortedText;
         }
 
-        public IList<Word> GetWords(int length, string endMark)
+        public IList<Word> GetWords(uint length, string endMark)
         {
             IList<Word> words = new List<Word>();
             foreach (var sentence in GetSentences(endMark))
@@ -41,7 +41,7 @@ namespace Task_2.Library.Text
             return words;
         }
 
-        public void DeleteConsonantByLength(int length)
+        public void DeleteConsonantByLength(uint length)
         {
             foreach (var sentence in _sentences)
             {
@@ -52,21 +52,13 @@ namespace Task_2.Library.Text
             }
         }
         
-        public void ReplaceWordToString(int sentenceNumber, int length, string str)
+        public void ReplaceWordToString(int sentenceNumber, uint length, string str)
         {
-            if (sentenceNumber < 1)
+            if (sentenceNumber < 1 || sentenceNumber > _sentences.Count)
             {
                 throw new ArgumentException("Invalid sentence number");
             }
-            try
-            {
-                _sentences[sentenceNumber - 1].Replace(length, str);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
+            _sentences[sentenceNumber - 1].Replace(length, str);
         }
 
         public override string ToString()

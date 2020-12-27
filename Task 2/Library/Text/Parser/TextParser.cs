@@ -54,7 +54,7 @@ namespace Task_2.Library.Text.Parser
 
         private bool IsWord(string str)
         {
-            return Regex.IsMatch(str, @"((\w|['])+)");
+            return Regex.IsMatch(str, @"((\w|['-])+)");
         }
 
         private bool IsEndOfSentence(string str)

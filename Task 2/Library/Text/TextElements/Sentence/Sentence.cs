@@ -40,7 +40,7 @@ namespace Task_2.Library.Text.TextElements.Sentence
             throw new Exception("End of sentence not found!");
         }
 
-        public IList<Word> GetWordsByLength(int length)
+        public IList<Word> GetWordsByLength(uint length)
         {
             if (length < 1)
             {
@@ -62,7 +62,7 @@ namespace Task_2.Library.Text.TextElements.Sentence
             }
         }
 
-        public void Replace(int length, string str)
+        public void Replace(uint length, string str)
         {
             if (str == null)
             {

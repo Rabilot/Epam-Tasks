@@ -7,8 +7,8 @@ namespace Task_2.Library.Text
     {
         void Add(ISentence sentence);
         Text GetSortedText();
-        IList<Word> GetWords(int length, string endMark);
-        void DeleteConsonantByLength(int length);
-        void ReplaceWordToString(int sentenceNumber, int length, string str);
+        IList<Word> GetWords(uint length, string endMark);
+        void DeleteConsonantByLength(uint length);
+        void ReplaceWordToString(int sentenceNumber, uint length, string str);
     }
 }
