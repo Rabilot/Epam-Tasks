@@ -57,7 +57,6 @@
         <Compile Include="Writer\ConsoleWriter.cs" />
         <Compile Include="Writer\FileWriter.cs" />
         <Compile Include="Writer\IInfoWriter.cs" />
-        <Compile Include="Writer\XmlWriter.cs" />
     </ItemGroup>
     <ItemGroup>
       <Folder Include="Library" />

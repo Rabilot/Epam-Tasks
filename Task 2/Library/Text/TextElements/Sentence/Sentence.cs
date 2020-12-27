@@ -30,12 +30,9 @@ namespace Task_2.Library.Text.TextElements.Sentence
 
         public EndOfSentenceMark GetEndOfSentenceMark()
         {
-            foreach (var item in _elementsOfSentence)
+            if (_elementsOfSentence[_elementsOfSentence.Count - 1] is EndOfSentenceMark mark)
             {
-                if (item is EndOfSentenceMark mark)
-                {
-                    return mark;
-                }
+                return mark;
             }
             throw new Exception("End of sentence not found!");
         }
@@ -44,7 +41,7 @@ namespace Task_2.Library.Text.TextElements.Sentence
         {
             if (length < 1)
             {
-                throw new ArgumentException();
+                throw new ArgumentException($"Значение length = {length} не попадает в ожидаемый диапазон");
             }
             return _elementsOfSentence.OfType<Word>().Where(item => item.Value.Length == length).ToList();
         }

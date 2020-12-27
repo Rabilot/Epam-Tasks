@@ -65,7 +65,6 @@ namespace Task_2
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
-                throw;
             }
             consoleWriter.WriteLine("Task 1.3: Из текста удалить все слова заданной длины, начинающиеся на согласную букву.");
             try
@@ -76,10 +75,9 @@ namespace Task_2
                 fileWriter.WriteLine("\nTask 1.3:");
                 fileWriter.WriteLine(text.ToString());
             }
-            catch (FormatException e)
+            catch (Exception e)
             {
                 Console.WriteLine(e.Message);
-                throw;
             }
             consoleWriter.WriteLine("Task 1.4: В некотором предложении текста слова заданной длины заменить " +
                                     "указанной подстрокой, длина которой может не совпадать с длиной слова.");
@@ -98,7 +96,6 @@ namespace Task_2
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
-                throw;
             }
         }
     }

@@ -13,16 +13,7 @@ namespace Task_2.Writer
             {
                 throw new NullReferenceException();
             }
-
-            try
-            {
-                _fileStream = new FileStream(path, FileMode.Create);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-                throw;
-            }
+            _fileStream = new FileStream(path, FileMode.Create);
         }
 
         public void WriteLine(string str)

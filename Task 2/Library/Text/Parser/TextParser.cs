@@ -30,7 +30,7 @@ namespace Task_2.Library.Text.Parser
             var elements = Regex.Matches(sentenceString, SentenceParserRegEx);
             foreach (var element in elements)
             {
-                string elementString = element.ToString();
+                var elementString = element.ToString();
                 if (IsWord(elementString))
                 {
                     sentence.Add(new Word(elementString));
