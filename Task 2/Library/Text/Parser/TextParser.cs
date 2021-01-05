@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Task_2.Library.Text.TextElements.Sentence;
@@ -9,9 +10,9 @@ namespace Task_2.Library.Text.Parser
     public class TextParser : IParser
     {
         private readonly string[] _punctuation = {",", "\"", "-", "—", " "};
-        private readonly string[] _endOfSentence = {".", "!", "?", "...", "!?", "?!"};
+        private readonly string[] _endOfSentence = {".", "!", "?", "...", "!?", "?!", "…"};
         private const string SentenceParserRegEx = @"((\w|['-])+)|([\W_-[\s]]+)|\s+";
-        private const string TextParserRegEx = @"(?<=[\.!\?])\s";
+        private const string TextParserRegEx = @"(?<=[\.!\?…])\s";
 
         public Text Parse(string textString)
         {
@@ -45,7 +46,7 @@ namespace Task_2.Library.Text.Parser
                     sentence.Add(new EndOfSentenceMark(element.ToString()));
                 }
             }
-
+            Console.WriteLine(sentence.ToString());
             return sentence;
         }
 
