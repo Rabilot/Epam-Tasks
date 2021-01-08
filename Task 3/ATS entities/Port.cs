@@ -1,13 +1,13 @@
-namespace Task_3
+using Task_3.Enum;
+
+namespace Task_3.ATS_entities
 {
     public class Port
     {
-        public int Number { get; }
         public PortState State { get; set; }
 
-        public Port(int portNumber)
+        public Port()
         {
-            Number = portNumber;
             State = PortState.Aviable;
         }
 

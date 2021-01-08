@@ -1,4 +1,4 @@
-namespace Task_3
+namespace Task_3.Enum
 {
     public enum PortState
     {

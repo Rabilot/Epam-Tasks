@@ -1,11 +1,11 @@
-namespace Task_3
+namespace Task_3.EventArgs
 {
-    public class InCallEventArgs
+    public class OutCallEventArgs
     {
         public int OutputNumber { get; }
         public int InputNumber { get; }
 
-        public InCallEventArgs(int outputNumber, int inputNumber)
+        public OutCallEventArgs(int outputNumber, int inputNumber)
         {
             OutputNumber = outputNumber;
             InputNumber = inputNumber;

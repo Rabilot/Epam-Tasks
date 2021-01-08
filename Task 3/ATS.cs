@@ -1,11 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Task_3.ATS_entities;
+using Task_3.Enum;
+using Task_3.EventArgs;
 
 namespace Task_3
 {
     public class ATS
     {
+        
         public List<Contract> Contracts { get; }
         public List<Call> Calls { get; }
 
@@ -30,21 +34,15 @@ namespace Task_3
             return Contracts.FirstOrDefault(contract => contract.Terminal.Number == number);
         }
 
-        public Call FindCallByPhoneNumber(int number)
+        public void CallOutHandler(OutCallEventArgs eventArgs)
         {
-            return Calls.FirstOrDefault(call =>
-                call.IsActiveCall() == true && call.InputNumber == number || call.OutputNumber == number);
-        }
-
-        public void CallOutHandler(int outputNumber, int inputNumber)
-        {
-            var outputClient = FindContractByPhoneNumber(outputNumber);
-            var inputClient = FindContractByPhoneNumber(inputNumber);
-            Call call = new Call(outputNumber, inputNumber);
+            var outputClient = FindContractByPhoneNumber(eventArgs.OutputNumber);
+            var inputClient = FindContractByPhoneNumber(eventArgs.InputNumber);
+            Call call = new Call(eventArgs.OutputNumber, eventArgs.InputNumber, outputClient.Tariff.CostPerMinute);
             switch (inputClient.Terminal.Port.State)
             {
                 case PortState.Aviable:
-                    inputClient.Terminal.AnswerCall(outputNumber);
+                    inputClient.Terminal.AnswerCall(eventArgs.OutputNumber);
                     break;
                 case PortState.NotAviable:
                     outputClient.Terminal.TerminalEndCall();
@@ -63,12 +61,28 @@ namespace Task_3
         public void EndCallHandler(int number)
         {
             Call call = FindCallByPhoneNumber(number);
+            int opponentNumber;
+            if (number == call.OutputNumber)
+            {
+                opponentNumber = call.InputNumber;
+            }
+            else
+            {
+                opponentNumber = call.OutputNumber;
+            }
+            FindContractByPhoneNumber(opponentNumber).Terminal.ConnectPort();
             // if (call == null)
             // {
             //     throw new ArgumentNullException();
             // }
             call.End();
             Console.WriteLine($"Звонок между {call.OutputNumber} и {call.InputNumber} завершён");
+        }
+        
+        private Call FindCallByPhoneNumber(int number)
+        {
+            return Calls.FirstOrDefault(call =>
+                call.IsActiveCall() && call.InputNumber == number || call.OutputNumber == number);
         }
     }
 }

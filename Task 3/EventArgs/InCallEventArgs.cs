@@ -1,13 +1,11 @@
-using System;
-
-namespace Task_3
+namespace Task_3.EventArgs
 {
-    public class EndCallEventArgs
+    public class InCallEventArgs
     {
         public int OutputNumber { get; }
         public int InputNumber { get; }
 
-        public EndCallEventArgs(int outputNumber, int inputNumber)
+        public InCallEventArgs(int outputNumber, int inputNumber)
         {
             OutputNumber = outputNumber;
             InputNumber = inputNumber;
