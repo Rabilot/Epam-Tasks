@@ -12,7 +12,6 @@ namespace Task_3
         private DateTime FinishTime { get; set; }
         private TimeSpan CallTime { get; set; }
         private bool IsActive { get; set; }
-        
         public double Price { get; set; }
         
 

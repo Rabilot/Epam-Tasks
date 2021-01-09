@@ -12,6 +12,7 @@ namespace Task_3
         
         public List<Contract> Contracts { get; }
         public List<Call> Calls { get; }
+       // public IEnumerable<Contract> cContracts => _contracts;
 
         public ATS()
         {
@@ -29,16 +30,16 @@ namespace Task_3
             Contracts.Remove(contract);
         }
 
-        public Contract FindContractByPhoneNumber(int number)
+        private Contract FindContractByPhoneNumber(int number)
         {
             return Contracts.FirstOrDefault(contract => contract.Terminal.Number == number);
         }
 
         public void CallOutHandler(OutCallEventArgs eventArgs)
         {
-            var outputClient = FindContractByPhoneNumber(eventArgs.OutputNumber);
+            var outputClient = FindContractByPhoneNumber(eventArgs.OutputNumber);  //Проверка на null
             var inputClient = FindContractByPhoneNumber(eventArgs.InputNumber);
-            Call call = new Call(eventArgs.OutputNumber, eventArgs.InputNumber, outputClient.Tariff.CostPerMinute);
+            var call = new Call(eventArgs.OutputNumber, eventArgs.InputNumber, outputClient.Tariff.CostPerMinute);
             switch (inputClient.Terminal.Port.State)
             {
                 case PortState.Aviable:
@@ -62,14 +63,7 @@ namespace Task_3
         {
             Call call = FindCallByPhoneNumber(number);
             int opponentNumber;
-            if (number == call.OutputNumber)
-            {
-                opponentNumber = call.InputNumber;
-            }
-            else
-            {
-                opponentNumber = call.OutputNumber;
-            }
+            opponentNumber = number == call.OutputNumber ? call.InputNumber : call.OutputNumber;
             FindContractByPhoneNumber(opponentNumber).Terminal.ConnectPort();
             // if (call == null)
             // {
@@ -82,7 +76,7 @@ namespace Task_3
         private Call FindCallByPhoneNumber(int number)
         {
             return Calls.FirstOrDefault(call =>
-                call.IsActiveCall() && call.InputNumber == number || call.OutputNumber == number);
+                call.IsActiveCall() && (call.InputNumber == number || call.OutputNumber == number));
         }
     }
 }

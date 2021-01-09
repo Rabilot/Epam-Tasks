@@ -8,8 +8,8 @@ namespace Task_3.ATS_entities
         public Terminal Terminal { get; }
         public DateTime StartDate { get; }
         public Tariff Tariff { get; }
-        
-        public Contract(Client client, Terminal terminal,  Tariff tariff)
+
+        public Contract(Client client, Terminal terminal, Tariff tariff)
         {
             Client = client;
             Terminal = terminal;

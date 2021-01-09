@@ -34,8 +34,6 @@ namespace Task_3.ATS_entities
             Port.Disconnect();
         }
 
-        
-
         public void OutCall(int opponentNumber)
         {
             if (Number != opponentNumber && Port.State == PortState.Aviable)
@@ -45,8 +43,6 @@ namespace Task_3.ATS_entities
                 OutCallEvent?.Invoke(new OutCallEventArgs(Number, opponentNumber));
             }
         }
-        
-        
 
         public void AnswerCall(int opponentNumber)
         {

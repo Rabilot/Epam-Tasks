@@ -18,20 +18,27 @@ namespace Task_3
                 contract.Terminal.OutCallEvent += ats.CallOutHandler;
                 contract.Terminal.EndCallEvent += ats.EndCallHandler;
             }
-
+            
             ats.Contracts[0].Terminal.OutCall(ats.Contracts[1].Terminal.Number);
             ats.Contracts[2].Terminal.OutCall(ats.Contracts[0].Terminal.Number);
-            System.Threading.Thread.Sleep(15000);
+            System.Threading.Thread.Sleep(1000);
             ats.Contracts[1].Terminal.EndCall();
-            ats.Contracts[2].Terminal.OutCall(ats.Contracts[0].Terminal.Number);
 
             Billing billing = new Billing();
-            Console.WriteLine(billing.GetBillingByNumber(ats.Calls, ats.Contracts[2], ats.Contracts[2].StartDate, DateTime.Now));
+            Console.WriteLine(billing.GetBillingByNumber(ats.Calls, ats.Contracts[1], ats.Contracts[1].StartDate,
+                DateTime.Now));
+            Console.WriteLine(billing.GetBillingByNumber(ats.Calls, ats.Contracts[0], ats.Contracts[0].StartDate,
+                DateTime.Now));
 
             Console.WriteLine(ats.Contracts[0].Terminal.GetPortState());
             Console.WriteLine(ats.Contracts[1].Terminal.GetPortState());
             Console.WriteLine(ats.Contracts[2].Terminal.GetPortState());
             Console.Beep();
+            foreach (var contract in ats.Contracts)
+            {
+                contract.Terminal.OutCallEvent -= ats.CallOutHandler;
+                contract.Terminal.EndCallEvent -= ats.EndCallHandler;
+            }
         }
     }
 }

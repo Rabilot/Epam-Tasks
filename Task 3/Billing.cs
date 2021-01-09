@@ -14,17 +14,17 @@ namespace Task_3
             var result = calls.Where(call => !call.IsActiveCall() && 
                                              fromDate <= call.StartTime &&
                                              toDate >= call.StartTime &&
-                                             call.OutputNumber == contract.Terminal.Number || 
-                                             call.InputNumber == contract.Terminal.Number).ToList();
+                                             (call.OutputNumber == contract.Terminal.Number || 
+                                             call.InputNumber == contract.Terminal.Number)).ToList();
             stringBuilder.AppendLine($"Billing for subscriber {contract.Terminal.Number}");
             foreach (var call in result)
             {
                 Console.WriteLine((object) call.StartTime);
                 if (contract.Terminal.Number == call.InputNumber)
                 {
-                    call.Price = 0;
+                    //call.Price = 0;
                     stringBuilder.AppendLine(
-                        $"Incoming call: {call.OutputNumber} {call.StartTime} {call.Price} {call.GetCallTime()}");
+                        $"Incoming call: {call.OutputNumber} {call.StartTime} {0} {call.GetCallTime()}");
                 }
                 else
                 {
