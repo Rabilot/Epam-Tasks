@@ -17,26 +17,36 @@ namespace Task_3.ATS_entities
         //Событие завершения вызова
         public delegate void EndCallHandler(int number);
         public event EndCallHandler EndCallEvent;
+        //Событие подключения порта
+        public delegate void ConnectPortHandler(PortInfo portInfo);
 
-        public Terminal(int number)
+        public event ConnectPortHandler ConnectPortEvent;
+        //Событие отключения порта
+        public delegate void DisconnectPortHandler(PortInfo portInfo);
+
+        public event DisconnectPortHandler DisconnectPortEvent;
+
+        public Terminal(int terminalNumber, int portNumber)
         {
-            Number = number;
-            Port = new Port();
+            Number = terminalNumber;
+            Port = new Port(portNumber);
         }
 
         public void ConnectPort()
         {
             Port.Connect();
+            ConnectPortEvent?.Invoke(new PortInfo(Number, Port.GetPortNumber(), Port.GetPortState(), DateTime.Now));
         }
 
         public void DisconnectPort()
         {
             Port.Disconnect();
+            DisconnectPortEvent?.Invoke(new PortInfo(Number, Port.GetPortNumber(), Port.GetPortState(), DateTime.Now));
         }
 
         public void OutCall(int opponentNumber)
         {
-            if (Number != opponentNumber && Port.State == PortState.Aviable)
+            if (Number != opponentNumber && Port.GetPortState() == PortState.Free)
             {
                 Port.Call();
                 Console.WriteLine($"Абонент {Number} звонит абоненту {opponentNumber}");
@@ -44,33 +54,37 @@ namespace Task_3.ATS_entities
             }
         }
 
-        public void AnswerCall(int opponentNumber)
+        public void IncomingCall()
         {
-            if (Port.State == PortState.Aviable)
+            Port.Call();
+        }
+        
+        public void AnswerCall()
+        {
+            if (Port.GetPortState() == PortState.Busy)
             {
-                Port.State = PortState.NotAviable;
-                AnswerCallEvent?.Invoke(new InCallEventArgs(opponentNumber, Number));
-                Console.WriteLine($"Абонент {Number} ответил абоненту {opponentNumber}");
+                AnswerCallEvent?.Invoke(new InCallEventArgs(Number));
+                Console.WriteLine($"Абонент {Number} ответил");
             }
         }
 
         public void EndCall()
         {
-            if (Port.State == PortState.NotAviable)
+            if (Port.GetPortState() == PortState.Busy)
             {
-                Port.State = PortState.Aviable;
+                Port.EndCall();
                 EndCallEvent?.Invoke(Number);
             }
         }
 
         public void TerminalEndCall()
         {
-            Port.State = PortState.Aviable;
+            Port.EndCall();
         }
 
         public PortState GetPortState()
         {
-            return Port.State;
+            return Port.GetPortState();
         }
     }
 }

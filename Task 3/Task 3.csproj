@@ -41,6 +41,7 @@
         <Compile Include="ATS entities\Client.cs" />
         <Compile Include="ATS entities\Contract.cs" />
         <Compile Include="ATS entities\Port.cs" />
+        <Compile Include="ATS entities\PortInfo.cs" />
         <Compile Include="ATS entities\Tariff.cs" />
         <Compile Include="ATS entities\Terminal.cs" />
         <Compile Include="ATS.cs" />

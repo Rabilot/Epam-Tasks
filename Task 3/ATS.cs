@@ -9,70 +9,105 @@ namespace Task_3
 {
     public class ATS
     {
-        
-        public List<Contract> Contracts { get; }
+        private List<Contract> ContractList { get; }
         public List<Call> Calls { get; }
-       // public IEnumerable<Contract> cContracts => _contracts;
+
+        private List<PortInfo> _portStateHistory; 
+        public IEnumerable<Contract> Contracts => ContractList;
 
         public ATS()
         {
-            Contracts = new List<Contract>();
+            ContractList = new List<Contract>();
             Calls = new List<Call>();
+            _portStateHistory = new List<PortInfo>();
         }
 
         public void AddContract(Contract contract)
         {
-            Contracts.Add(contract);
+            ContractList.Add(contract);
         }
 
         public void DelContract(Contract contract)
         {
-            Contracts.Remove(contract);
+            ContractList.Remove(contract);
+        }
+
+        public Contract FindContractByIndex(int index)
+        {
+            if (index < 0)
+            {
+                throw new ArgumentException();
+            }
+
+            return ContractList[index];
         }
 
         private Contract FindContractByPhoneNumber(int number)
         {
-            return Contracts.FirstOrDefault(contract => contract.Terminal.Number == number);
+            return ContractList.FirstOrDefault(contract => contract.Terminal.Number == number);
+        }
+
+        public void ConnectPortHandler(PortInfo portInfo)
+        {
+            _portStateHistory.Add(portInfo);
+        }
+
+        public void DisconnectPortHandler(PortInfo portInfo)
+        {
+            _portStateHistory.Add(portInfo);
         }
 
         public void CallOutHandler(OutCallEventArgs eventArgs)
         {
-            var outputClient = FindContractByPhoneNumber(eventArgs.OutputNumber);  //Проверка на null
+            var outputClient = FindContractByPhoneNumber(eventArgs.OutputNumber); // Нужна ли проверка на null?
             var inputClient = FindContractByPhoneNumber(eventArgs.InputNumber);
-            var call = new Call(eventArgs.OutputNumber, eventArgs.InputNumber, outputClient.Tariff.CostPerMinute);
-            switch (inputClient.Terminal.Port.State)
+            if (inputClient != null)
             {
-                case PortState.Aviable:
-                    inputClient.Terminal.AnswerCall(eventArgs.OutputNumber);
-                    break;
-                case PortState.NotAviable:
-                    outputClient.Terminal.TerminalEndCall();
-                    Console.WriteLine("Абoнент занят");
-                    call.Fail();
-                    break;
-                case PortState.Off:
-                    outputClient.Terminal.TerminalEndCall();
-                    Console.WriteLine("Абонент выключил терминал");
-                    call.Fail();
-                    break;
+                var call = new Call(eventArgs.OutputNumber, eventArgs.InputNumber, outputClient.Tariff.CostPerMinute);
+                switch (inputClient.Terminal.Port.GetPortState())
+                {
+                    case PortState.Free:
+                        inputClient.Terminal.IncomingCall();
+                        break;
+                    case PortState.Busy:
+                        outputClient.Terminal.TerminalEndCall();
+                        Console.WriteLine(
+                            "Абoнент занят"); // Данный вывод на консоль необходим для демонстрации работы кода
+                        call.Fail();
+                        break;
+                    case PortState.Off:
+                        outputClient.Terminal.TerminalEndCall();
+                        Console.WriteLine(
+                            "Абонент выключил терминал"); // Данный вывод на консоль необходим для демонстрации работы кода
+                        call.Fail();
+                        break;
+                }
+
+                Calls.Add(call);
             }
-            Calls.Add(call);
+            else
+            {
+                Console.WriteLine(
+                    "Такого номера не существует"); // Данный вывод на консоль необходим для демонстрации работы кода
+            }
         }
 
         public void EndCallHandler(int number)
         {
             Call call = FindCallByPhoneNumber(number);
-            int opponentNumber;
-            opponentNumber = number == call.OutputNumber ? call.InputNumber : call.OutputNumber;
+            var opponentNumber = number == call.OutputNumber ? call.InputNumber : call.OutputNumber;
             FindContractByPhoneNumber(opponentNumber).Terminal.ConnectPort();
-            // if (call == null)
-            // {
-            //     throw new ArgumentNullException();
-            // }
             call.End();
-            Console.WriteLine($"Звонок между {call.OutputNumber} и {call.InputNumber} завершён");
+            Console.WriteLine(
+                $"Звонок между {call.OutputNumber} и {call.InputNumber} завершён"); // Данный вывод на консоль необходим для демонстрации работы кода
         }
-        
+
+        public void AnswerCallHandler(InCallEventArgs eventArgs)
+        {
+            var call = FindCallByPhoneNumber(eventArgs.InputNumber);
+            call?.SuccessfulCall();
+        }
+
         private Call FindCallByPhoneNumber(int number)
         {
             return Calls.FirstOrDefault(call =>

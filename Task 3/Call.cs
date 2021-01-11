@@ -13,7 +13,8 @@ namespace Task_3
         private TimeSpan CallTime { get; set; }
         private bool IsActive { get; set; }
         public double Price { get; set; }
-        
+        public bool IsSuccessful;
+
 
         public Call(int outputNumber, int inputNumber, double costPerMinute)
         {
@@ -22,14 +23,24 @@ namespace Task_3
             StartTime = DateTime.Now;
             IsActive = true;
             _costPerMinute = costPerMinute;
+            IsSuccessful = false;
         }
 
         public void End()
         {
             FinishTime = DateTime.Now;
             IsActive = false;
-            CallTime = FinishTime - StartTime;
-            Price = (CallTime.Minutes + 1) * _costPerMinute;
+            if (IsSuccessful)
+            {
+                CallTime = FinishTime - StartTime;
+                Price = (CallTime.Minutes + 1) * _costPerMinute;
+            }
+            else
+            {
+                CallTime = TimeSpan.Zero;
+                Price = 0;
+            }
+            
         }
 
         public void Fail()
@@ -47,6 +58,11 @@ namespace Task_3
         public TimeSpan GetCallTime()
         {
             return CallTime;
+        }
+
+        public void SuccessfulCall()
+        {
+            IsSuccessful = true;
         }
     }
 }

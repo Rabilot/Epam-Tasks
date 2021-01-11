@@ -8,31 +8,34 @@ namespace Task_3
         public static void Main(string[] args)
         {
             ATS ats = new ATS();
-            Tariff tariff = new Tariff(0.1);
-            ats.AddContract(new Contract(new Client("Nick"), new Terminal(265874), tariff));
-            ats.AddContract(new Contract(new Client("Mike"), new Terminal(578854), tariff));
-            ats.AddContract(new Contract(new Client("Alex"), new Terminal(986245), tariff));
+            ats.AddContract(new Contract(new Client("Nick"), new Terminal(265874, 1001), new Tariff(0.1)));
+            ats.AddContract(new Contract(new Client("Mike"), new Terminal(578854, 1002), new Tariff(0.1)));
+            ats.AddContract(new Contract(new Client("Alex"), new Terminal(986245, 1001), new Tariff(0.1)));
 
             foreach (var contract in ats.Contracts)
             {
                 contract.Terminal.OutCallEvent += ats.CallOutHandler;
                 contract.Terminal.EndCallEvent += ats.EndCallHandler;
+                contract.Terminal.ConnectPortEvent += ats.ConnectPortHandler;
+                contract.Terminal.DisconnectPortEvent += ats.DisconnectPortHandler;
+                contract.Terminal.AnswerCallEvent += ats.AnswerCallHandler;
             }
             
-            ats.Contracts[0].Terminal.OutCall(ats.Contracts[1].Terminal.Number);
-            ats.Contracts[2].Terminal.OutCall(ats.Contracts[0].Terminal.Number);
+            ats.FindContractByIndex(0).Terminal.OutCall(ats.FindContractByIndex(1).Terminal.Number);
+            ats.FindContractByIndex(1).Terminal.AnswerCall();
+            ats.FindContractByIndex(2).Terminal.OutCall(ats.FindContractByIndex(0).Terminal.Number);
             System.Threading.Thread.Sleep(1000);
-            ats.Contracts[1].Terminal.EndCall();
+            ats.FindContractByIndex(1).Terminal.EndCall();
 
             Billing billing = new Billing();
-            Console.WriteLine(billing.GetBillingByNumber(ats.Calls, ats.Contracts[1], ats.Contracts[1].StartDate,
+            Console.WriteLine(billing.GetBillingByNumber(ats.Calls, ats.FindContractByIndex(1), ats.FindContractByIndex(1).StartDate,
                 DateTime.Now));
-            Console.WriteLine(billing.GetBillingByNumber(ats.Calls, ats.Contracts[0], ats.Contracts[0].StartDate,
+            Console.WriteLine(billing.GetBillingByNumber(ats.Calls, ats.FindContractByIndex(0), ats.FindContractByIndex(0).StartDate,
                 DateTime.Now));
 
-            Console.WriteLine(ats.Contracts[0].Terminal.GetPortState());
-            Console.WriteLine(ats.Contracts[1].Terminal.GetPortState());
-            Console.WriteLine(ats.Contracts[2].Terminal.GetPortState());
+            Console.WriteLine(ats.FindContractByIndex(0).Terminal.GetPortState());
+            Console.WriteLine(ats.FindContractByIndex(1).Terminal.GetPortState());
+            Console.WriteLine(ats.FindContractByIndex(2).Terminal.GetPortState());
             Console.Beep();
             foreach (var contract in ats.Contracts)
             {

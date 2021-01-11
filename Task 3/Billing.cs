@@ -20,7 +20,7 @@ namespace Task_3
             foreach (var call in result)
             {
                 Console.WriteLine((object) call.StartTime);
-                if (contract.Terminal.Number == call.InputNumber)
+                if (contract.Terminal.Number == call.InputNumber || !call.IsSuccessful)
                 {
                     //call.Price = 0;
                     stringBuilder.AppendLine(

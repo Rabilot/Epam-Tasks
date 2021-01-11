@@ -1,29 +1,47 @@
+using System.Globalization;
 using Task_3.Enum;
 
 namespace Task_3.ATS_entities
 {
     public class Port
     {
-        public PortState State { get; set; }
+        private int _number;
+        private PortState _state;
 
-        public Port()
+        public Port(int number)
         {
-            State = PortState.Aviable;
+            _number = number;
+            _state = PortState.Free;
         }
 
         public void Connect()
         {
-            State = PortState.Aviable;
+            _state = PortState.Free;
         }
 
         public void Disconnect()
         {
-            State = PortState.Off;
+            _state = PortState.Off;
         }
 
         public void Call()
         {
-            State = PortState.NotAviable;
+            _state = PortState.Busy;
+        }
+
+        public void EndCall()
+        {
+            _state = PortState.Free;
+        }
+
+        public PortState GetPortState()
+        {
+            return _state;
+        }
+
+        public int GetPortNumber()
+        {
+            return _number;
         }
     }
 }
