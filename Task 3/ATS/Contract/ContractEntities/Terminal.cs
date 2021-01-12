@@ -1,8 +1,9 @@
 using System;
+using System.Collections.Generic;
 using Task_3.Enum;
 using Task_3.EventArgs;
 
-namespace Task_3.ATS_entities
+namespace Task_3.ATS.Contract.ContractEntities
 {
     public class Terminal
     {
@@ -26,10 +27,10 @@ namespace Task_3.ATS_entities
 
         public event DisconnectPortHandler DisconnectPortEvent;
 
-        public Terminal(int terminalNumber, int portNumber)
+        public Terminal(int number)
         {
-            Number = terminalNumber;
-            Port = new Port(portNumber);
+            Number = number;
+            Port = new Port(2300);
         }
 
         public void ConnectPort()
@@ -48,6 +49,7 @@ namespace Task_3.ATS_entities
         {
             if (Number != opponentNumber && Port.GetPortState() == PortState.Free)
             {
+                //var call = new CallTerminal(opponentNumber, );
                 Port.Call();
                 Console.WriteLine($"Абонент {Number} звонит абоненту {opponentNumber}");
                 OutCallEvent?.Invoke(new OutCallEventArgs(Number, opponentNumber));

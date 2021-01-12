@@ -1,7 +1,6 @@
-using System.Globalization;
 using Task_3.Enum;
 
-namespace Task_3.ATS_entities
+namespace Task_3.ATS.Contract.ContractEntities
 {
     public class Port
     {

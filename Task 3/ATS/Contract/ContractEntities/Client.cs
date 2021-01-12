@@ -1,4 +1,4 @@
-namespace Task_3.ATS_entities
+namespace Task_3.ATS.Contract.ContractEntities
 {
     public class Client
     {

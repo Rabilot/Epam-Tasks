@@ -1,69 +1,87 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Task_3.ATS_entities;
+using Task_3.ATS.Contract;
+using Task_3.ATS.Contract.ContractEntities;
 using Task_3.Enum;
 using Task_3.EventArgs;
 
-namespace Task_3
+namespace Task_3.ATS
 {
-    public class ATS
+    public class ATS : IATS
     {
-        private List<Contract> ContractList { get; }
-        public List<Call> Calls { get; }
+        private readonly List<IContract> _contractList;
+        public List<ActiveCall> ActiveCalls { get; } // Изменить
 
-        private List<PortInfo> _portStateHistory; 
-        public IEnumerable<Contract> Contracts => ContractList;
+        private readonly List<PortInfo> _portStateHistory;
+        public IEnumerable Contracts => _contractList;
 
         public ATS()
         {
-            ContractList = new List<Contract>();
-            Calls = new List<Call>();
+            _contractList = new List<IContract>();
+            ActiveCalls = new List<ActiveCall>();
             _portStateHistory = new List<PortInfo>();
         }
 
-        public void AddContract(Contract contract)
+        public void AddContract(string name, Tariff tariff)
         {
-            ContractList.Add(contract);
+            int number;
+            if (!_contractList.Any())
+            {
+                number = 1000000;
+            }
+            else
+            {
+                number = _contractList.Last().Terminal.Number + 1;
+            }
+
+            IContract contract = new Contract.Contract(name, number, tariff);
+            contract.Terminal.OutCallEvent += CallOutHandler;
+            contract.Terminal.EndCallEvent += EndCallHandler;
+            contract.Terminal.ConnectPortEvent += ConnectPortHandler;
+            contract.Terminal.DisconnectPortEvent += DisconnectPortHandler;
+            contract.Terminal.AnswerCallEvent += AnswerCallHandler;
+            _contractList.Add(contract);
         }
 
-        public void DelContract(Contract contract)
+        public void DelContract(IContract contract)
         {
-            ContractList.Remove(contract);
+            _contractList.Remove(contract);
         }
 
-        public Contract FindContractByIndex(int index)
+        public IContract FindContractByIndex(int index)
         {
-            if (index < 0)
+            if (index < 0 && index < _contractList.Count())
             {
                 throw new ArgumentException();
             }
 
-            return ContractList[index];
+            return _contractList[index];
         }
 
-        private Contract FindContractByPhoneNumber(int number)
+        public List<PortInfo> GetPortsHistory()
         {
-            return ContractList.FirstOrDefault(contract => contract.Terminal.Number == number);
+            return _portStateHistory;
         }
 
-        public void ConnectPortHandler(PortInfo portInfo)
-        {
-            _portStateHistory.Add(portInfo);
-        }
-
-        public void DisconnectPortHandler(PortInfo portInfo)
+        private void DisconnectPortHandler(PortInfo portInfo)
         {
             _portStateHistory.Add(portInfo);
         }
 
-        public void CallOutHandler(OutCallEventArgs eventArgs)
+        private void ConnectPortHandler(PortInfo portInfo)
+        {
+            _portStateHistory.Add(portInfo);
+        }
+
+        private void CallOutHandler(OutCallEventArgs eventArgs)
         {
             var outputClient = FindContractByPhoneNumber(eventArgs.OutputNumber); // Нужна ли проверка на null?
             var inputClient = FindContractByPhoneNumber(eventArgs.InputNumber);
             if (inputClient != null)
             {
-                var call = new Call(eventArgs.OutputNumber, eventArgs.InputNumber, outputClient.Tariff.CostPerMinute);
+                var call = new ActiveCall(eventArgs.OutputNumber, eventArgs.InputNumber, outputClient.Tariff.CostPerMinute);
                 switch (inputClient.Terminal.Port.GetPortState())
                 {
                     case PortState.Free:
@@ -74,16 +92,18 @@ namespace Task_3
                         Console.WriteLine(
                             "Абoнент занят"); // Данный вывод на консоль необходим для демонстрации работы кода
                         call.Fail();
+                        outputClient.AddCall(call, CallType.Outgoing);
                         break;
                     case PortState.Off:
                         outputClient.Terminal.TerminalEndCall();
                         Console.WriteLine(
                             "Абонент выключил терминал"); // Данный вывод на консоль необходим для демонстрации работы кода
                         call.Fail();
+                        outputClient.AddCall(call, CallType.Outgoing);
                         break;
                 }
 
-                Calls.Add(call);
+                ActiveCalls.Add(call);
             }
             else
             {
@@ -92,26 +112,36 @@ namespace Task_3
             }
         }
 
-        public void EndCallHandler(int number)
+        private void EndCallHandler(int number)
         {
-            Call call = FindCallByPhoneNumber(number);
+            var call = FindCallByPhoneNumber(number);
             var opponentNumber = number == call.OutputNumber ? call.InputNumber : call.OutputNumber;
             FindContractByPhoneNumber(opponentNumber).Terminal.ConnectPort();
             call.End();
+            var outputClient = FindContractByPhoneNumber(call.OutputNumber);
+            var inputClient = FindContractByPhoneNumber(call.InputNumber);
+            outputClient.AddCall(call, CallType.Outgoing);
+            inputClient.AddCall(call, CallType.Incoming);
+            ActiveCalls.Remove(call);
             Console.WriteLine(
                 $"Звонок между {call.OutputNumber} и {call.InputNumber} завершён"); // Данный вывод на консоль необходим для демонстрации работы кода
         }
 
-        public void AnswerCallHandler(InCallEventArgs eventArgs)
+        private void AnswerCallHandler(InCallEventArgs eventArgs)
         {
             var call = FindCallByPhoneNumber(eventArgs.InputNumber);
             call?.SuccessfulCall();
         }
 
-        private Call FindCallByPhoneNumber(int number)
+        private ActiveCall FindCallByPhoneNumber(int number)
         {
-            return Calls.FirstOrDefault(call =>
+            return ActiveCalls.FirstOrDefault(call =>
                 call.IsActiveCall() && (call.InputNumber == number || call.OutputNumber == number));
+        }
+
+        private IContract FindContractByPhoneNumber(int number)
+        {
+            return _contractList.FirstOrDefault(contract => contract.Terminal.Number == number);
         }
     }
 }

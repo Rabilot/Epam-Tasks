@@ -1,9 +1,8 @@
 using System;
-using System.Text;
 
-namespace Task_3
+namespace Task_3.ATS
 {
-    public class Call
+    public class ActiveCall
     {
         private readonly double _costPerMinute;
         public int OutputNumber { get; }
@@ -16,7 +15,7 @@ namespace Task_3
         public bool IsSuccessful;
 
 
-        public Call(int outputNumber, int inputNumber, double costPerMinute)
+        public ActiveCall(int outputNumber, int inputNumber, double costPerMinute)
         {
             OutputNumber = outputNumber;
             InputNumber = inputNumber;
@@ -40,7 +39,6 @@ namespace Task_3
                 CallTime = TimeSpan.Zero;
                 Price = 0;
             }
-            
         }
 
         public void Fail()

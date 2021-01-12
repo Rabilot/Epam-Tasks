@@ -2,20 +2,21 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Task_3.ATS_entities;
+using Task_3.ATS;
+using Task_3.ATS.Contract;
 
 namespace Task_3
 {
     public class Billing
     {
-        public string GetBillingByNumber(List<Call> calls, Contract contract, DateTime fromDate, DateTime toDate)
+        public string GetBillingByNumber(List<ActiveCall> calls, IContract contract, DateTime fromDate, DateTime toDate)
         {
             StringBuilder stringBuilder = new StringBuilder();
-            var result = calls.Where(call => !call.IsActiveCall() && 
+            var result = calls.Where(call => !call.IsActiveCall() &&
                                              fromDate <= call.StartTime &&
                                              toDate >= call.StartTime &&
-                                             (call.OutputNumber == contract.Terminal.Number || 
-                                             call.InputNumber == contract.Terminal.Number)).ToList();
+                                             (call.OutputNumber == contract.Terminal.Number ||
+                                              call.InputNumber == contract.Terminal.Number)).ToList();
             stringBuilder.AppendLine($"Billing for subscriber {contract.Terminal.Number}");
             foreach (var call in result)
             {
