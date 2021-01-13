@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using Task_3.Enum;
 using Task_3.EventArgs;
 
@@ -8,20 +7,29 @@ namespace Task_3.ATS.Contract.ContractEntities
     public class Terminal
     {
         public int Number { get; }
+
         public Port Port { get; }
+
         //Событие исходящего вызова
-        public delegate void OutCallHandler(OutCallEventArgs eventArgs); 
+        public delegate void OutCallHandler(OutCallEventArgs eventArgs);
+
         public event OutCallHandler OutCallEvent;
+
         //Событие ответа на вызов
         public delegate void AnswerCallHandler(InCallEventArgs eventArgs);
+
         public event AnswerCallHandler AnswerCallEvent;
+
         //Событие завершения вызова
         public delegate void EndCallHandler(int number);
+
         public event EndCallHandler EndCallEvent;
+
         //Событие подключения порта
         public delegate void ConnectPortHandler(PortInfo portInfo);
 
         public event ConnectPortHandler ConnectPortEvent;
+
         //Событие отключения порта
         public delegate void DisconnectPortHandler(PortInfo portInfo);
 
@@ -49,9 +57,7 @@ namespace Task_3.ATS.Contract.ContractEntities
         {
             if (Number != opponentNumber && Port.GetPortState() == PortState.Free)
             {
-                //var call = new CallTerminal(opponentNumber, );
                 Port.Call();
-                Console.WriteLine($"Абонент {Number} звонит абоненту {opponentNumber}");
                 OutCallEvent?.Invoke(new OutCallEventArgs(Number, opponentNumber));
             }
         }
@@ -60,13 +66,12 @@ namespace Task_3.ATS.Contract.ContractEntities
         {
             Port.Call();
         }
-        
+
         public void AnswerCall()
         {
             if (Port.GetPortState() == PortState.Busy)
             {
                 AnswerCallEvent?.Invoke(new InCallEventArgs(Number));
-                Console.WriteLine($"Абонент {Number} ответил");
             }
         }
 

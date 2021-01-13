@@ -12,7 +12,7 @@ namespace Task_3.ATS.Contract
         private readonly DateTime _startTime;
         private readonly TimeSpan _callTime;
         private readonly double _price;
-        private readonly bool _isSuccessful;
+        private readonly CallResult _callResult;
 
 
         public CallHistory(ActiveCall activeCall, CallType callType)
@@ -20,12 +20,12 @@ namespace Task_3.ATS.Contract
             _startTime = activeCall.StartTime;
             _callTime = activeCall.GetCallTime();
             _callType = callType;
-            _isSuccessful = activeCall.IsSuccessful;
+            _callResult = activeCall.GetCallResult();
             switch (callType)
             {
                 case CallType.Outgoing:
                     _opponentNumber = activeCall.InputNumber;
-                    _price = activeCall.Price;
+                    _price = activeCall.GetPrice();
                     break;
                 case CallType.Incoming:
                     _opponentNumber = activeCall.OutputNumber;
@@ -50,7 +50,7 @@ namespace Task_3.ATS.Contract
         {
             _stringBuilder.Clear();
             _stringBuilder.Append(
-                $"{_callType} {_startTime} {_opponentNumber} Call time: {_callTime} Price: {_price} {_isSuccessful}");
+                $"{_callType} {_startTime} {_opponentNumber} Call time: {_callTime} Price: {_price} {_callResult}");
             return _stringBuilder.ToString();
         }
     }

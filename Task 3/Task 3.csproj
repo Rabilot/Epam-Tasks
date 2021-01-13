@@ -50,6 +50,7 @@
         <Compile Include="ATS\ATS.cs" />
         <Compile Include="ATS\IATS.cs" />
         <Compile Include="Billing.cs" />
+        <Compile Include="Enum\CallResult.cs" />
         <Compile Include="Enum\CallType.cs" />
         <Compile Include="Enum\PortState.cs" />
         <Compile Include="EventArgs\InCallEventArgs.cs" />

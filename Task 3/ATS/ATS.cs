@@ -12,15 +12,13 @@ namespace Task_3.ATS
     public class ATS : IATS
     {
         private readonly List<IContract> _contractList;
-        public List<ActiveCall> ActiveCalls { get; } // Изменить
-
+        private readonly List<ActiveCall> _activeCalls;
         private readonly List<PortInfo> _portStateHistory;
-        public IEnumerable Contracts => _contractList;
 
         public ATS()
         {
             _contractList = new List<IContract>();
-            ActiveCalls = new List<ActiveCall>();
+            _activeCalls = new List<ActiveCall>();
             _portStateHistory = new List<PortInfo>();
         }
 
@@ -77,11 +75,12 @@ namespace Task_3.ATS
 
         private void CallOutHandler(OutCallEventArgs eventArgs)
         {
-            var outputClient = FindContractByPhoneNumber(eventArgs.OutputNumber); // Нужна ли проверка на null?
+            var outputClient = FindContractByPhoneNumber(eventArgs.OutputNumber);
             var inputClient = FindContractByPhoneNumber(eventArgs.InputNumber);
             if (inputClient != null)
             {
-                var call = new ActiveCall(eventArgs.OutputNumber, eventArgs.InputNumber, outputClient.Tariff.CostPerMinute);
+                var call = new ActiveCall(eventArgs.OutputNumber, eventArgs.InputNumber,
+                    outputClient.Tariff.CostPerMinute);
                 switch (inputClient.Terminal.Port.GetPortState())
                 {
                     case PortState.Free:
@@ -90,25 +89,25 @@ namespace Task_3.ATS
                     case PortState.Busy:
                         outputClient.Terminal.TerminalEndCall();
                         Console.WriteLine(
-                            "Абoнент занят"); // Данный вывод на консоль необходим для демонстрации работы кода
+                            "Абoнент занят");
                         call.Fail();
                         outputClient.AddCall(call, CallType.Outgoing);
                         break;
                     case PortState.Off:
                         outputClient.Terminal.TerminalEndCall();
                         Console.WriteLine(
-                            "Абонент выключил терминал"); // Данный вывод на консоль необходим для демонстрации работы кода
+                            "Абонент выключил терминал");
                         call.Fail();
                         outputClient.AddCall(call, CallType.Outgoing);
                         break;
                 }
 
-                ActiveCalls.Add(call);
+                _activeCalls.Add(call);
             }
             else
             {
                 Console.WriteLine(
-                    "Такого номера не существует"); // Данный вывод на консоль необходим для демонстрации работы кода
+                    "Такого номера не существует");
             }
         }
 
@@ -122,9 +121,9 @@ namespace Task_3.ATS
             var inputClient = FindContractByPhoneNumber(call.InputNumber);
             outputClient.AddCall(call, CallType.Outgoing);
             inputClient.AddCall(call, CallType.Incoming);
-            ActiveCalls.Remove(call);
+            _activeCalls.Remove(call);
             Console.WriteLine(
-                $"Звонок между {call.OutputNumber} и {call.InputNumber} завершён"); // Данный вывод на консоль необходим для демонстрации работы кода
+                $"Звонок между {call.OutputNumber} и {call.InputNumber} завершён");
         }
 
         private void AnswerCallHandler(InCallEventArgs eventArgs)
@@ -135,7 +134,7 @@ namespace Task_3.ATS
 
         private ActiveCall FindCallByPhoneNumber(int number)
         {
-            return ActiveCalls.FirstOrDefault(call =>
+            return _activeCalls.FirstOrDefault(call =>
                 call.IsActiveCall() && (call.InputNumber == number || call.OutputNumber == number));
         }
 

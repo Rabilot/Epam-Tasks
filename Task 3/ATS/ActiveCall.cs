@@ -1,66 +1,76 @@
 using System;
+using Task_3.Enum;
 
 namespace Task_3.ATS
 {
     public class ActiveCall
     {
-        private readonly double _costPerMinute;
         public int OutputNumber { get; }
         public int InputNumber { get; }
         public DateTime StartTime { get; }
-        private DateTime FinishTime { get; set; }
-        private TimeSpan CallTime { get; set; }
-        private bool IsActive { get; set; }
-        public double Price { get; set; }
-        public bool IsSuccessful;
-
+        private double _price;
+        private DateTime _finishTime;
+        private TimeSpan _callTime;
+        private bool _isActive;
+        private CallResult _callResult;
+        private readonly double _costPerMinute;
 
         public ActiveCall(int outputNumber, int inputNumber, double costPerMinute)
         {
             OutputNumber = outputNumber;
             InputNumber = inputNumber;
             StartTime = DateTime.Now;
-            IsActive = true;
+            _isActive = true;
             _costPerMinute = costPerMinute;
-            IsSuccessful = false;
+            _callResult = CallResult.Fail;
         }
 
         public void End()
         {
-            FinishTime = DateTime.Now;
-            IsActive = false;
-            if (IsSuccessful)
+            _finishTime = DateTime.Now;
+            _isActive = false;
+            if (_callResult == CallResult.Successful)
             {
-                CallTime = FinishTime - StartTime;
-                Price = (CallTime.Minutes + 1) * _costPerMinute;
+                _callTime = _finishTime - StartTime;
+                _price = (_callTime.Minutes + 1) * _costPerMinute;
             }
             else
             {
-                CallTime = TimeSpan.Zero;
-                Price = 0;
+                _callTime = TimeSpan.Zero;
+                _price = 0;
             }
         }
 
         public void Fail()
         {
-            FinishTime = StartTime;
-            IsActive = false;
-            CallTime = TimeSpan.Zero;
+            _finishTime = StartTime;
+            _isActive = false;
+            _callTime = TimeSpan.Zero;
         }
 
         public bool IsActiveCall()
         {
-            return IsActive;
+            return _isActive;
         }
 
         public TimeSpan GetCallTime()
         {
-            return CallTime;
+            return _callTime;
         }
 
         public void SuccessfulCall()
         {
-            IsSuccessful = true;
+            _callResult = CallResult.Successful;
+        }
+
+        public double GetPrice()
+        {
+            return _price;
+        }
+
+        public CallResult GetCallResult()
+        {
+            return _callResult;
         }
     }
 }

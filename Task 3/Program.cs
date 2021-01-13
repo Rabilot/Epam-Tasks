@@ -14,8 +14,13 @@ namespace Task_3
             ats.AddContract("Mike", new Tariff(0.1));
             ats.AddContract("Alex", new Tariff(0.1));
 
+            Console.WriteLine(
+                $"Абонент {ats.FindContractByIndex(0).Terminal.Number} звонит абоненту {ats.FindContractByIndex(1).Terminal.Number}");
             ats.FindContractByIndex(0).Terminal.OutCall(ats.FindContractByIndex(1).Terminal.Number);
+            Console.WriteLine($"Абонент {ats.FindContractByIndex(1).Terminal.Number} ответил");
             ats.FindContractByIndex(1).Terminal.AnswerCall();
+            Console.WriteLine(
+                $"Абонент {ats.FindContractByIndex(2).Terminal.Number} звонит абоненту {ats.FindContractByIndex(0).Terminal.Number}");
             ats.FindContractByIndex(2).Terminal.OutCall(ats.FindContractByIndex(0).Terminal.Number);
             Thread.Sleep(1000);
             ats.FindContractByIndex(1).Terminal.EndCall();
