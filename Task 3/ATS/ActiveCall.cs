@@ -8,10 +8,10 @@ namespace Task_3.ATS
         public int OutputNumber { get; }
         public int InputNumber { get; }
         public DateTime StartTime { get; }
+        
         private double _price;
         private DateTime _finishTime;
         private TimeSpan _callTime;
-        private bool _isActive;
         private CallResult _callResult;
         private readonly double _costPerMinute;
 
@@ -20,7 +20,6 @@ namespace Task_3.ATS
             OutputNumber = outputNumber;
             InputNumber = inputNumber;
             StartTime = DateTime.Now;
-            _isActive = true;
             _costPerMinute = costPerMinute;
             _callResult = CallResult.Fail;
         }
@@ -28,7 +27,6 @@ namespace Task_3.ATS
         public void End()
         {
             _finishTime = DateTime.Now;
-            _isActive = false;
             if (_callResult == CallResult.Successful)
             {
                 _callTime = _finishTime - StartTime;
@@ -44,13 +42,7 @@ namespace Task_3.ATS
         public void Fail()
         {
             _finishTime = StartTime;
-            _isActive = false;
             _callTime = TimeSpan.Zero;
-        }
-
-        public bool IsActiveCall()
-        {
-            return _isActive;
         }
 
         public TimeSpan GetCallTime()

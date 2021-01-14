@@ -7,22 +7,22 @@ using Task_3.ATS.Contract.ContractEntities;
 
 namespace Task_3
 {
-    public class Billing
+    public class BillingCreator
     {
         private readonly StringBuilder _stringBuilder;
 
-        public Billing()
+        public BillingCreator()
         {
             _stringBuilder = new StringBuilder();
         }
         
-        public string GetBilling(DateTime fromDate, DateTime toDate, Terminal terminal, List<CallHistory> calls)
+        public string GetBilling(DateTime fromDate, DateTime toDate, Terminal terminal, IEnumerable<CallRecord> calls)
         {
             double bill = 0;
             _stringBuilder.Clear();
-            _stringBuilder.AppendLine($"Billing for {terminal.Number}");
-            var callHistory = calls.Where(call => fromDate <= call.GetStartTime() &&
-                                                   toDate >= call.GetStartTime());
+            _stringBuilder.AppendLine($"Billing for {terminal.TerminalNumber}");
+            var callHistory = calls.Where(call => fromDate <= call.GetStartDateTime() 
+                                                  && toDate >= call.GetStartDateTime());
             foreach (var call in callHistory)
             {
                 _stringBuilder.AppendLine($"{call}");

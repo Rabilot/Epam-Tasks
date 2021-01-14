@@ -4,20 +4,19 @@ using Task_3.Enum;
 
 namespace Task_3.ATS.Contract
 {
-    public class CallHistory
+    public class CallRecord
     {
-        private readonly StringBuilder _stringBuilder;
         private readonly CallType _callType;
         private readonly int _opponentNumber;
-        private readonly DateTime _startTime;
+        private readonly DateTime _startDateTime;
         private readonly TimeSpan _callTime;
         private readonly double _price;
         private readonly CallResult _callResult;
 
 
-        public CallHistory(ActiveCall activeCall, CallType callType)
+        public CallRecord(ActiveCall activeCall, CallType callType)
         {
-            _startTime = activeCall.StartTime;
+            _startDateTime = activeCall.StartTime;
             _callTime = activeCall.GetCallTime();
             _callType = callType;
             _callResult = activeCall.GetCallResult();
@@ -32,13 +31,11 @@ namespace Task_3.ATS.Contract
                     _price = 0;
                     break;
             }
-
-            _stringBuilder = new StringBuilder();
         }
 
-        public DateTime GetStartTime()
+        public DateTime GetStartDateTime()
         {
-            return _startTime;
+            return _startDateTime;
         }
 
         public double GetPrice()
@@ -48,10 +45,7 @@ namespace Task_3.ATS.Contract
 
         public override string ToString()
         {
-            _stringBuilder.Clear();
-            _stringBuilder.Append(
-                $"{_callType} {_startTime} {_opponentNumber} Call time: {_callTime} Price: {_price} {_callResult}");
-            return _stringBuilder.ToString();
+            return $"{_callType} {_startDateTime} {_opponentNumber} Call time: {_callTime} Price: {_price} {_callResult}";
         }
     }
 }

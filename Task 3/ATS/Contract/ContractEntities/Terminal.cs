@@ -6,19 +6,18 @@ namespace Task_3.ATS.Contract.ContractEntities
 {
     public class Terminal
     {
-        public int Number { get; }
-
+        public int TerminalNumber { get; }
         public Port Port { get; }
 
-        //Событие исходящего вызова
+        #region OutCall
         public delegate void OutCallHandler(OutCallEventArgs eventArgs);
-
         public event OutCallHandler OutCallEvent;
+        #endregion
 
-        //Событие ответа на вызов
+        #region AnswerCall
         public delegate void AnswerCallHandler(InCallEventArgs eventArgs);
-
         public event AnswerCallHandler AnswerCallEvent;
+        #endregion
 
         //Событие завершения вызова
         public delegate void EndCallHandler(int number);
@@ -35,30 +34,30 @@ namespace Task_3.ATS.Contract.ContractEntities
 
         public event DisconnectPortHandler DisconnectPortEvent;
 
-        public Terminal(int number)
+        public Terminal(int terminalNumber)
         {
-            Number = number;
-            Port = new Port(2300);
+            TerminalNumber = terminalNumber;
+            Port = new Port();
         }
 
         public void ConnectPort()
         {
             Port.Connect();
-            ConnectPortEvent?.Invoke(new PortInfo(Number, Port.GetPortNumber(), Port.GetPortState(), DateTime.Now));
+            ConnectPortEvent?.Invoke(new PortInfo(TerminalNumber, Port.GetPortNumber(), Port.GetPortState(), DateTime.Now));
         }
 
         public void DisconnectPort()
         {
             Port.Disconnect();
-            DisconnectPortEvent?.Invoke(new PortInfo(Number, Port.GetPortNumber(), Port.GetPortState(), DateTime.Now));
+            DisconnectPortEvent?.Invoke(new PortInfo(TerminalNumber, Port.GetPortNumber(), Port.GetPortState(), DateTime.Now));
         }
 
         public void OutCall(int opponentNumber)
         {
-            if (Number != opponentNumber && Port.GetPortState() == PortState.Free)
+            if (TerminalNumber != opponentNumber && Port.GetPortState() == PortState.Free)
             {
                 Port.Call();
-                OutCallEvent?.Invoke(new OutCallEventArgs(Number, opponentNumber));
+                OutCallEvent?.Invoke(new OutCallEventArgs(TerminalNumber, opponentNumber));
             }
         }
 
@@ -71,7 +70,7 @@ namespace Task_3.ATS.Contract.ContractEntities
         {
             if (Port.GetPortState() == PortState.Busy)
             {
-                AnswerCallEvent?.Invoke(new InCallEventArgs(Number));
+                AnswerCallEvent?.Invoke(new InCallEventArgs(TerminalNumber));
             }
         }
 
@@ -80,7 +79,7 @@ namespace Task_3.ATS.Contract.ContractEntities
             if (Port.GetPortState() == PortState.Busy)
             {
                 Port.EndCall();
-                EndCallEvent?.Invoke(Number);
+                EndCallEvent?.Invoke(TerminalNumber);
             }
         }
 

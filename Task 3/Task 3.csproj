@@ -39,7 +39,7 @@
     </ItemGroup>
     <ItemGroup>
         <Compile Include="ATS\ActiveCall.cs" />
-        <Compile Include="ATS\Contract\CallHistory.cs" />
+        <Compile Include="ATS\Contract\CallRecord.cs" />
         <Compile Include="ATS\Contract\Contract.cs" />
         <Compile Include="ATS\Contract\ContractEntities\Client.cs" />
         <Compile Include="ATS\Contract\ContractEntities\Port.cs" />
@@ -49,12 +49,13 @@
         <Compile Include="ATS\Contract\IContract.cs" />
         <Compile Include="ATS\ATS.cs" />
         <Compile Include="ATS\IATS.cs" />
-        <Compile Include="Billing.cs" />
+        <Compile Include="BillingCreator.cs" />
         <Compile Include="Enum\CallResult.cs" />
         <Compile Include="Enum\CallType.cs" />
         <Compile Include="Enum\PortState.cs" />
         <Compile Include="EventArgs\InCallEventArgs.cs" />
         <Compile Include="EventArgs\OutCallEventArgs.cs" />
+        <Compile Include="IBillingCreator.cs" />
         <Compile Include="Program.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
     </ItemGroup>

@@ -4,10 +4,11 @@ namespace Task_3.ATS.Contract.ContractEntities
 {
     public class Port
     {
-        private int _number;
+        private readonly int _number;
+        private const int DefaultPortNumber = 2300;
         private PortState _state;
 
-        public Port(int number)
+        public Port(int number = DefaultPortNumber)
         {
             _number = number;
             _state = PortState.Free;

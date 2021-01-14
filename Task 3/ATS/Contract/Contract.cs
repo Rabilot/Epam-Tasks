@@ -13,7 +13,8 @@ namespace Task_3.ATS.Contract
         public Terminal Terminal { get; }
         public DateTime StartDate { get; }
         public Tariff Tariff { get; }
-        private readonly List<CallHistory> _calls;
+        
+        private readonly List<CallRecord> _calls;
 
         public Contract(string name, int number, Tariff tariff)
         {
@@ -21,17 +22,17 @@ namespace Task_3.ATS.Contract
             Terminal = new Terminal(number);
             StartDate = DateTime.Now;
             Tariff = tariff;
-            _calls = new List<CallHistory>();
+            _calls = new List<CallRecord>();
         }
 
         public void AddCall(ActiveCall activeCall, CallType callType)
         {
-            _calls.Add(new CallHistory(activeCall, callType));
+            _calls.Add(new CallRecord(activeCall, callType));
         }
 
         public string GetBilling(DateTime fromDate, DateTime toDate)
         {
-            return new Billing().GetBilling(fromDate, toDate, Terminal, _calls);
+            return new BillingCreator().GetBilling(fromDate, toDate, Terminal, _calls);
         }
     }
 }

@@ -31,7 +31,7 @@ namespace Task_3.ATS
             }
             else
             {
-                number = _contractList.Last().Terminal.Number + 1;
+                number = _contractList.Last().Terminal.TerminalNumber + 1;
             }
 
             IContract contract = new Contract.Contract(name, number, tariff);
@@ -45,12 +45,17 @@ namespace Task_3.ATS
 
         public void DelContract(IContract contract)
         {
+            contract.Terminal.OutCallEvent -= CallOutHandler;
+            contract.Terminal.EndCallEvent -= EndCallHandler;
+            contract.Terminal.ConnectPortEvent -= ConnectPortHandler;
+            contract.Terminal.DisconnectPortEvent -= DisconnectPortHandler;
+            contract.Terminal.AnswerCallEvent -= AnswerCallHandler;
             _contractList.Remove(contract);
         }
 
         public IContract FindContractByIndex(int index)
         {
-            if (index < 0 && index < _contractList.Count())
+            if (index < 0 || index >= _contractList.Count())
             {
                 throw new ArgumentException();
             }
@@ -58,7 +63,7 @@ namespace Task_3.ATS
             return _contractList[index];
         }
 
-        public List<PortInfo> GetPortsHistory()
+        public IEnumerable<PortInfo> GetPortsHistory()
         {
             return _portStateHistory;
         }
@@ -135,12 +140,12 @@ namespace Task_3.ATS
         private ActiveCall FindCallByPhoneNumber(int number)
         {
             return _activeCalls.FirstOrDefault(call =>
-                call.IsActiveCall() && (call.InputNumber == number || call.OutputNumber == number));
+                call.InputNumber == number || call.OutputNumber == number);
         }
 
         private IContract FindContractByPhoneNumber(int number)
         {
-            return _contractList.FirstOrDefault(contract => contract.Terminal.Number == number);
+            return _contractList.FirstOrDefault(contract => contract.Terminal.TerminalNumber == number);
         }
     }
 }

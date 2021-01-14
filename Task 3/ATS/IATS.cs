@@ -10,6 +10,6 @@ namespace Task_3.ATS
         void AddContract(string name, Tariff tariff);
         void DelContract(IContract contract);
         IContract FindContractByIndex(int index);
-        List<PortInfo> GetPortsHistory();
+        IEnumerable<PortInfo> GetPortsHistory();
     }
 }
