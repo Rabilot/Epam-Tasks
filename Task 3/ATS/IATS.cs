@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Task_3.ATS.Contract;
@@ -11,5 +12,6 @@ namespace Task_3.ATS
         void DelContract(IContract contract);
         IContract FindContractByIndex(int index);
         IEnumerable<PortInfo> GetPortsHistory();
+        string GetBilling(DateTime fromDate, DateTime toDate, IContract contract);
     }
 }

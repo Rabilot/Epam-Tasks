@@ -25,12 +25,13 @@ namespace Task_3
             Thread.Sleep(1000);
             ats.FindContractByIndex(1).Terminal.EndCall();
 
-            Console.WriteLine(ats.FindContractByIndex(0)
-                .GetBilling(ats.FindContractByIndex(0).StartDate, DateTime.Now));
-            Console.WriteLine(ats.FindContractByIndex(1)
-                .GetBilling(ats.FindContractByIndex(1).StartDate, DateTime.Now));
-            Console.WriteLine(ats.FindContractByIndex(2)
-                .GetBilling(ats.FindContractByIndex(2).StartDate, DateTime.Now));
+            Console.WriteLine(ats.GetBilling(ats.FindContractByIndex(0).StartDate, DateTime.Now,
+                ats.FindContractByIndex(0)));
+            Console.WriteLine(ats.GetBilling(ats.FindContractByIndex(1).StartDate, DateTime.Now,
+                ats.FindContractByIndex(1)));
+            Console.WriteLine(ats.GetBilling(ats.FindContractByIndex(2).StartDate, DateTime.Now,
+                ats.FindContractByIndex(2)));
+
 
             Console.WriteLine(ats.FindContractByIndex(0).Terminal.GetPortState());
             Console.WriteLine(ats.FindContractByIndex(1).Terminal.GetPortState());

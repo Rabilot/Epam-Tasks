@@ -10,7 +10,5 @@ namespace Task_3.ATS.Contract
         Terminal Terminal { get; }
         DateTime StartDate { get; }
         Tariff Tariff { get; }
-        void AddCall(ActiveCall activeCall, CallType callType);
-        string GetBilling(DateTime fromDate, DateTime toDate);
     }
 }
