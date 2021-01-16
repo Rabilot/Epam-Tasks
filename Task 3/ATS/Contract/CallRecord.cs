@@ -1,5 +1,4 @@
 using System;
-using System.Text;
 using Task_3.Enum;
 
 namespace Task_3.ATS.Contract
@@ -33,11 +32,6 @@ namespace Task_3.ATS.Contract
             }
         }
 
-        public DateTime GetStartDateTime()
-        {
-            return _startDateTime;
-        }
-
         public double GetPrice()
         {
             return _price;
@@ -45,7 +39,8 @@ namespace Task_3.ATS.Contract
 
         public override string ToString()
         {
-            return $"{_callType} {_startDateTime} {_opponentNumber} Call time: {_callTime} Price: {_price} {_callResult}";
+            return
+                $"{_callType, 7}   {_startDateTime, 19}   {_opponentNumber, 12}   {_callTime, 16}   {_price, 4}   {_callResult, 10}";
         }
     }
 }

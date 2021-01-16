@@ -24,6 +24,12 @@ namespace Task_3
             ats.FindContractByIndex(2).Terminal.OutCall(ats.FindContractByIndex(0).Terminal.TerminalNumber);
             Thread.Sleep(1000);
             ats.FindContractByIndex(1).Terminal.EndCall();
+            Console.WriteLine(
+                $"Абонент {ats.FindContractByIndex(1).Terminal.TerminalNumber} звонит абоненту {ats.FindContractByIndex(2).Terminal.TerminalNumber}");
+            ats.FindContractByIndex(1).Terminal.OutCall(ats.FindContractByIndex(2).Terminal.TerminalNumber);
+            Console.WriteLine($"Абонент {ats.FindContractByIndex(2).Terminal.TerminalNumber} ответил");
+            ats.FindContractByIndex(2).Terminal.AnswerCall();
+            ats.FindContractByIndex(1).Terminal.DisconnectPort();
 
             Console.WriteLine(ats.GetBilling(ats.FindContractByIndex(0).StartDate, DateTime.Now,
                 ats.FindContractByIndex(0)));
@@ -33,9 +39,9 @@ namespace Task_3
                 ats.FindContractByIndex(2)));
 
 
-            Console.WriteLine(ats.FindContractByIndex(0).Terminal.GetPortState());
-            Console.WriteLine(ats.FindContractByIndex(1).Terminal.GetPortState());
-            Console.WriteLine(ats.FindContractByIndex(2).Terminal.GetPortState());
+            Console.WriteLine(ats.FindContractByIndex(0).Terminal.Port.GetPortState());
+            Console.WriteLine(ats.FindContractByIndex(1).Terminal.Port.GetPortState());
+            Console.WriteLine(ats.FindContractByIndex(2).Terminal.Port.GetPortState());
             Console.Beep();
         }
     }

@@ -1,7 +1,7 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Task_3.ATS.Billing;
 using Task_3.ATS.Contract;
 using Task_3.ATS.Contract.ContractEntities;
 using Task_3.Enum;
@@ -13,15 +13,15 @@ namespace Task_3.ATS
     {
         private readonly List<IContract> _contractList;
         private readonly List<ActiveCall> _activeCalls;
-        private readonly List<PortInfo> _portStateHistory;
-        private readonly BillingCreator _callHistory;
+        private readonly List<PortRecord> _portStateHistory;
+        private readonly IBillingSystem _callHistory;
 
         public ATS()
         {
             _contractList = new List<IContract>();
             _activeCalls = new List<ActiveCall>();
-            _portStateHistory = new List<PortInfo>();
-            _callHistory = new BillingCreator();
+            _portStateHistory = new List<PortRecord>();
+            _callHistory = new BillingSystem();
         }
 
         public void AddContract(string name, Tariff tariff)
@@ -65,7 +65,7 @@ namespace Task_3.ATS
             return _contractList[index];
         }
 
-        public IEnumerable<PortInfo> GetPortsHistory()
+        public IEnumerable<PortRecord> GetPortsHistory()
         {
             return _portStateHistory;
         }
@@ -75,14 +75,14 @@ namespace Task_3.ATS
             return _callHistory.GetBilling(fromDate, toDate, contract);
         }
 
-        private void DisconnectPortHandler(PortInfo portInfo)
+        private void DisconnectPortHandler(PortRecord portRecord)
         {
-            _portStateHistory.Add(portInfo);
+            _portStateHistory.Add(portRecord);
         }
 
-        private void ConnectPortHandler(PortInfo portInfo)
+        private void ConnectPortHandler(PortRecord portRecord)
         {
-            _portStateHistory.Add(portInfo);
+            _portStateHistory.Add(portRecord);
         }
 
         private void CallOutHandler(OutCallEventArgs eventArgs)

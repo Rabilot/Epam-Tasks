@@ -8,7 +8,7 @@ namespace Task_3.ATS
         public int OutputNumber { get; }
         public int InputNumber { get; }
         public DateTime StartTime { get; }
-        
+
         private double _price;
         private DateTime _finishTime;
         private TimeSpan _callTime;

@@ -2,24 +2,22 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Task_3.ATS;
 using Task_3.ATS.Contract;
-using Task_3.ATS.Contract.ContractEntities;
 using Task_3.Enum;
 
-namespace Task_3
+namespace Task_3.ATS.Billing
 {
-    public class BillingCreator
+    public class BillingSystem : IBillingSystem
     {
         private readonly StringBuilder _stringBuilder;
         private readonly List<ActiveCall> _callHistory;
 
-        public BillingCreator()
+        public BillingSystem()
         {
             _stringBuilder = new StringBuilder();
             _callHistory = new List<ActiveCall>();
         }
-        
+
         public void AddCall(ActiveCall activeCall)
         {
             _callHistory.Add(activeCall);
@@ -33,7 +31,8 @@ namespace Task_3
             var callRecords = new List<CallRecord>();
             foreach (var call in _callHistory.Where(call => fromDate <= call.StartTime && toDate >= call.StartTime))
             {
-                if (call.InputNumber == contract.Terminal.TerminalNumber)
+                if (call.InputNumber == contract.Terminal.TerminalNumber &&
+                    call.GetCallResult() == CallResult.Successful)
                 {
                     callRecords.Add(new CallRecord(call, CallType.Incoming));
                 }
@@ -42,6 +41,9 @@ namespace Task_3
                     callRecords.Add(new CallRecord(call, CallType.Outgoing));
                 }
             }
+
+            _stringBuilder.AppendLine(
+                "CallType       CallDateTime            Number        CallTime      Price   CallResult");
             foreach (var call in callRecords)
             {
                 _stringBuilder.AppendLine($"{call}");
