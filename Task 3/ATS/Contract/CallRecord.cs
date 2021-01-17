@@ -12,24 +12,28 @@ namespace Task_3.ATS.Contract
         private readonly double _price;
         private readonly CallResult _callResult;
 
-
-        public CallRecord(ActiveCall activeCall, CallType callType)
+        public CallRecord(Call call, CallType callType)
         {
-            _startDateTime = activeCall.StartTime;
-            _callTime = activeCall.GetCallTime();
+            _startDateTime = call.StartTime;
+            _callTime = call.GetCallTime();
             _callType = callType;
-            _callResult = activeCall.GetCallResult();
+            _callResult = call.GetCallResult();
             switch (callType)
             {
                 case CallType.Outgoing:
-                    _opponentNumber = activeCall.InputNumber;
-                    _price = activeCall.GetPrice();
+                    _opponentNumber = call.InputNumber;
+                    _price = call.GetPrice();
                     break;
                 case CallType.Incoming:
-                    _opponentNumber = activeCall.OutputNumber;
+                    _opponentNumber = call.OutputNumber;
                     _price = 0;
                     break;
             }
+        }
+
+        public int GetOpponentNumber()
+        {
+            return _opponentNumber;
         }
 
         public double GetPrice()
@@ -40,7 +44,7 @@ namespace Task_3.ATS.Contract
         public override string ToString()
         {
             return
-                $"{_callType, 7}   {_startDateTime, 19}   {_opponentNumber, 12}   {_callTime, 16}   {_price, 4}   {_callResult, 10}";
+                $"{_callType,7}   {_startDateTime,19}   {_opponentNumber,12}   {_callTime,16}   {_price,4}   {_callResult,11}";
         }
     }
 }

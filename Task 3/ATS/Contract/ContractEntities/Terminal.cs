@@ -1,4 +1,3 @@
-using System;
 using Task_3.Enum;
 using Task_3.EventArgs;
 
@@ -25,44 +24,19 @@ namespace Task_3.ATS.Contract.ContractEntities
 
         #endregion
 
-        //Событие завершения вызова
+        #region EndCall
+
         public delegate void EndCallHandler(int number);
 
         public event EndCallHandler EndCallEvent;
 
-        //Событие подключения порта
-        public delegate void ConnectPortHandler(PortRecord portRecord);
-
-        public event ConnectPortHandler ConnectPortEvent;
-
-        //Событие отключения порта
-        public delegate void DisconnectPortHandler(PortRecord portRecord);
-
-        public event DisconnectPortHandler DisconnectPortEvent;
+        #endregion
 
         public Terminal(int terminalNumber)
         {
             TerminalNumber = terminalNumber;
             Port = new Port();
-        }
-
-        public void ConnectPort()
-        {
-            Port.Connect();
-            ConnectPortEvent?.Invoke(new PortRecord(TerminalNumber, Port.GetPortNumber(), Port.GetPortState(),
-                DateTime.Now));
-        }
-
-        public void DisconnectPort()
-        {
-            if (Port.GetPortState() == PortState.Busy)
-            {
-                EndCall();
-            }
-
-            Port.Disconnect();
-            DisconnectPortEvent?.Invoke(new PortRecord(TerminalNumber, Port.GetPortNumber(), Port.GetPortState(),
-                DateTime.Now));
+            Port.DisconnectPortEvent += DisconnectPortHandler;
         }
 
         public void OutCall(int opponentNumber)
@@ -99,6 +73,14 @@ namespace Task_3.ATS.Contract.ContractEntities
         public void TerminalEndCall()
         {
             Port.EndCall();
+        }
+
+        private void DisconnectPortHandler(PortRecord portRecord)
+        {
+            if (Port.GetPortState() == PortState.Busy)
+            {
+                EndCall();
+            }
         }
     }
 }

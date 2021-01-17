@@ -1,7 +1,6 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using Task_3.ATS.Billing.Interfaces;
 using Task_3.ATS.Contract;
 using Task_3.Enum;
 
@@ -9,27 +8,41 @@ namespace Task_3.ATS.Billing
 {
     public class BillingSystem : IBillingSystem
     {
-        private readonly StringBuilder _stringBuilder;
-        private readonly List<ActiveCall> _callHistory;
+        private readonly List<Call> _callHistory;
 
         public BillingSystem()
         {
-            _stringBuilder = new StringBuilder();
-            _callHistory = new List<ActiveCall>();
+            _callHistory = new List<Call>();
         }
 
-        public void AddCall(ActiveCall activeCall)
+        public void AddCall(Call call)
         {
-            _callHistory.Add(activeCall);
+            _callHistory.Add(call);
         }
 
-        public string GetBilling(DateTime fromDate, DateTime toDate, IContract contract)
+        public List<CallRecord> GetBilling(BillingFilter billingFilter, IContract contract)
         {
-            double bill = 0;
-            _stringBuilder.Clear();
-            _stringBuilder.AppendLine($"Billing for {contract.Terminal.TerminalNumber}");
             var callRecords = new List<CallRecord>();
-            foreach (var call in _callHistory.Where(call => fromDate <= call.StartTime && toDate >= call.StartTime))
+            List<Call> filteredCalls = _callHistory;
+            if (billingFilter.FromDate.HasValue && billingFilter.ToDate.HasValue)
+            {
+                filteredCalls = filteredCalls.Where(call =>
+                    billingFilter.FromDate <= call.StartTime && billingFilter.ToDate >= call.StartTime).ToList();
+            }
+            if (billingFilter.Type.HasValue)
+            {
+                switch (billingFilter.Type)
+                {
+                    case CallType.Outgoing:
+                        filteredCalls = filteredCalls.Where(call => call.OutputNumber == contract.Terminal.TerminalNumber).ToList();
+                        break;
+                    case CallType.Incoming:
+                        filteredCalls = filteredCalls.Where(call => call.InputNumber == contract.Terminal.TerminalNumber).ToList();
+                        break;
+                }
+            }
+
+            foreach (var call in filteredCalls)
             {
                 if (call.InputNumber == contract.Terminal.TerminalNumber &&
                     call.GetCallResult() == CallResult.Successful)
@@ -42,16 +55,12 @@ namespace Task_3.ATS.Billing
                 }
             }
 
-            _stringBuilder.AppendLine(
-                "CallType       CallDateTime            Number        CallTime      Price   CallResult");
-            foreach (var call in callRecords)
+            if (billingFilter.OpponentNumber.HasValue)
             {
-                _stringBuilder.AppendLine($"{call}");
-                bill += call.GetPrice();
+                callRecords = callRecords.Where(call => call.GetOpponentNumber() == billingFilter.OpponentNumber).ToList();
             }
 
-            _stringBuilder.AppendLine($"Bill: {bill}");
-            return _stringBuilder.ToString();
+            return callRecords;
         }
     }
 }

@@ -3,7 +3,7 @@ using Task_3.Enum;
 
 namespace Task_3.ATS
 {
-    public class ActiveCall
+    public class Call
     {
         public int OutputNumber { get; }
         public int InputNumber { get; }
@@ -15,7 +15,7 @@ namespace Task_3.ATS
         private CallResult _callResult;
         private readonly double _costPerMinute;
 
-        public ActiveCall(int outputNumber, int inputNumber, double costPerMinute)
+        public Call(int outputNumber, int inputNumber, double costPerMinute)
         {
             OutputNumber = outputNumber;
             InputNumber = inputNumber;

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Task_3.ATS.Billing;
+using Task_3.ATS.Billing.Interfaces;
 using Task_3.ATS.Contract;
 using Task_3.ATS.Contract.ContractEntities;
 using Task_3.Enum;
@@ -12,16 +13,16 @@ namespace Task_3.ATS
     public class ATS : IATS
     {
         private readonly List<IContract> _contractList;
-        private readonly List<ActiveCall> _activeCalls;
+        private readonly List<Call> _activeCalls;
         private readonly List<PortRecord> _portStateHistory;
-        private readonly IBillingSystem _callHistory;
+        private readonly IBillingSystem _billingSystem;
 
-        public ATS()
+        public ATS(IBillingSystem billingSystem)
         {
             _contractList = new List<IContract>();
-            _activeCalls = new List<ActiveCall>();
+            _activeCalls = new List<Call>();
             _portStateHistory = new List<PortRecord>();
-            _callHistory = new BillingSystem();
+            _billingSystem = billingSystem;
         }
 
         public void AddContract(string name, Tariff tariff)
@@ -39,8 +40,8 @@ namespace Task_3.ATS
             IContract contract = new Contract.Contract(name, number, tariff);
             contract.Terminal.OutCallEvent += CallOutHandler;
             contract.Terminal.EndCallEvent += EndCallHandler;
-            contract.Terminal.ConnectPortEvent += ConnectPortHandler;
-            contract.Terminal.DisconnectPortEvent += DisconnectPortHandler;
+            contract.Terminal.Port.ConnectPortEvent += ConnectPortHandler;
+            contract.Terminal.Port.DisconnectPortEvent += DisconnectPortHandler;
             contract.Terminal.AnswerCallEvent += AnswerCallHandler;
             _contractList.Add(contract);
         }
@@ -49,8 +50,8 @@ namespace Task_3.ATS
         {
             contract.Terminal.OutCallEvent -= CallOutHandler;
             contract.Terminal.EndCallEvent -= EndCallHandler;
-            contract.Terminal.ConnectPortEvent -= ConnectPortHandler;
-            contract.Terminal.DisconnectPortEvent -= DisconnectPortHandler;
+            contract.Terminal.Port.ConnectPortEvent -= ConnectPortHandler;
+            contract.Terminal.Port.DisconnectPortEvent -= DisconnectPortHandler;
             contract.Terminal.AnswerCallEvent -= AnswerCallHandler;
             _contractList.Remove(contract);
         }
@@ -70,9 +71,9 @@ namespace Task_3.ATS
             return _portStateHistory;
         }
 
-        public string GetBilling(DateTime fromDate, DateTime toDate, IContract contract)
+        public List<CallRecord> GetBilling(BillingFilter billingFilter, IContract contract)
         {
-            return _callHistory.GetBilling(fromDate, toDate, contract);
+            return _billingSystem.GetBilling(billingFilter, contract);
         }
 
         private void DisconnectPortHandler(PortRecord portRecord)
@@ -91,7 +92,7 @@ namespace Task_3.ATS
             var inputClient = FindContractByPhoneNumber(eventArgs.InputNumber);
             if (inputClient != null)
             {
-                var call = new ActiveCall(eventArgs.OutputNumber, eventArgs.InputNumber,
+                var call = new Call(eventArgs.OutputNumber, eventArgs.InputNumber,
                     outputClient.Tariff.CostPerMinute);
                 switch (inputClient.Terminal.Port.GetPortState())
                 {
@@ -104,14 +105,14 @@ namespace Task_3.ATS
                         Console.WriteLine(
                             "Абoнент занят");
                         call.Fail();
-                        _callHistory.AddCall(call);
+                        _billingSystem.AddCall(call);
                         break;
                     case PortState.Off:
                         outputClient.Terminal.TerminalEndCall();
                         Console.WriteLine(
                             "Абонент выключил терминал");
                         call.Fail();
-                        _callHistory.AddCall(call);
+                        _billingSystem.AddCall(call);
                         break;
                 }
             }
@@ -126,12 +127,9 @@ namespace Task_3.ATS
         {
             var call = FindCallByPhoneNumber(number);
             var opponentNumber = number == call.OutputNumber ? call.InputNumber : call.OutputNumber;
-            FindContractByPhoneNumber(opponentNumber).Terminal.ConnectPort();
+            FindContractByPhoneNumber(opponentNumber).Terminal.Port.EndCall();
             call.End();
-            // var outputClient = FindContractByPhoneNumber(call.OutputNumber);
-            // var inputClient = FindContractByPhoneNumber(call.InputNumber);
-            _callHistory.AddCall(call);
-            //_callHistory.AddCall(call, CallType.Incoming);
+            _billingSystem.AddCall(call);
             _activeCalls.Remove(call);
             Console.WriteLine(
                 $"Звонок между {call.OutputNumber} и {call.InputNumber} завершён");
@@ -143,7 +141,7 @@ namespace Task_3.ATS
             call?.SuccessfulCall();
         }
 
-        private ActiveCall FindCallByPhoneNumber(int number)
+        private Call FindCallByPhoneNumber(int number)
         {
             return _activeCalls.FirstOrDefault(call =>
                 call.InputNumber == number || call.OutputNumber == number);

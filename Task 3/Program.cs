@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Threading;
 using Task_3.ATS;
+using Task_3.ATS.Billing;
+using Task_3.ATS.Billing.Interfaces;
 using Task_3.ATS.Contract.ContractEntities;
+using Task_3.Enum;
 
 namespace Task_3
 {
@@ -9,10 +12,10 @@ namespace Task_3
     {
         public static void Main(string[] args)
         {
-            IATS ats = new ATS.ATS();
-            ats.AddContract("Nick", new Tariff(0.1));
-            ats.AddContract("Mike", new Tariff(0.1));
-            ats.AddContract("Alex", new Tariff(0.1));
+            IATS ats = new ATS.ATS(new BillingSystem());
+            ats.AddContract("Nick", new Tariff());
+            ats.AddContract("Mike", new Tariff());
+            ats.AddContract("Alex", new Tariff());
 
             Console.WriteLine(
                 $"Абонент {ats.FindContractByIndex(0).Terminal.TerminalNumber} звонит абоненту {ats.FindContractByIndex(1).Terminal.TerminalNumber}");
@@ -29,19 +32,26 @@ namespace Task_3
             ats.FindContractByIndex(1).Terminal.OutCall(ats.FindContractByIndex(2).Terminal.TerminalNumber);
             Console.WriteLine($"Абонент {ats.FindContractByIndex(2).Terminal.TerminalNumber} ответил");
             ats.FindContractByIndex(2).Terminal.AnswerCall();
-            ats.FindContractByIndex(1).Terminal.DisconnectPort();
+            ats.FindContractByIndex(1).Terminal.Port.Disconnect();
+            ats.FindContractByIndex(1).Terminal.Port.Connect();
 
-            Console.WriteLine(ats.GetBilling(ats.FindContractByIndex(0).StartDate, DateTime.Now,
-                ats.FindContractByIndex(0)));
-            Console.WriteLine(ats.GetBilling(ats.FindContractByIndex(1).StartDate, DateTime.Now,
-                ats.FindContractByIndex(1)));
-            Console.WriteLine(ats.GetBilling(ats.FindContractByIndex(2).StartDate, DateTime.Now,
+            IBillingWriter billingWriter = new BillingWriter();
+            Console.WriteLine($"Billing for {ats.FindContractByIndex(0).Terminal.TerminalNumber}");
+            billingWriter.WriteBilling(ats.GetBilling(new BillingFilter(), ats.FindContractByIndex(0)));
+            Console.WriteLine($"Billing for {ats.FindContractByIndex(1).Terminal.TerminalNumber}");
+            billingWriter.WriteBilling(ats.GetBilling(new BillingFilter(), ats.FindContractByIndex(1)));
+            Console.WriteLine($"Billing for {ats.FindContractByIndex(2).Terminal.TerminalNumber}");
+            billingWriter.WriteBilling(ats.GetBilling(new BillingFilter(), ats.FindContractByIndex(2)));
+            Console.WriteLine($"Billing for {ats.FindContractByIndex(2).Terminal.TerminalNumber}");
+            billingWriter.WriteBilling(ats.GetBilling(new BillingFilter {Type = CallType.Outgoing},
                 ats.FindContractByIndex(2)));
 
+            Console.WriteLine("PortHistory:");
+            foreach (var portRecord in ats.GetPortsHistory())
+            {
+                Console.WriteLine(portRecord);
+            }
 
-            Console.WriteLine(ats.FindContractByIndex(0).Terminal.Port.GetPortState());
-            Console.WriteLine(ats.FindContractByIndex(1).Terminal.Port.GetPortState());
-            Console.WriteLine(ats.FindContractByIndex(2).Terminal.Port.GetPortState());
             Console.Beep();
         }
     }

@@ -1,3 +1,4 @@
+using System;
 using Task_3.Enum;
 
 namespace Task_3.ATS.Contract.ContractEntities
@@ -7,20 +8,39 @@ namespace Task_3.ATS.Contract.ContractEntities
         private readonly int _number;
         private const int DefaultPortNumber = 2300;
         private PortState _state;
+        private const PortState DefaultPortState = PortState.Free;
 
-        public Port(int number = DefaultPortNumber)
+        #region ConnectPort
+
+        public delegate void ConnectPortHandler(PortRecord portRecord);
+
+        public event ConnectPortHandler ConnectPortEvent;
+
+        #endregion
+
+        #region DisconnectPort
+
+        public delegate void DisconnectPortHandler(PortRecord portRecord);
+
+        public event DisconnectPortHandler DisconnectPortEvent;
+
+        #endregion
+
+        public Port(int number = DefaultPortNumber, PortState state = DefaultPortState)
         {
             _number = number;
-            _state = PortState.Free;
+            _state = state;
         }
 
         public void Connect()
         {
+            ConnectPortEvent?.Invoke(new PortRecord(_number, PortState.Free, DateTime.Now));
             _state = PortState.Free;
         }
 
         public void Disconnect()
         {
+            DisconnectPortEvent?.Invoke(new PortRecord(_number, PortState.Off, DateTime.Now));
             _state = PortState.Off;
         }
 

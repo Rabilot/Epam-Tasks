@@ -38,9 +38,12 @@
         <Reference Include="System.Xml" />
     </ItemGroup>
     <ItemGroup>
-        <Compile Include="ATS\ActiveCall.cs" />
+        <Compile Include="ATS\Billing\Interfaces\IBillingSystem.cs" />
+        <Compile Include="ATS\Billing\Interfaces\IBillingWriter.cs" />
+        <Compile Include="ATS\Call.cs" />
         <Compile Include="ATS\Billing\BillingSystem.cs" />
-        <Compile Include="ATS\Billing\IBillingSystem.cs" />
+        <Compile Include="ATS\Billing\BillingWriter.cs" />
+        <Compile Include="ATS\Billing\BillingFilter.cs" />
         <Compile Include="ATS\Contract\CallRecord.cs" />
         <Compile Include="ATS\Contract\Contract.cs" />
         <Compile Include="ATS\Contract\ContractEntities\Client.cs" />
