@@ -1,4 +1,4 @@
-﻿namespace Task4.Models
+﻿namespace Task4.Model
 {
     public class Product
     {
