@@ -25,6 +25,7 @@ namespace Task4.WindowsService
         protected override void OnStop()
         {
             _watcher.Stop();
+            _watcher.Dispose();
             Thread.Sleep(1000);
         }
     }

@@ -1,9 +1,13 @@
-﻿namespace Task4.Model
+﻿using System.Collections;
+using System.Collections.Generic;
+
+namespace Task4.Model
 {
     public class Client
     {
         public int Id { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
+        public string Name { get; set; }
+
+        public ICollection<Sale> Sales { get; set; }
     }
 }

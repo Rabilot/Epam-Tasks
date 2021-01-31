@@ -9,11 +9,7 @@ namespace Task4.BL
         public string ClientName { get; set; }
         public string ProductName { get; set; }
         public decimal Price { get; set; }
-        public string ManagerName { get; set; }
+        //public string ManagerName { get; set; }
         //public DateTime 
-        public override string ToString()
-        {
-            return $"{Id} {OrderDate} {ClientName} {ProductName} {Price}";
-        }
     }
 }

@@ -9,7 +9,7 @@ namespace Task4.BL
 {
     public class Parser : IParser
     {
-        public List<CsvObject> FileParse(string path)
+        public IEnumerable<CsvObject> FileParse(string path)
         {
             using (var streamReader = new StreamReader(path))
             {
@@ -19,17 +19,6 @@ namespace Task4.BL
                     return csvReader.GetRecords<CsvObject>().ToList();
                 }
             }
-        }
-
-        private string GetManagerName(string path)
-        {
-            StringBuilder stringBuilder = new StringBuilder();
-            for (int i = 0; path[i] != '_'; i++)
-            {
-                stringBuilder.Append(path[i]);
-            }
-
-            return stringBuilder.ToString();
         }
     }
 }

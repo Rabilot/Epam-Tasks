@@ -57,6 +57,10 @@
       <None Include="packages.config" />
     </ItemGroup>
     <ItemGroup>
+      <ProjectReference Include="..\Task4.BL\Task4.BL.csproj">
+        <Project>{714bdbdd-f30a-4226-89be-5d8b8480d228}</Project>
+        <Name>Task4.BL</Name>
+      </ProjectReference>
       <ProjectReference Include="..\Task4.DAL\Task4.DAL.csproj">
         <Project>{f32d2c2b-b32c-422b-a5cc-f715afa80111}</Project>
         <Name>Task4.DAL</Name>

@@ -4,6 +4,6 @@ namespace Task4.BL
 {
     public interface IParser
     {
-        List<CsvObject> FileParse(string path);
+        IEnumerable<CsvObject> FileParse(string path);
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System.Data.Entity;
 using Task4.Model;
 
-namespace Task4.DAL
+namespace Task4.DAL.EF
 {
     public class DatabaseContext : DbContext
     {
