@@ -38,6 +38,7 @@
       <Compile Include="FileHandler.cs" />
       <Compile Include="IParser.cs" />
       <Compile Include="Parser.cs" />
+      <Compile Include="Watcher.cs" />
     </ItemGroup>
     <ItemGroup>
       <Reference Include="CsvHelper, Version=21.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823">

@@ -2,7 +2,7 @@
 
 namespace Task4.BL
 {
-    public sealed class CsvObjectMap: ClassMap<CsvObject>
+    public sealed class CsvObjectMap : ClassMap<CsvObject>
     {
         public CsvObjectMap()
         {

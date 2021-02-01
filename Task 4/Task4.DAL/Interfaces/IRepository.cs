@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Task4.DAL.Interfaces
 {
-    public interface IRepository<TEntity>: IDisposable where TEntity : class
+    public interface IRepository<TEntity> : IDisposable where TEntity : class
     {
         IEnumerable<TEntity> Find(Func<TEntity, bool> predicate);
         IEnumerable<TEntity> GetAll();

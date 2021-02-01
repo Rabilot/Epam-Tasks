@@ -10,17 +10,14 @@ namespace Task4.DAL.Repositories
     public class SaleRepository : IRepository<Sale>
     {
         private DatabaseContext _context;
-        //private DbSet<Sale> _dbSet;
 
         public SaleRepository(DatabaseContext context)
         {
             _context = context;
-            //_dbSet = context.Set<TEntity>();
         }
 
         public IEnumerable<Sale> GetAll()
         {
-            //return predicate != null ? _dbSet.AsNoTracking().Where(predicate).ToList() : _dbSet.ToList();
             return _context.Sales;
         }
 
@@ -37,8 +34,7 @@ namespace Task4.DAL.Repositories
             {
                 throw new ArgumentNullException();
             }
-
-            //_dbSet.Add(item);
+            
             _context.Sales.Add(item);
         }
 
@@ -54,8 +50,7 @@ namespace Task4.DAL.Repositories
             {
                 throw new ArgumentNullException();
             }
-
-            //_dbSet.Remove(item);
+            
             _context.Sales.Remove(item);
         }
 

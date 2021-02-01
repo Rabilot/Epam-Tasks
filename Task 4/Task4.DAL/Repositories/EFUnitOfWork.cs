@@ -1,5 +1,4 @@
-﻿using System;
-using Task4.DAL.EF;
+﻿using Task4.DAL.EF;
 using Task4.DAL.Interfaces;
 using Task4.Model;
 
@@ -34,6 +33,5 @@ namespace Task4.DAL.Repositories
         {
             _db?.Dispose();
         }
-
     }
 }

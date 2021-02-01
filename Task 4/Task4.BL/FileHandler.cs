@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Threading;
-using Task4.DAL.EF;
 using Task4.DAL.Interfaces;
 using Task4.DAL.Repositories;
 using Task4.Model;
@@ -13,8 +10,6 @@ namespace Task4.BL
 {
     public class FileHandler
     {
-        private readonly object _obj = new object();
-
         private readonly IParser _parser;
 
         public FileHandler(IParser parser)
@@ -22,40 +17,16 @@ namespace Task4.BL
             _parser = parser;
         }
 
-        public void Watcher_Created(object sender, FileSystemEventArgs e)
+        public void Watcher_Created(object sender, FileSystemEventArgs e) 
         {
             var filePath = e.FullPath;
             var csvData = _parser.FileParse(filePath);
-            var sales = Converter(csvData);
-            var result = sales.Aggregate("", (current, sale) => current + $"{sale}\n");
-            RecordEntry(result);
-            
-            using (var ctx = new DatabaseContext()) // Не работает
-            {
-                foreach (var sale in sales)
-                {
-                    ctx.Sales.Add(sale);
-                    ctx.SaveChanges();
-                }
-            }
-            
+            var sales = Converter(csvData, GetManagerName(Path.GetDirectoryName(filePath)));
+            DataSqlWriter(sales);
         }
 
-        private void RecordEntry(string fileEvent)
+        private IEnumerable<Sale> Converter(IEnumerable<CsvObject> csvObjects, string managerName)
         {
-            lock (_obj)
-            {
-                using (var writer = new StreamWriter("D:\\templog.txt", true))
-                {
-                    writer.Write(fileEvent);
-                    writer.Flush();
-                }
-            }
-        }
-
-        private List<Sale> Converter(IEnumerable<CsvObject> csvObjects)
-        {
-            string managerName = "DEFAULT";
             var sales = new List<Sale>();
             foreach (var csvObject in csvObjects)
             {
@@ -68,7 +39,6 @@ namespace Task4.BL
                 };
                 sales.Add(sale);
             }
-
             return sales;
         }
 
@@ -85,32 +55,24 @@ namespace Task4.BL
 
         private void DataSqlWriter(IEnumerable<Sale> sales)
         {
-            //var lockSlim = new ReaderWriterLockSlim();
-            //lockSlim.EnterWriteLock();
+            var lockSlim = new ReaderWriterLockSlim();
+            lockSlim.EnterWriteLock();
             try
             {
-                using (var ctx = new DatabaseContext())
+                using (IUnitOfWork unitOfWork = new EFUnitOfWork())
                 {
                     foreach (var sale in sales)
                     {
-                        ctx.Sales.Add(sale);
-                        ctx.SaveChanges();
+                        unitOfWork.Sales.Add(sale);
+
                     }
+
+                    unitOfWork.Save();
                 }
-
-
-                // using (IUnitOfWork unitOfWork = new EFUnitOfWork())
-                // {
-                //     foreach (var sale in sales)
-                //     {
-                //         unitOfWork.Sales.Add(sale);
-                //     }
-                //     unitOfWork.Save();
-                // }
             }
             finally
             {
-                //lockSlim.ExitWriteLock();
+                lockSlim.ExitWriteLock();
             }
         }
     }

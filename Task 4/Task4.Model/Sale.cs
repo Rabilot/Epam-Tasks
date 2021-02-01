@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Task4.Model
+﻿namespace Task4.Model
 {
     public class Sale
     {
@@ -15,7 +13,7 @@ namespace Task4.Model
 
         public override string ToString()
         {
-             return $"{Client.Name} {Manager.LastName} {Product.Name} {Product.Price} {Date}";
+            return $"{Client.Name} {Manager.LastName} {Product.Name} {Product.Price} {Date}";
         }
     }
 }

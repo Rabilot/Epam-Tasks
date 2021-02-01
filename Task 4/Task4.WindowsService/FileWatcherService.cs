@@ -1,5 +1,10 @@
-﻿using System.ServiceProcess;
+﻿using System.Collections.Generic;
+using System.ServiceProcess;
 using System.Threading;
+using Task4.BL;
+using Task4.DAL.Interfaces;
+using Task4.DAL.Repositories;
+using Task4.Model;
 
 namespace Task4.WindowsService
 {
@@ -10,15 +15,12 @@ namespace Task4.WindowsService
         public FileWatcherService()
         {
             InitializeComponent();
-            this.CanStop = true;
-            this.CanPauseAndContinue = true;
-            this.AutoLog = true;
         }
 
         protected override void OnStart(string[] args)
         {
             _watcher = new Watcher();
-            var loggerThread = new Thread(new ThreadStart(_watcher.Start));
+            var loggerThread = new Thread(_watcher.Start);
             loggerThread.Start();
         }
 
