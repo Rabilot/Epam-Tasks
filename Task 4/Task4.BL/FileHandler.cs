@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Threading;
 using Task4.DAL.Interfaces;
+using Task4.DAL.Models;
 using Task4.DAL.Repositories;
-using Task4.Model;
 
 namespace Task4.BL
 {
@@ -17,15 +17,15 @@ namespace Task4.BL
             _parser = parser;
         }
 
-        public void Watcher_Created(object sender, FileSystemEventArgs e) 
+        public void CreatedEventHandler(object sender, FileSystemEventArgs e) 
         {
             var filePath = e.FullPath;
             var csvData = _parser.FileParse(filePath);
-            var sales = Converter(csvData, GetManagerName(Path.GetDirectoryName(filePath)));
-            DataSqlWriter(sales);
+            var sales = Convert(csvData, GetManagerName(Path.GetFileName(filePath)));
+            WriteDataToSQL(sales);
         }
 
-        private IEnumerable<Sale> Converter(IEnumerable<CsvObject> csvObjects, string managerName)
+        private IEnumerable<Sale> Convert(IEnumerable<CsvObject> csvObjects, string managerName)
         {
             var sales = new List<Sale>();
             foreach (var csvObject in csvObjects)
@@ -44,22 +44,17 @@ namespace Task4.BL
 
         private string GetManagerName(string fileName)
         {
-            var stringBuilder = new StringBuilder();
-            for (var i = 0; fileName[i] != '_'; i++)
-            {
-                stringBuilder.Append(fileName[i]);
-            }
-
-            return stringBuilder.ToString();
+            Console.WriteLine(fileName);
+            return fileName.Substring(0, fileName.IndexOf('_')-1);
         }
 
-        private void DataSqlWriter(IEnumerable<Sale> sales)
+        private void WriteDataToSQL(IEnumerable<Sale> sales)
         {
             var lockSlim = new ReaderWriterLockSlim();
             lockSlim.EnterWriteLock();
             try
             {
-                using (IUnitOfWork unitOfWork = new EFUnitOfWork())
+                using (IUnitOfWork unitOfWork = new UnitOfWork())
                 {
                     foreach (var sale in sales)
                     {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Task4.Model
+namespace Task4.DAL.Models
 {
     public class Manager
     {

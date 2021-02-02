@@ -1,4 +1,4 @@
-﻿namespace Task4.Model
+﻿namespace Task4.DAL.Models
 {
     public class Sale
     {

@@ -1,5 +1,4 @@
 ﻿using System.Configuration;
-using System.IO;
 using Task4.BL;
 
 namespace Task4.Console
@@ -8,22 +7,17 @@ namespace Task4.Console
     {
         static void Main(string[] args)
         {
-            var directoryPath = ConfigurationManager.AppSettings["FilePath"];
+            var directoryPath = ConfigurationManager.AppSettings["DirectoryPath"];
             var filesFilter = ConfigurationManager.AppSettings["FileType"];
 
             FileWatcher(directoryPath, filesFilter);
         }
 
-
         private static void FileWatcher(string directoryPath, string fileType)
         {
-            using (var watcher = new FileSystemWatcher())
+            using (var watcher = new Watcher(directoryPath, fileType))
             {
-                var fileHandler = new FileHandler(new Parser());
-                watcher.Path = directoryPath;
-                watcher.Filter = fileType;
-                watcher.Created += fileHandler.Watcher_Created;
-                watcher.EnableRaisingEvents = true;
+                watcher.Start();
 
                 System.Console.WriteLine("Press 'q' to quit the watcher.");
                 while (System.Console.Read() != 'q')

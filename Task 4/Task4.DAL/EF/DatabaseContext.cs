@@ -1,5 +1,5 @@
 ﻿using System.Data.Entity;
-using Task4.Model;
+using Task4.DAL.Models;
 
 namespace Task4.DAL.EF
 {

@@ -3,8 +3,8 @@ using System.Threading;
 using Task4.BL;
 using Task4.DAL.EF;
 using Task4.DAL.Interfaces;
+using Task4.DAL.Models;
 using Task4.DAL.Repositories;
-using Task4.Model;
 
 namespace Test
 {

@@ -1,10 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System.Configuration;
 using System.ServiceProcess;
 using System.Threading;
 using Task4.BL;
-using Task4.DAL.Interfaces;
-using Task4.DAL.Repositories;
-using Task4.Model;
 
 namespace Task4.WindowsService
 {
@@ -19,7 +16,9 @@ namespace Task4.WindowsService
 
         protected override void OnStart(string[] args)
         {
-            _watcher = new Watcher();
+            var directoryPath = ConfigurationManager.AppSettings["DirectoryPath"];
+            var fileType = ConfigurationManager.AppSettings["FileType"];
+            _watcher = new Watcher(directoryPath, fileType);
             var loggerThread = new Thread(_watcher.Start);
             loggerThread.Start();
         }
@@ -28,7 +27,6 @@ namespace Task4.WindowsService
         {
             _watcher.Stop();
             _watcher.Dispose();
-            Thread.Sleep(1000);
         }
     }
 }

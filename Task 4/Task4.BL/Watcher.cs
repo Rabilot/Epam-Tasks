@@ -8,32 +8,26 @@ namespace Task4.BL
     public class Watcher : IDisposable
     {
         private readonly FileSystemWatcher _watcher;
-        private bool _enabled = true;
 
-        public Watcher()
+        public Watcher(string directoryPath, string fileType)
         {
             var handler = new FileHandler(new Parser());
             _watcher = new FileSystemWatcher
             {
-                Path = ConfigurationManager.AppSettings["FilePath"],
-                Filter = ConfigurationManager.AppSettings["FileType"],
+                Path = directoryPath,
+                Filter = fileType,
             };
-            _watcher.Created += handler.Watcher_Created;
+            _watcher.Created += handler.CreatedEventHandler;
         }
 
         public void Start()
         {
             _watcher.EnableRaisingEvents = true;
-            while (_enabled)
-            {
-                Thread.Sleep(1000);
-            }
         }
 
         public void Stop()
         {
             _watcher.EnableRaisingEvents = false;
-            _enabled = false;
         }
 
         public void Dispose()
