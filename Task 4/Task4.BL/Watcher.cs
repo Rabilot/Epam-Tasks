@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Configuration;
 using System.IO;
-using System.Threading;
 
 namespace Task4.BL
 {
@@ -11,12 +9,20 @@ namespace Task4.BL
 
         public Watcher(string directoryPath, string fileType)
         {
-            var handler = new FileHandler(new Parser());
-            _watcher = new FileSystemWatcher
+            var handler = new FileHandler(new Reader());
+            try
             {
-                Path = directoryPath,
-                Filter = fileType,
-            };
+                _watcher = new FileSystemWatcher
+                {
+                    Path = directoryPath,
+                    Filter = fileType,
+                };
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
             _watcher.Created += handler.CreatedEventHandler;
         }
 

@@ -41,11 +41,32 @@
           <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
           <Private>True</Private>
         </Reference>
+        <Reference Include="Microsoft.CSharp" />
+        <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c">
+          <HintPath>..\packages\NLog.4.7.7\lib\net45\NLog.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="Serilog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10">
+          <HintPath>..\packages\Serilog.2.10.1-dev-01265\lib\net46\Serilog.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="Serilog.Sinks.Console, Version=4.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10">
+          <HintPath>..\packages\Serilog.Sinks.Console.4.0.0-dev-00839\lib\net45\Serilog.Sinks.Console.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="Serilog.Sinks.File, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10">
+          <HintPath>..\packages\Serilog.Sinks.File.5.0.0-dev-00909\lib\net45\Serilog.Sinks.File.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
         <Reference Include="System" />
         <Reference Include="System.ComponentModel.DataAnnotations" />
         <Reference Include="System.Configuration" />
         <Reference Include="System.Core" />
         <Reference Include="System.Data" />
+        <Reference Include="System.IO.Compression" />
+        <Reference Include="System.Runtime.Serialization" />
+        <Reference Include="System.ServiceModel" />
+        <Reference Include="System.Transactions" />
         <Reference Include="System.Xml" />
     </ItemGroup>
     <ItemGroup>

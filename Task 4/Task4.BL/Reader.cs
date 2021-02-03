@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -6,10 +7,15 @@ using CsvHelper;
 
 namespace Task4.BL
 {
-    public class Parser : IParser
+    public class Reader : IReader
     {
-        public IEnumerable<CsvObject> FileParse(string path)
+        public IEnumerable<CsvObject> ReadFile(string path)
         {
+            if (Path.GetExtension(path) != ".csv")
+            {
+                throw new TypeLoadException("Invalid file type");
+            }
+
             using (var streamReader = new StreamReader(path))
             {
                 using (var csvReader = new CsvReader(streamReader, CultureInfo.InvariantCulture))

@@ -8,7 +8,7 @@ namespace Task4.WindowsService
     public partial class FileWatcherService : ServiceBase
     {
         private Watcher _watcher;
-
+        
         public FileWatcherService()
         {
             InitializeComponent();
@@ -18,6 +18,7 @@ namespace Task4.WindowsService
         {
             var directoryPath = ConfigurationManager.AppSettings["DirectoryPath"];
             var fileType = ConfigurationManager.AppSettings["FileType"];
+            var logPath = ConfigurationManager.AppSettings["LogPath"];
             _watcher = new Watcher(directoryPath, fileType);
             var loggerThread = new Thread(_watcher.Start);
             loggerThread.Start();

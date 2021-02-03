@@ -1,4 +1,6 @@
 ﻿using System.Configuration;
+using Serilog;
+using Serilog.Core;
 using Task4.BL;
 
 namespace Task4.Console
@@ -8,17 +10,18 @@ namespace Task4.Console
         static void Main(string[] args)
         {
             var directoryPath = ConfigurationManager.AppSettings["DirectoryPath"];
-            var filesFilter = ConfigurationManager.AppSettings["FileType"];
+            var fileType = ConfigurationManager.AppSettings["FileType"];
+            var logPath = ConfigurationManager.AppSettings["LogPath"];
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Information()
+                .WriteTo.Console()
+                .WriteTo.File(logPath)
+                .CreateLogger();
 
-            FileWatcher(directoryPath, filesFilter);
-        }
-
-        private static void FileWatcher(string directoryPath, string fileType)
-        {
             using (var watcher = new Watcher(directoryPath, fileType))
             {
                 watcher.Start();
-
+                
                 System.Console.WriteLine("Press 'q' to quit the watcher.");
                 while (System.Console.Read() != 'q')
                 {

@@ -1,19 +1,18 @@
-﻿namespace Task4.DAL.Models
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+
+namespace Task4.DAL.Models
 {
     public class Sale
     {
         public int Id { get; set; }
         public int ManagerId { get; set; }
-        public Manager Manager { get; set; }
+        public virtual Manager Manager { get; set; }
         public int ClientId { get; set; }
-        public Client Client { get; set; }
+        public virtual Client Client { get; set; }
         public int ProductId { get; set; }
-        public Product Product { get; set; }
-        public string Date { get; set; }
-
-        public override string ToString()
-        {
-            return $"{Client.Name} {Manager.LastName} {Product.Name} {Product.Price} {Date}";
-        }
+        public virtual Product Product { get; set; }
+        [Required]
+        public DateTime? Date { get; set; }
     }
 }
