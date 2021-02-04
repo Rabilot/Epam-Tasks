@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Task4.DAL.Models;
 
 namespace Task4.DAL.Interfaces
@@ -7,5 +8,6 @@ namespace Task4.DAL.Interfaces
     {
         IRepository<Sale> Sales { get; }
         void Save();
+        void Add(IEnumerable<Sale> sales);
     }
 }

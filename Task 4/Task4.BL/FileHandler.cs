@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
+using System.Threading.Tasks;
 using CsvHelper;
+using Serilog;
 using Task4.DAL.Interfaces;
 using Task4.DAL.Models;
 using Task4.DAL.Repositories;
-using Serilog;
+using MissingFieldException = System.MissingFieldException;
 
 namespace Task4.BL
 {
@@ -21,36 +23,45 @@ namespace Task4.BL
 
         public void CreatedEventHandler(object sender, FileSystemEventArgs e)
         {
-            var filePath = e.FullPath;
-            try
+            Task.Factory.StartNew(() =>
             {
-                var csvData = _reader.ReadFile(filePath);
-                var sales = Convert(csvData, GetManagerName(Path.GetFileName(filePath)));
-                WriteDataToSQL(sales);
-            }
-            catch (HeaderValidationException)
-            {
-                Log.Error("Invalid file data. File must contain ID | Date | Client name | Name of product | Price");
-            }
-            catch (System.MissingFieldException)
-            {
-                Log.Error("Invalid file data");
-            }
-            catch (TypeLoadException exception)
-            {
-                Log.Error(exception.Message);
-            }
-            catch (ArgumentOutOfRangeException)
-            {
-                Log.Error("Invalid file name");
-            }
-            catch (FormatException)
-            {
-                Log.Error("Invalid data");
-            }
+                var filePath = e.FullPath;
+                try
+                {
+                    Log.Information($"New file {e.Name}");
+                    var csvData = _reader.ReadFile(filePath);
+                    var sales = ConvertToIEnumerable(csvData, GetManagerName(e.Name));
+                    WriteToSQL(sales);
+                    Thread.Sleep(1000);
+                }
+                catch (HeaderValidationException)
+                {
+                    Log.Error("Invalid file data. File must contain ID | Date | Client name | Name of product | Price");
+                }
+                catch (MissingFieldException)
+                {
+                    Log.Error("Invalid file data");
+                }
+                catch (TypeLoadException exception)
+                {
+                    Log.Error(exception.Message);
+                }
+                catch (ArgumentOutOfRangeException)
+                {
+                    Log.Error("Invalid file name");
+                }
+                catch (FormatException)
+                {
+                    Log.Error("Invalid data");
+                }
+                catch (Exception exception)
+                {
+                    Log.Error(exception.Message);
+                }
+            });
         }
 
-        private IEnumerable<Sale> Convert(IEnumerable<CsvObject> csvObjects, string managerName)
+        private IEnumerable<Sale> ConvertToIEnumerable(IEnumerable<CsvObject> csvObjects, string managerName)
         {
             var sales = new List<Sale>();
             foreach (var csvObject in csvObjects)
@@ -60,7 +71,7 @@ namespace Task4.BL
                     Client = new Client() {Name = csvObject.ClientName},
                     Manager = new Manager() {LastName = managerName},
                     Product = new Product() {Price = csvObject.Price, Name = csvObject.ProductName},
-                    Date = System.Convert.ToDateTime(csvObject.OrderDate).Date
+                    Date = Convert.ToDateTime(csvObject.OrderDate).Date
                 };
                 sales.Add(sale);
             }
@@ -73,25 +84,11 @@ namespace Task4.BL
             return fileName.Substring(0, fileName.IndexOf('_'));
         }
 
-        private void WriteDataToSQL(IEnumerable<Sale> sales)
+        private void WriteToSQL(IEnumerable<Sale> sales)
         {
-            var lockSlim = new ReaderWriterLockSlim();
-            lockSlim.EnterWriteLock();
-            try
+            using (IUnitOfWork unitOfWork = new UnitOfWork())
             {
-                using (IUnitOfWork unitOfWork = new UnitOfWork())
-                {
-                    foreach (var sale in sales)
-                    {
-                        unitOfWork.Sales.Add(sale);
-                    }
-
-                    unitOfWork.Save();
-                }
-            }
-            finally
-            {
-                lockSlim.ExitWriteLock();
+                unitOfWork.Add(sales);
             }
         }
     }
