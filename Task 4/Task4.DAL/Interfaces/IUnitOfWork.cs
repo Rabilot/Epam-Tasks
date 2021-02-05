@@ -8,6 +8,6 @@ namespace Task4.DAL.Interfaces
     {
         IRepository<Sale> Sales { get; }
         void Save();
-        void Add(IEnumerable<Sale> sales);
+        void Add(IEnumerable<Sale> sales, Manager manager);
     }
 }

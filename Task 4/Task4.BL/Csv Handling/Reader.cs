@@ -4,8 +4,9 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using CsvHelper;
+using IReader = Task4.BL.Interfaces.IReader;
 
-namespace Task4.BL
+namespace Task4.BL.Csv_Handling
 {
     public class Reader : IReader
     {

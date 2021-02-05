@@ -1,4 +1,4 @@
-﻿namespace Task4.BL
+﻿namespace Task4.BL.Csv_Handling
 {
     public class CsvObject
     {

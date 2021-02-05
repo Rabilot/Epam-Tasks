@@ -5,14 +5,16 @@ using System.Threading;
 using System.Threading.Tasks;
 using CsvHelper;
 using Serilog;
+using Task4.BL.Csv_Handling;
+using Task4.BL.Interfaces;
 using Task4.DAL.Interfaces;
 using Task4.DAL.Models;
 using Task4.DAL.Repositories;
-using MissingFieldException = System.MissingFieldException;
+using IReader = Task4.BL.Interfaces.IReader;
 
 namespace Task4.BL
 {
-    public class FileHandler
+    public class FileHandler : IFileHandler
     {
         private readonly IReader _reader;
 
@@ -30,17 +32,17 @@ namespace Task4.BL
                 {
                     Log.Information($"New file {e.Name}");
                     var csvData = _reader.ReadFile(filePath);
-                    var sales = ConvertToIEnumerable(csvData, GetManagerName(e.Name));
-                    WriteToSQL(sales);
-                    Thread.Sleep(1000);
+                    var sales = ConvertToIEnumerable(csvData);
+                    WriteToSQL(sales, GetManagerName(e.Name));
                 }
                 catch (HeaderValidationException)
                 {
-                    Log.Error("Invalid file data. File must contain ID | Date | Client name | Name of product | Price");
+                    Log.Error(
+                        $"{e.Name} | Invalid file data. File must contain ID | Date | Client name | Name of product | Price");
                 }
-                catch (MissingFieldException)
+                catch (System.MissingFieldException)
                 {
-                    Log.Error("Invalid file data");
+                    Log.Error($"{e.Name} | Invalid file data");
                 }
                 catch (TypeLoadException exception)
                 {
@@ -48,20 +50,20 @@ namespace Task4.BL
                 }
                 catch (ArgumentOutOfRangeException)
                 {
-                    Log.Error("Invalid file name");
+                    Log.Error($"{e.Name} | Invalid file name");
                 }
                 catch (FormatException)
                 {
-                    Log.Error("Invalid data");
+                    Log.Error($"{e.Name} | Invalid data");
                 }
                 catch (Exception exception)
                 {
-                    Log.Error(exception.Message);
+                    Log.Error($"{e.Name} | {exception.Message}");
                 }
             });
         }
 
-        private IEnumerable<Sale> ConvertToIEnumerable(IEnumerable<CsvObject> csvObjects, string managerName)
+        private IEnumerable<Sale> ConvertToIEnumerable(IEnumerable<CsvObject> csvObjects)
         {
             var sales = new List<Sale>();
             foreach (var csvObject in csvObjects)
@@ -69,7 +71,6 @@ namespace Task4.BL
                 var sale = new Sale
                 {
                     Client = new Client() {Name = csvObject.ClientName},
-                    Manager = new Manager() {LastName = managerName},
                     Product = new Product() {Price = csvObject.Price, Name = csvObject.ProductName},
                     Date = Convert.ToDateTime(csvObject.OrderDate).Date
                 };
@@ -79,16 +80,17 @@ namespace Task4.BL
             return sales;
         }
 
-        private string GetManagerName(string fileName)
+        private Manager GetManagerName(string fileName)
         {
-            return fileName.Substring(0, fileName.IndexOf('_'));
+            var managerName = fileName.Substring(0, fileName.IndexOf('_'));
+            return new Manager() {LastName = managerName};
         }
 
-        private void WriteToSQL(IEnumerable<Sale> sales)
+        private void WriteToSQL(IEnumerable<Sale> sales, Manager manager)
         {
-            using (IUnitOfWork unitOfWork = new UnitOfWork())
+            using (IUnitOfWork unitOfWork = new EFUnitOfWork())
             {
-                unitOfWork.Add(sales);
+                unitOfWork.Add(sales, manager);
             }
         }
     }

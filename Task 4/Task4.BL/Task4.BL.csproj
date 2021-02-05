@@ -33,11 +33,13 @@
         <WarningLevel>4</WarningLevel>
     </PropertyGroup>
     <ItemGroup>
-      <Compile Include="CsvObject.cs" />
-      <Compile Include="CsvObjectMap.cs" />
+      <Compile Include="Csv Handling\CsvObject.cs" />
+      <Compile Include="Csv Handling\CsvObjectMap.cs" />
+      <Compile Include="Csv Handling\Reader.cs" />
       <Compile Include="FileHandler.cs" />
-      <Compile Include="IReader.cs" />
-      <Compile Include="Reader.cs" />
+      <Compile Include="Interfaces\IFileHandler.cs" />
+      <Compile Include="Interfaces\IReader.cs" />
+      <Compile Include="Interfaces\IWatcher.cs" />
       <Compile Include="Watcher.cs" />
     </ItemGroup>
     <ItemGroup>

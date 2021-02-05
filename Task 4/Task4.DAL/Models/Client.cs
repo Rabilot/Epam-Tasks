@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Task4.DAL.Models
@@ -8,7 +7,7 @@ namespace Task4.DAL.Models
     {
         public int Id { get; set; }
         [Required]
-        [StringLength(255)]
+        [StringLength(64)]
         public string Name { get; set; }
 
         public ICollection<Sale> Sales { get; set; }

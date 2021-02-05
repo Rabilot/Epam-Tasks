@@ -1,14 +1,19 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Configuration;
 using System.ServiceProcess;
 using System.Threading;
+using Serilog;
 using Task4.BL;
+using Task4.BL.Csv_Handling;
+using Task4.BL.Interfaces;
 
 namespace Task4.WindowsService
 {
     public partial class FileWatcherService : ServiceBase
     {
-        private Watcher _watcher;
-        
+        private IWatcher _watcher;
+        private Thread _thread;
+
         public FileWatcherService()
         {
             InitializeComponent();
@@ -16,18 +21,32 @@ namespace Task4.WindowsService
 
         protected override void OnStart(string[] args)
         {
-            var directoryPath = ConfigurationManager.AppSettings["DirectoryPath"];
-            var fileType = ConfigurationManager.AppSettings["FileType"];
             var logPath = ConfigurationManager.AppSettings["LogPath"];
-            _watcher = new Watcher(directoryPath, fileType);
-            var loggerThread = new Thread(_watcher.Start);
-            loggerThread.Start();
+            Log.Logger = new LoggerConfiguration()
+                .WriteTo.File(logPath) //, rollingInterval: RollingInterval.Day
+                .CreateLogger();
+            try
+            {
+                var directoryPath = ConfigurationManager.AppSettings["DirectoryPath"];
+                var fileType = ConfigurationManager.AppSettings["FileType"];
+                _watcher = new Watcher(directoryPath, fileType, new FileHandler(new Reader()));
+                _thread = new Thread(_watcher.Start);
+                _thread.Start();
+                Log.Information("Service Started");
+            }
+            catch (Exception e)
+            {
+                Log.Error(e.Message);
+                Stop();
+            }
         }
 
         protected override void OnStop()
         {
             _watcher.Stop();
             _watcher.Dispose();
+            _thread.Abort();
+            Log.Information("Service Stopped");
         }
     }
 }

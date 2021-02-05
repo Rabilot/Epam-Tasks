@@ -40,7 +40,7 @@
       <Compile Include="Models\Manager.cs" />
       <Compile Include="Models\Product.cs" />
       <Compile Include="Models\Sale.cs" />
-      <Compile Include="Repositories\UnitOfWork.cs" />
+      <Compile Include="Repositories\EFUnitOfWork.cs" />
       <Compile Include="Repositories\SaleRepository.cs" />
     </ItemGroup>
     <ItemGroup>

@@ -7,7 +7,7 @@ namespace Task4.DAL.Models
     {
         public int Id { get; set; }
         [Required]
-        [StringLength(255)]
+        [StringLength(50)]
         public string Name { get; set; }
         [Required]
         public decimal Price { get; set; }

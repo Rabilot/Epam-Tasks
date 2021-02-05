@@ -7,7 +7,7 @@ namespace Task4.DAL.Models
     {
         public int Id { get; set; }
         [Required]
-        [StringLength(255)]
+        [StringLength(20)]
         public string LastName { get; set; }
         
         public ICollection<Sale> Sales { get; set; }

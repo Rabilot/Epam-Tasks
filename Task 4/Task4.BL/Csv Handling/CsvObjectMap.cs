@@ -1,6 +1,6 @@
 ﻿using CsvHelper.Configuration;
 
-namespace Task4.BL
+namespace Task4.BL.Csv_Handling
 {
     public sealed class CsvObjectMap : ClassMap<CsvObject>
     {
