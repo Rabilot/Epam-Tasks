@@ -36,13 +36,11 @@ namespace Task4.BL
         public void Start()
         {
             _watcher.EnableRaisingEvents = true;
-            Log.Information("Watcher Started");
         }
 
         public void Stop()
         {
             _watcher.EnableRaisingEvents = false;
-            Log.Information("Watcher Stopped");
         }
 
         public void Dispose()

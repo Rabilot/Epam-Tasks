@@ -6,11 +6,10 @@ namespace Task4.BL.Csv_Handling
     {
         public CsvObjectMap()
         {
-            Map(m => m.Id).Name("Column1");
-            Map(m => m.OrderDate).Name("Column2");
-            Map(m => m.ClientName).Name("Column3");
-            Map(m => m.ProductName).Name("Column4");
-            Map(m => m.Price).Name("Column5");
+            Map(m => m.OrderDate).Name("Date");
+            Map(m => m.ClientName).Name("ClientName");
+            Map(m => m.ProductName).Name("ProductName");
+            Map(m => m.Price).Name("Price");
         }
     }
 }
