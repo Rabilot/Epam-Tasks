@@ -1,0 +1,23 @@
+﻿@model IList<Model.SaleModel>
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>Store</h1>
+    <p class="lead">Sale base</p>
+    <p><a class="bottom">@Html.ActionLink("Выполнить вход", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</a></p>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>Getting started</h2>
+        <p>
+            @foreach (var item in Model)
+            {
+                @item.ManagerModel.LastName
+            }
+        </p>
+        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+    </div>
+</div>
