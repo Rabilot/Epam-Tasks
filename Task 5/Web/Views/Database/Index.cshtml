@@ -1,0 +1,56 @@
+﻿@model IList<Model.SaleModel>
+@{
+    ViewBag.Title = "DataBase";
+}
+<h2>@ViewBag.Title.</h2>
+<h3>@ViewBag.Message</h3>
+
+<div class="row">
+    <div class="col-md-8">
+        <table class="table table-bordered text-center">
+            <tr>
+                <th>
+                    @Html.DisplayName("Manager last name")
+                </th>
+                <th>
+                    @Html.DisplayName("Client name")
+                </th>
+                <th>
+                    @Html.DisplayName("Product name")
+                </th>
+                <th>
+                    @Html.DisplayName("Price")
+                </th>
+                <th>
+                    @Html.DisplayName("Date")
+                </th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ManagerModel.LastName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ClientModel.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProductModel.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProductModel.Price)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateOfSale.Date)
+                    </td>
+                    <td>
+                        @* @Html.ActionLink("Edit", "Edit", new { id=item.ID }) | *@
+                        @* @Html.ActionLink("Details", "Details", new { id=item.ID }) | *@
+                        @* @Html.ActionLink("Delete", "Delete", new { id=item.ID }) *@
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>

@@ -50,6 +50,27 @@ namespace DAL.Repositories
             Monitor.Exit(Locker);
         }
 
+        public void Add(SaleModel saleModel)
+        {
+            var sale = Convert(saleModel);
+            Monitor.Enter(Locker);
+            var createdManager = _db.Managers.FirstOrDefault(o => o.LastName == sale.Manager.LastName);
+            if (createdManager != null)
+            {
+                sale.Manager = createdManager;
+            }
+            try
+            {
+                Sales.Add(sale);
+                Save();
+            }
+            catch (Exception e)
+            {
+                // ignored
+            }
+            Monitor.Exit(Locker);
+        }
+
         public IList<SaleModel> GetAll()
         {
             var result = _db.Sales.ToList().Select(x => new SaleModel()
@@ -81,6 +102,27 @@ namespace DAL.Repositories
         public void Dispose()
         {
             _db?.Dispose();
+        }
+
+        private Sale Convert(SaleModel saleModel)
+        {
+            return new Sale()
+            {
+                Client = new Client()
+                {
+                    Name = saleModel.ClientModel.Name
+                },
+                Manager = new Manager()
+                {
+                    LastName = saleModel.ManagerModel.LastName
+                },
+                Product = new Product()
+                {
+                    Name = saleModel.ProductModel.Name,
+                    Price = saleModel.ProductModel.Price
+                },
+                Date = saleModel.DateOfSale
+            };
         }
     }
 }

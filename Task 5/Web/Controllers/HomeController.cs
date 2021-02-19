@@ -18,13 +18,6 @@ namespace Web.Controllers
         
         public ActionResult Index()
         {
-            // var data = _db.Sales.ToList().Select(x => new Sale()
-            // {
-            //     Client = x.Client,
-            //     Manager = x.Manager,
-            //     Product = x.Product,
-            //     Date = x.Date
-            // });
             var data = _unitOfWork.GetAll();
             return View(data);
         }
@@ -42,15 +35,6 @@ namespace Web.Controllers
 
             return View();
         }
-
-        public async Task<ActionResult> DataBase()
-        {
-            return View(await _db.Sales.ToListAsync());
-        }
-        // public ActionResult Create()
-        // {
-        //     return View();
-        // }
 
         [HttpPost]
         public async Task<ActionResult> Create(Sale sale)
