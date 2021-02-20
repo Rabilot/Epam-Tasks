@@ -71,6 +71,47 @@ namespace DAL.Repositories
             Monitor.Exit(Locker);
         }
 
+        public void Edit(SaleModel saleModel)
+        {
+            Monitor.Enter(Locker);
+            var sale = _db.Sales.Find(saleModel.Id);
+            if (sale != null)
+            {
+                sale.Client.Name = saleModel.ClientModel.Name;
+                sale.Manager.LastName = saleModel.ManagerModel.LastName;
+                sale.Product.Name = saleModel.ProductModel.Name;
+                sale.Product.Price = saleModel.ProductModel.Price;
+                sale.Date = saleModel.DateOfSale;
+                _db.SaveChanges();
+            }
+            Monitor.Exit(Locker);
+        }
+
+        public SaleModel FindByIndex(int? index)
+        {
+            var sale = _db.Sales.Find(index);
+            if (sale != null)
+                return new SaleModel()
+                {
+                    ClientModel = new ClientModel()
+                    {
+                        Name = sale.Client.Name
+                    },
+                    ManagerModel = new ManagerModel()
+                    {
+                        LastName = sale.Manager.LastName
+                    },
+                    ProductModel = new ProductModel()
+                    {
+                        Name = sale.Product.Name,
+                        Price = sale.Product.Price
+                    },
+                    DateOfSale = sale.Date
+                };
+            
+            throw new ArgumentNullException();
+        }
+
         public IList<SaleModel> GetAll()
         {
             var result = _db.Sales.ToList().Select(x => new SaleModel()
@@ -88,7 +129,8 @@ namespace DAL.Repositories
                     Name = x.Product.Name,
                     Price = x.Product.Price
                 },
-                DateOfSale = x.Date
+                DateOfSale = x.Date,
+                Id = x.Id
             }).ToList();
 
             return result;

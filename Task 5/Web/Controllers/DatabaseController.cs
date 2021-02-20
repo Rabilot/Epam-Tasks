@@ -1,5 +1,8 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
+using System.Net;
 using System.Web.Mvc;
+using DAL.Models;
 using DAL.Repositories;
 using Model;
 
@@ -14,9 +17,8 @@ namespace Web.Controllers
             return View(_unitOfWork.GetAll());
         }
         
-        [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "LastName, FirstMidName, EnrollmentDate")]SaleModel sale)
+        public ActionResult Create([Bind(Include = "Manager, Client, Product, Date")]SaleModel sale)
         {
             try
             {
@@ -33,5 +35,28 @@ namespace Web.Controllers
             }
             return View(sale);
         }
+        
+        //[HttpGet]
+        public ActionResult Edit(int? id)
+        {
+            var saleEdit = _unitOfWork.FindByIndex(id);
+            if (saleEdit == null)
+            {
+                return HttpNotFound();
+            }
+            return View(saleEdit);
+        }
+
+        // [HttpPost]
+        // public ActionResult EditPost(SaleModel saleModel)
+        // {
+        //     if (saleModel == null)
+        //     {
+        //         return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //     }
+        //     _unitOfWork.Edit(saleModel);
+        //     return RedirectToAction("Index");
+        // }
+        
     }
 }
