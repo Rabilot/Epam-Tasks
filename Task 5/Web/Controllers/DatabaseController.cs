@@ -17,26 +17,7 @@ namespace Web.Controllers
             return View(_unitOfWork.GetAll());
         }
         
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Manager, Client, Product, Date")]SaleModel sale)
-        {
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    _unitOfWork.Add(sale);
-                    return RedirectToAction("Index");
-                }
-            }
-            catch (DataException /* dex */)
-            {
-                //Log the error (uncomment dex variable name and add a line here to write a log.
-                ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
-            }
-            return View(sale);
-        }
-        
-        //[HttpGet]
+        [HttpGet]
         public ActionResult Edit(int? id)
         {
             var saleEdit = _unitOfWork.FindByIndex(id);
@@ -46,17 +27,39 @@ namespace Web.Controllers
             }
             return View(saleEdit);
         }
-
-        // [HttpPost]
-        // public ActionResult EditPost(SaleModel saleModel)
-        // {
-        //     if (saleModel == null)
-        //     {
-        //         return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //     }
-        //     _unitOfWork.Edit(saleModel);
-        //     return RedirectToAction("Index");
-        // }
         
+        [HttpPost, ActionName("Edit")]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditPost(SaleModel saleModel)
+        {
+            if (saleModel == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            _unitOfWork.Edit(saleModel);
+            return RedirectToAction("Index");
+        }
+        
+        [HttpGet]
+        public ActionResult Delete(int id)
+        {
+            Console.WriteLine(id);
+            _unitOfWork.DeleteByIndex(id);
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult Create()
+        {
+            SaleModel saleModel = new SaleModel();
+            return View(saleModel);
+        }
+
+        [HttpPost, ActionName("Create")]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreatePost(SaleModel saleModel)
+        {
+            _unitOfWork.Add(saleModel);
+            return RedirectToAction("Index");
+        }
     }
 }

@@ -13,6 +13,6 @@ namespace Task4.DAL.Models
         public int ProductId { get; set; }
         public virtual Product Product { get; set; }
         [Required]
-        public DateTime? Date { get; set; }
+        public DateTime Date { get; set; }
     }
 }

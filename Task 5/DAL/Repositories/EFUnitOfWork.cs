@@ -87,6 +87,20 @@ namespace DAL.Repositories
             Monitor.Exit(Locker);
         }
 
+        public void DeleteByIndex(int index)
+        {
+            Monitor.Enter(Locker);
+            var sale = _db.Sales.Find(index);
+            if (sale != null)
+            {
+                Console.WriteLine(sale.Client.Name);
+                _db.Sales.Remove(sale); 
+            }
+
+            _db.SaveChanges();
+            Monitor.Exit(Locker);
+        }
+
         public SaleModel FindByIndex(int? index)
         {
             var sale = _db.Sales.Find(index);

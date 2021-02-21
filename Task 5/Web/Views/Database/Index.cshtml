@@ -9,29 +9,28 @@
     <div class="col-md-8">
         <table class="table table-bordered text-center">
             <tr>
-                <th>
+                <th class="text-center">
                     @Html.DisplayName("Manager last name")
                 </th>
-                <th>
+                <th class="text-center">
                     @Html.DisplayName("Client name")
                 </th>
-                <th>
+                <th class="text-center">
                     @Html.DisplayName("Product name")
                 </th>
-                <th>
+                <th class="text-center">
                     @Html.DisplayName("Price")
                 </th>
-                <th>
+                <th class="text-center">
                     @Html.DisplayName("Date")
+                </th>
+                <th class="text-center">
                 </th>
             </tr>
 
             @foreach (var item in Model)
             {
                 <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Id)
-                    </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.ManagerModel.LastName)
                     </td>
@@ -49,11 +48,13 @@
                     </td>
                     <td>
                         @Html.ActionLink("Edit", "Edit", new {id = item.Id})
-                        @* @Html.ActionLink("Details", "Details", new { id=item.ID }) | *@
-                        @* @Html.ActionLink("Delete", "Delete", new { id=item.ID }) *@
+                        @Html.ActionLink("Delete", "Delete", new {id = item.Id})
                     </td>
                 </tr>
             }
         </table>
+        <div class="col-md-offset-2 col-md-10, btn-default">
+            @Html.ActionLink("Create", "Create")
+        </div>
     </div>
 </div>

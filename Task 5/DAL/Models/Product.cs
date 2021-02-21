@@ -10,7 +10,7 @@ namespace DAL.Models
         [StringLength(50)]
         public string Name { get; set; }
         [Required]
-        public decimal Price { get; set; }
+        public double Price { get; set; }
         
         public ICollection<Sale> Sales { get; set; }
 
