@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading;
 using DAL.EF;
@@ -93,8 +94,10 @@ namespace DAL.Repositories
             var sale = _db.Sales.Find(index);
             if (sale != null)
             {
-                Console.WriteLine(sale.Client.Name);
-                _db.Sales.Remove(sale); 
+                _db.Managers.Remove(_db.Managers.Find(sale.ManagerId) ?? throw new InvalidOperationException());
+                _db.Clients.Remove(_db.Clients.Find(sale.ClientId) ?? throw new InvalidOperationException());
+                _db.Products.Remove(_db.Products.Find(sale.ProductId) ?? throw new InvalidOperationException());
+                _db.Sales.Remove(sale);
             }
 
             _db.SaveChanges();

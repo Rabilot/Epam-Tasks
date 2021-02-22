@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Data;
 using System.Net;
 using System.Web.Mvc;
@@ -11,12 +13,30 @@ namespace Web.Controllers
     public class DatabaseController : Controller
     {
         private readonly EFUnitOfWork _unitOfWork = new EFUnitOfWork();
+
         // GET
-        public ActionResult Index()
+        public ActionResult Index(string name, DateTime? fromDate, DateTime? toDate)
         {
-            return View(_unitOfWork.GetAll());
+            var dbSales = _unitOfWork.GetAll();
+            IList<SaleModel> sales = new List<SaleModel>();
+            if (!string.IsNullOrEmpty(name))
+            {
+                foreach (var sale in dbSales)
+                {
+                    if (sale.ManagerModel.LastName == name)
+                    {
+                        sales.Add(sale);
+                    }
+                }
+            }
+            else
+            {
+                sales = dbSales;
+            }
+
+            return View(sales);
         }
-        
+
         [HttpGet]
         public ActionResult Edit(int? id)
         {
@@ -25,9 +45,10 @@ namespace Web.Controllers
             {
                 return HttpNotFound();
             }
+
             return View(saleEdit);
         }
-        
+
         [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
         public ActionResult EditPost(SaleModel saleModel)
@@ -36,10 +57,11 @@ namespace Web.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             _unitOfWork.Edit(saleModel);
             return RedirectToAction("Index");
         }
-        
+
         [HttpGet]
         public ActionResult Delete(int id)
         {
@@ -58,6 +80,7 @@ namespace Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult CreatePost(SaleModel saleModel)
         {
+            Console.WriteLine(saleModel.ProductModel.Price);
             _unitOfWork.Add(saleModel);
             return RedirectToAction("Index");
         }
