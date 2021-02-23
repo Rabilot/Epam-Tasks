@@ -2,11 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using DAL.Models;
 using DAL.Repositories;
 using Model;
+using PagedList;
 
 namespace Web.Controllers
 {
@@ -15,26 +17,13 @@ namespace Web.Controllers
         private readonly EFUnitOfWork _unitOfWork = new EFUnitOfWork();
 
         // GET
-        public ActionResult Index(string name, DateTime? fromDate, DateTime? toDate)
+        public ActionResult Index(int? page, string name, DateTime? fromDate, DateTime? toDate)
         {
             var dbSales = _unitOfWork.GetAll();
-            IList<SaleModel> sales = new List<SaleModel>();
-            if (!string.IsNullOrEmpty(name))
-            {
-                foreach (var sale in dbSales)
-                {
-                    if (sale.ManagerModel.LastName == name)
-                    {
-                        sales.Add(sale);
-                    }
-                }
-            }
-            else
-            {
-                sales = dbSales;
-            }
-
-            return View(sales);
+            var sales = Filtration(dbSales, name, fromDate, toDate).ToList();
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+            return View(sales.ToPagedList(pageNumber, pageSize));
         }
 
         [HttpGet]
@@ -83,6 +72,22 @@ namespace Web.Controllers
             Console.WriteLine(saleModel.ProductModel.Price);
             _unitOfWork.Add(saleModel);
             return RedirectToAction("Index");
+        }
+
+        private IList<SaleModel> Filtration(IList<SaleModel> sales, string lastName, DateTime? fromDate, DateTime? toDate)
+        {
+            var result = sales;
+            if (!string.IsNullOrEmpty(lastName))
+            {
+                result = result.Where(sale => sale.ManagerModel.LastName == lastName).ToList();
+            }
+
+            if (fromDate != null && toDate != null)
+            {
+                result = result.Where(sale => sale.DateOfSale >= fromDate && sale.DateOfSale <= toDate).ToList();
+            }
+
+            return result;
         }
     }
 }
