@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DAL.Models
 {
@@ -10,7 +11,10 @@ namespace DAL.Models
         [StringLength(50)]
         public string Name { get; set; }
         [Required]
-        public double Price { get; set; }
+        [DataType(DataType.Currency)]
+        [Column(TypeName = "money")]
+        [Display(Name = "Price")]
+        public decimal Price { get; set; }
         
         public ICollection<Sale> Sales { get; set; }
 

@@ -22,6 +22,7 @@ namespace Web.Controllers
             return View(data);
         }
 
+        [Authorize(Roles="admin")]
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
@@ -34,14 +35,6 @@ namespace Web.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
-        }
-
-        [HttpPost]
-        public async Task<ActionResult> Create(Sale sale)
-        {
-            _db.Sales.Add(sale);
-            await _db.SaveChangesAsync();
-            return RedirectToAction("Index");
         }
     }
 }

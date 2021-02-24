@@ -17,6 +17,7 @@ namespace Web.Controllers
         private readonly EFUnitOfWork _unitOfWork = new EFUnitOfWork();
 
         // GET
+        [Authorize(Roles="user")]
         public ActionResult Index(int? page, string name, DateTime? fromDate, DateTime? toDate)
         {
             var dbSales = _unitOfWork.GetAll();
@@ -27,6 +28,7 @@ namespace Web.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles="admin")]
         public ActionResult Edit(int? id)
         {
             var saleEdit = _unitOfWork.FindByIndex(id);
@@ -40,6 +42,7 @@ namespace Web.Controllers
 
         [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles="admin")]
         public ActionResult EditPost(SaleModel saleModel)
         {
             if (saleModel == null)
@@ -52,6 +55,7 @@ namespace Web.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles="admin")]
         public ActionResult Delete(int id)
         {
             Console.WriteLine(id);
@@ -59,6 +63,7 @@ namespace Web.Controllers
             return RedirectToAction("Index");
         }
 
+        [Authorize(Roles="admin")]
         public ActionResult Create()
         {
             SaleModel saleModel = new SaleModel();
@@ -67,6 +72,7 @@ namespace Web.Controllers
 
         [HttpPost, ActionName("Create")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles="admin")]
         public ActionResult CreatePost(SaleModel saleModel)
         {
             Console.WriteLine(saleModel.ProductModel.Price);
