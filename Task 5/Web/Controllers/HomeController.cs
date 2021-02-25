@@ -5,9 +5,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using DAL.EF;
-using DAL.Models;
-using DAL.Repositories;
+using Task5_DAL.EF;
+using Task5_DAL.Models;
+using Task5_DAL.Repositories;
 
 namespace Web.Controllers
 {

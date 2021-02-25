@@ -1,7 +1,7 @@
 ﻿using System.Data.Entity;
-using DAL.Models;
+using Task5_DAL.Models;
 
-namespace DAL.EF
+namespace Task5_DAL.EF
 {
     public class DatabaseContext : DbContext
     {

@@ -1,9 +1,9 @@
 ﻿using System;
-using DAL.EF;
-using DAL.Interfaces;
-using DAL.Models;
+using Task5_DAL.EF;
+using Task5_DAL.Interfaces;
+using Task5_DAL.Models;
 
-namespace DAL.Repositories
+namespace Task5_DAL.Repositories
 {
     public class SaleRepository : IRepository<Sale>
     {

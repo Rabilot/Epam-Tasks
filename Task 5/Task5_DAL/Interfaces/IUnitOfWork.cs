@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using DAL.Models;
 using Model;
+using Task5_DAL.Models;
 
-namespace DAL.Interfaces
+namespace Task5_DAL.Interfaces
 {
     public interface IUnitOfWork : IDisposable
     {

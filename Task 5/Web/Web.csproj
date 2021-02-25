@@ -275,7 +275,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\DatabaseController.cs" />
+    <Compile Include="Controllers\SaleController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
@@ -311,9 +311,9 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
-    <Content Include="Views\Database\Create.cshtml" />
-    <Content Include="Views\Database\Edit.cshtml" />
-    <Content Include="Views\Database\Index.cshtml" />
+    <Content Include="Views\Sale\Create.cshtml" />
+    <Content Include="Views\Sale\Edit.cshtml" />
+    <Content Include="Views\Sale\Index.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -366,13 +366,13 @@
     <Content Include="Scripts\jquery-3.4.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DAL\DAL.csproj">
+    <ProjectReference Include="..\Task5_DAL\Task5_DAL.csproj">
       <Project>{cd89648e-b94e-498d-8ae8-ca74fcf9aa75}</Project>
-      <Name>DAL</Name>
+      <Name>Task5_DAL</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Model\Model.csproj">
+    <ProjectReference Include="..\Task5_Model\Task5_Model.csproj">
       <Project>{725eae72-77e8-41fa-95f5-2e7eb52ea818}</Project>
-      <Name>Model</Name>
+      <Name>Task5_Model</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

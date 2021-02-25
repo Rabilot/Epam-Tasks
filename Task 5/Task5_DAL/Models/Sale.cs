@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace DAL.Models
+namespace Task5_DAL.Models
 {
     public class Sale
     {

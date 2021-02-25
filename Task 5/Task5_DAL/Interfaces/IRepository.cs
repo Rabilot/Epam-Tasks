@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DAL.Interfaces
+namespace Task5_DAL.Interfaces
 {
     public interface IRepository<TEntity> : IDisposable where TEntity : class
     {

@@ -5,14 +5,14 @@ using System.Data;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
-using DAL.Models;
-using DAL.Repositories;
+using Task5_DAL.Models;
+using Task5_DAL.Repositories;
 using Model;
 using PagedList;
 
 namespace Web.Controllers
 {
-    public class DatabaseController : Controller
+    public class SaleController : Controller
     {
         private readonly EFUnitOfWork _unitOfWork = new EFUnitOfWork();
 

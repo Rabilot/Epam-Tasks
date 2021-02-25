@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading;
-using DAL.EF;
-using DAL.Interfaces;
-using DAL.Models;
 using Model;
-using Manager = DAL.Models.Manager;
+using Task5_DAL.EF;
+using Task5_DAL.Interfaces;
+using Task5_DAL.Models;
+using Manager = Task5_DAL.Models.Manager;
 
-namespace DAL.Repositories
+namespace Task5_DAL.Repositories
 {
     public class EFUnitOfWork : IUnitOfWork
     {
@@ -24,7 +24,7 @@ namespace DAL.Repositories
 
         public IRepository<Sale> Sales => _saleRepository ?? (_saleRepository = new SaleRepository(_db));
 
-        public void Add(IEnumerable<Sale> sales, Manager manager)
+        public void Add(IEnumerable<Sale> sales, Models.Manager manager)
         {
             Monitor.Enter(Locker);
             //Console.WriteLine("Started writing");
@@ -131,7 +131,7 @@ namespace DAL.Repositories
 
         public IList<SaleModel> GetAll()
         {
-            var result = _db.Sales.ToList().Select(x => new SaleModel()
+            var result = _db.Sales.ToList().Select(x => new SaleModel() //.OrderBy(o => o.Date).Skip(10*2).Take(10)
             {
                 ClientModel = new ClientModel()
                 {
@@ -171,7 +171,7 @@ namespace DAL.Repositories
                 {
                     Name = saleModel.ClientModel.Name
                 },
-                Manager = new Manager()
+                Manager = new Models.Manager()
                 {
                     LastName = saleModel.ManagerModel.LastName
                 },
