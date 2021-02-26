@@ -1,4 +1,4 @@
-﻿namespace Model
+﻿namespace Task5_Model
 {
     public class ManagerModel
     {

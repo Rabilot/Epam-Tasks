@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Model
+namespace Task5_Model
 {
     public class SaleModel
     {

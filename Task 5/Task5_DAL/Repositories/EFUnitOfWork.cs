@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading;
-using Model;
 using Task5_DAL.EF;
 using Task5_DAL.Interfaces;
 using Task5_DAL.Models;
+using Task5_Model;
 using Manager = Task5_DAL.Models.Manager;
 
 namespace Task5_DAL.Repositories
@@ -16,7 +16,7 @@ namespace Task5_DAL.Repositories
         private readonly DatabaseContext _db;
         private SaleRepository _saleRepository;
         private static readonly object Locker = new object();
- 
+
         public EFUnitOfWork()
         {
             _db = new DatabaseContext();
@@ -33,6 +33,7 @@ namespace Task5_DAL.Repositories
             {
                 manager = createdManager;
             }
+
             try
             {
                 foreach (var sale in sales)
@@ -40,6 +41,7 @@ namespace Task5_DAL.Repositories
                     sale.Manager = manager;
                     Sales.Add(sale);
                 }
+
                 Save();
             }
             catch (Exception e)
@@ -60,6 +62,7 @@ namespace Task5_DAL.Repositories
             {
                 sale.Manager = createdManager;
             }
+
             try
             {
                 Sales.Add(sale);
@@ -69,6 +72,7 @@ namespace Task5_DAL.Repositories
             {
                 // ignored
             }
+
             Monitor.Exit(Locker);
         }
 
@@ -85,6 +89,7 @@ namespace Task5_DAL.Repositories
                 sale.Date = saleModel.DateOfSale;
                 _db.SaveChanges();
             }
+
             Monitor.Exit(Locker);
         }
 
@@ -125,30 +130,43 @@ namespace Task5_DAL.Repositories
                     },
                     DateOfSale = sale.Date
                 };
-            
+
             throw new ArgumentNullException();
         }
 
-        public IList<SaleModel> GetAll()
+        public IList<SaleModel> GetAll(int? page, string name, DateTime? fromDate, DateTime? toDate)
         {
-            var result = _db.Sales.ToList().Select(x => new SaleModel() //.OrderBy(o => o.Date).Skip(10*2).Take(10)
+            if (fromDate == null)
             {
-                ClientModel = new ClientModel()
+                fromDate = DateTime.MinValue;
+            }
+
+            if (toDate == null)
+            {
+                toDate = DateTime.MaxValue;
+            }
+            
+            var result = _db.Sales
+                .Where(sale => (string.IsNullOrEmpty(name) || sale.Manager.LastName == name) && sale.Date >= fromDate &&
+                               sale.Date <= toDate)
+                .ToList().Select(x => new SaleModel() //.OrderBy(o => o.Date).Skip(10*2).Take(10)
                 {
-                    Name = x.Client.Name
-                },
-                ManagerModel = new ManagerModel()
-                {
-                    LastName = x.Manager.LastName
-                },
-                ProductModel = new ProductModel()
-                {
-                    Name = x.Product.Name,
-                    Price = x.Product.Price
-                },
-                DateOfSale = x.Date,
-                Id = x.Id
-            }).ToList();
+                    ClientModel = new ClientModel()
+                    {
+                        Name = x.Client.Name
+                    },
+                    ManagerModel = new ManagerModel()
+                    {
+                        LastName = x.Manager.LastName
+                    },
+                    ProductModel = new ProductModel()
+                    {
+                        Name = x.Product.Name,
+                        Price = x.Product.Price
+                    },
+                    DateOfSale = x.Date,
+                    Id = x.Id
+                }).ToList();
 
             return result;
         }

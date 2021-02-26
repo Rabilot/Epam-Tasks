@@ -63,7 +63,7 @@
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\Task5_Model\Task5_Model.csproj">
-        <Project>{725eae72-77e8-41fa-95f5-2e7eb52ea818}</Project>
+        <Project>{53755eff-47f8-4e7d-9887-c5dba8d6cd2b}</Project>
         <Name>Task5_Model</Name>
       </ProjectReference>
     </ItemGroup>

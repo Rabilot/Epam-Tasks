@@ -7,8 +7,8 @@ using System.Net;
 using System.Web.Mvc;
 using Task5_DAL.Models;
 using Task5_DAL.Repositories;
-using Model;
 using PagedList;
+using Task5_Model;
 
 namespace Web.Controllers
 {
@@ -20,11 +20,11 @@ namespace Web.Controllers
         [Authorize(Roles="user")]
         public ActionResult Index(int? page, string name, DateTime? fromDate, DateTime? toDate)
         {
-            var dbSales = _unitOfWork.GetAll();
-            var sales = Filtration(dbSales, name, fromDate, toDate).ToList();
+            var dbSales = _unitOfWork.GetAll(page, name, fromDate, toDate);
+            //var sales = Filtration(dbSales, name, fromDate, toDate).ToList();
             int pageSize = 10;
             int pageNumber = (page ?? 1);
-            return View(sales.ToPagedList(pageNumber, pageSize));
+            return View(dbSales.ToPagedList(pageNumber, pageSize));
         }
 
         [HttpGet]

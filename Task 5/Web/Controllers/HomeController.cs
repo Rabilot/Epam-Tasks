@@ -13,13 +13,9 @@ namespace Web.Controllers
 {
     public class HomeController : Controller
     {
-        private DatabaseContext _db = new DatabaseContext();
-        EFUnitOfWork _unitOfWork = new EFUnitOfWork();
-        
         public ActionResult Index()
         {
-            var data = _unitOfWork.GetAll();
-            return View(data);
+            return View();
         }
 
         [Authorize(Roles="admin")]
