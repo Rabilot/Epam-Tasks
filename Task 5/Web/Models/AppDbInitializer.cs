@@ -18,7 +18,7 @@ namespace Web.Models
             roleManager.Create(role1);
             roleManager.Create(role2);
  
-            var admin = new ApplicationUser { Email = "somemail@mail.ru", UserName = "somemail@mail.ru" };
+            var admin = new ApplicationUser { Email = "admin@mail.ru", UserName = "admin@mail.ru" };
             var password = "ad46D_ewr3";
             var result = userManager.Create(admin, password);
  

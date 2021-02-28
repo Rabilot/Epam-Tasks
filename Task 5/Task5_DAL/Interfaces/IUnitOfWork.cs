@@ -9,7 +9,10 @@ namespace Task5_DAL.Interfaces
     {
         IRepository<Sale> Sales { get; }
         void Save();
-        void Add(IEnumerable<Sale> sales, Manager manager);
-        IList<SaleModel> GetAll(int? page, string name, DateTime? fromDate, DateTime? toDate);
+        void Add(SaleModel saleModel);
+        IList<SaleModel> GetAll(string name, DateTime? fromDate, DateTime? toDate);
+        SaleModel FindByIndex(int? index);
+        void DeleteByIndex(int index);
+        void Edit(SaleModel saleModel);
     }
 }

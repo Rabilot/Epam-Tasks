@@ -2,29 +2,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using Task5_DAL.Models;
 using Task5_DAL.Repositories;
 using PagedList;
 using Task5_Model;
+using Web.Models;
 
 namespace Web.Controllers
 {
     public class SaleController : Controller
     {
         private readonly EFUnitOfWork _unitOfWork = new EFUnitOfWork();
-
-        // GET
-        [Authorize(Roles="user")]
-        public ActionResult Index(int? page, string name, DateTime? fromDate, DateTime? toDate)
+        
+        //[Authorize(Roles="user")]
+        public ActionResult Index()
         {
-            var dbSales = _unitOfWork.GetAll(page, name, fromDate, toDate);
-            //var sales = Filtration(dbSales, name, fromDate, toDate).ToList();
-            int pageSize = 10;
-            int pageNumber = (page ?? 1);
-            return View(dbSales.ToPagedList(pageNumber, pageSize));
+            return View();
         }
 
         [HttpGet]
@@ -50,6 +48,11 @@ namespace Web.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
+            if (!saleModel.IsValid())
+            {
+                throw new ArgumentException();
+            }
+
             _unitOfWork.Edit(saleModel);
             return RedirectToAction("Index");
         }
@@ -58,9 +61,8 @@ namespace Web.Controllers
         [Authorize(Roles="admin")]
         public ActionResult Delete(int id)
         {
-            Console.WriteLine(id);
             _unitOfWork.DeleteByIndex(id);
-            return RedirectToAction("Index");
+            return UpdateSalesTable(null, null, null, null);
         }
 
         [Authorize(Roles="admin")]
@@ -75,25 +77,18 @@ namespace Web.Controllers
         [Authorize(Roles="admin")]
         public ActionResult CreatePost(SaleModel saleModel)
         {
-            Console.WriteLine(saleModel.ProductModel.Price);
             _unitOfWork.Add(saleModel);
             return RedirectToAction("Index");
         }
 
-        private IList<SaleModel> Filtration(IList<SaleModel> sales, string lastName, DateTime? fromDate, DateTime? toDate)
+        public ActionResult UpdateSalesTable(int? page, string name, DateTime? fromDate, DateTime? toDate)
         {
-            var result = sales;
-            if (!string.IsNullOrEmpty(lastName))
+            if (name != null && name.Length > 20)
             {
-                result = result.Where(sale => sale.ManagerModel.LastName == lastName).ToList();
+                throw new ArgumentException();
             }
-
-            if (fromDate != null && toDate != null)
-            {
-                result = result.Where(sale => sale.DateOfSale >= fromDate && sale.DateOfSale <= toDate).ToList();
-            }
-
-            return result;
+            var sales = _unitOfWork.GetAll(name, fromDate, toDate);
+            return PartialView("_SalesTable", sales);
         }
     }
 }

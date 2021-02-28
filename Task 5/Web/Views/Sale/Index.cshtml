@@ -1,95 +1,79 @@
-﻿@using PagedList.Mvc
-@model PagedList.IPagedList<Task5_Model.SaleModel>
+﻿@using System.Web.Mvc.Ajax
+@using Task5_Model
 @{
-    ViewBag.Title = "DataBase";
+    ViewBag.Title = "Sales";
 }
 <h2>@ViewBag.Title.</h2>
 <h3>@ViewBag.Message</h3>
-
-<div class="row">
-    <div class="col-md-8">
-        <form method="get">
-            <div class="form-inline">
-                <table class="table text-center">
-                    <tr>
-                        <th>
-                            <label class="control-label">Manager name</label>
-                        </th>
-                        <th>
-                            <label class="control-label">From date</label>
-                        </th>
-                        <th>
-                            <label class="control-label">To date</label>
-                        </th>
-                    </tr>
-                    <tr>
-                        <th>
-                            @Html.TextBox("name")
-                        </th>
-                        <th>
-                            <input type="date" name="fromDate">
-                        </th>
-                        <th>
-                            <input type="date" name="toDate">
-                        </th>
-                        <th>
-                            <input type="submit" value="Фильтр" class="btn btn-default"/>
-                        </th>
-                    </tr>
-                </table>
-
-            </div>
-        </form>
-        @Html.ActionLink("Create", "Create")
-
-        <table class="table table-bordered text-center">
+@if (User.IsInRole("admin"))
+{
+    @Html.ActionLink("Create", "Create")
+}
+<div>
+    @using (Ajax.BeginForm("UpdateSalesTable", new AjaxOptions {UpdateTargetId = "sales-table-container"}))
+    {
+        <table class="table text-center">
             <tr>
-                <th class="text-center">
-                    @Html.DisplayName("Manager last name")
+                <th>
+                    <label class="control-label">Manager name</label>
                 </th>
-                <th class="text-center">
-                    @Html.DisplayName("Client name")
+                <th>
+                    <label class="control-label">From date</label>
                 </th>
-                <th class="text-center">
-                    @Html.DisplayName("Product name")
-                </th>
-                <th class="text-center">
-                    @Html.DisplayName("Price")
-                </th>
-                <th class="text-center">
-                    @Html.DisplayName("Date")
-                </th>
-                <th class="text-center">
+                <th>
+                    <label class="control-label">To date</label>
                 </th>
             </tr>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ManagerModel.LastName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ClientModel.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ProductModel.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ProductModel.Price)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.DateOfSale.Date)
-                    </td>
-                    <td>
-                        @Html.ActionLink("Edit", "Edit", new {id = item.Id})
-                        @Html.ActionLink("Delete", "Delete", new {id = item.Id})
-                    </td>
-                </tr>
-            }
+            <tr>
+                <th>
+                    @Html.TextBox("name")
+                </th>
+                <th>
+                    <input type="date" name="fromDate">
+                </th>
+                <th>
+                    <input type="date" name="toDate">
+                </th>
+                <th>
+                    <input type="submit" value="Фильтр" id="filter" class="btn btn-default"/>
+                </th>
+            </tr>
         </table>
-        <br/>
-        Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount
-
-        @Html.PagedListPager(Model, page => Url.Action("Index", new {page}))
+    }
+    <div id="sales-table-container">
+        <table id="sales-table" class="table table-bordered text-center">
+        <tr>
+            <th class="text-center">Manager last name</th>
+            <th class="text-center">Client name</th>
+            <th class="text-center">Product name</th>
+            <th class="text-center">Price</th>
+            <th class="text-center">Date</th>
+            @if (User.IsInRole("admin"))
+            {
+                <th></th>
+            }
+        </tr>
+        </table>
+        <div id="loading">
+            <img class="center-block" src='@Url.Content("~/Content/loading_spinner.gif")'>
+        </div>
     </div>
 </div>
+
+@Scripts.Render("~/scripts/jquery-3.4.1.js")
+@Scripts.Render("~/scripts/jquery.unobtrusive-ajax.js")
+<script type="text/javascript">
+     $(document).ready(function () {
+         $.ajax({
+                  type: 'GET',
+                  url: '@Url.Action("UpdateSalesTable", "Sale")',
+                  dataType: 'html',
+                  success: function (data) {
+                          $('#sales-table-container').html(data);
+                          },
+                  error: function (jQXHR, textStatus, errorThrown){
+                          console.log('An error occurred while trying to contact the server for Sales: ' + jQXHR.status + ' ' + textStatus + ' ' + errorThrown);
+                          }
+                  });
+     });
+    </script>

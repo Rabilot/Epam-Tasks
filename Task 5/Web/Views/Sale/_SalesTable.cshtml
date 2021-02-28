@@ -1,0 +1,50 @@
+﻿@model System.Collections.Generic.IList<Task5_Model.SaleModel>
+
+@if (Model.Count != 0)
+{
+    <div id="sales-table-container">
+        <table id="sales-table" class="table table-bordered text-center">
+            <tr>
+                <th class="text-center">Manager last name</th>
+                <th class="text-center">Client name</th>
+                <th class="text-center">Product name</th>
+                <th class="text-center">Price</th>
+                <th class="text-center">Date</th>
+                @if (User.IsInRole("admin"))
+                {
+                    <th></th>
+                }
+            </tr>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ManagerModel.LastName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ClientModel.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProductModel.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProductModel.Price)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateOfSale.Date)
+                    </td>
+                    @if (User.IsInRole("admin"))
+                    {
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", new {id = item.Id})
+                            @Ajax.ActionLink("Delete", "Delete", new {id = item.Id}, new AjaxOptions {UpdateTargetId = "sales-table-container"})
+                        </td>
+                    }
+                </tr>
+            }
+        </table>
+    </div>
+}
+
+@Scripts.Render("~/scripts/jquery-3.4.1.js")
+@Scripts.Render("~/scripts/jquery.unobtrusive-ajax.js")

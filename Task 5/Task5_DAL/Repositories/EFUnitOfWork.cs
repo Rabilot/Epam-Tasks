@@ -24,35 +24,6 @@ namespace Task5_DAL.Repositories
 
         public IRepository<Sale> Sales => _saleRepository ?? (_saleRepository = new SaleRepository(_db));
 
-        public void Add(IEnumerable<Sale> sales, Models.Manager manager)
-        {
-            Monitor.Enter(Locker);
-            //Console.WriteLine("Started writing");
-            var createdManager = _db.Managers.FirstOrDefault(o => o.LastName == manager.LastName);
-            if (createdManager != null)
-            {
-                manager = createdManager;
-            }
-
-            try
-            {
-                foreach (var sale in sales)
-                {
-                    sale.Manager = manager;
-                    Sales.Add(sale);
-                }
-
-                Save();
-            }
-            catch (Exception e)
-            {
-                // ignored
-            }
-
-            //Console.WriteLine("Finished writing");
-            Monitor.Exit(Locker);
-        }
-
         public void Add(SaleModel saleModel)
         {
             var sale = Convert(saleModel);
@@ -78,6 +49,10 @@ namespace Task5_DAL.Repositories
 
         public void Edit(SaleModel saleModel)
         {
+            if (!saleModel.IsValid())
+            {
+               throw new ArgumentException();
+            }
             Monitor.Enter(Locker);
             var sale = _db.Sales.Find(saleModel.Id);
             if (sale != null)
@@ -134,8 +109,9 @@ namespace Task5_DAL.Repositories
             throw new ArgumentNullException();
         }
 
-        public IList<SaleModel> GetAll(int? page, string name, DateTime? fromDate, DateTime? toDate)
+        public IList<SaleModel> GetAll(string name, DateTime? fromDate, DateTime? toDate)
         {
+            Monitor.Enter(Locker);
             if (fromDate == null)
             {
                 fromDate = DateTime.MinValue;
@@ -145,11 +121,11 @@ namespace Task5_DAL.Repositories
             {
                 toDate = DateTime.MaxValue;
             }
-            
+
             var result = _db.Sales
                 .Where(sale => (string.IsNullOrEmpty(name) || sale.Manager.LastName == name) && sale.Date >= fromDate &&
                                sale.Date <= toDate)
-                .ToList().Select(x => new SaleModel() //.OrderBy(o => o.Date).Skip(10*2).Take(10)
+                .ToList().Select(x => new SaleModel() //.OrderBy(o => o.Id).Skip(10 * (page-1)).Take(10)
                 {
                     ClientModel = new ClientModel()
                     {
@@ -167,7 +143,7 @@ namespace Task5_DAL.Repositories
                     DateOfSale = x.Date,
                     Id = x.Id
                 }).ToList();
-
+            Monitor.Exit(Locker);
             return result;
         }
 
