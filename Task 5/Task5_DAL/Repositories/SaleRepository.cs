@@ -20,7 +20,7 @@ namespace Task5_DAL.Repositories
             {
                 throw new ArgumentNullException();
             }
-            
+
             _context.Sales.Add(item);
         }
 

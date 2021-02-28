@@ -18,7 +18,8 @@ namespace Task5_Model
 
         public bool IsValid()
         {
-            return ManagerModel.LastName.Length <= 20 && ClientModel.Name.Length <= 64 && ProductModel.Name.Length <= 50 && ProductModel.Price > 0;
+            return ManagerModel.LastName.Length <= 20 && ClientModel.Name.Length <= 64 &&
+                   ProductModel.Name.Length <= 50 && ProductModel.Price > 0 && DateOfSale <= DateTime.Now;
         }
     }
 }

@@ -41,17 +41,17 @@
     }
     <div id="sales-table-container">
         <table id="sales-table" class="table table-bordered text-center">
-        <tr>
-            <th class="text-center">Manager last name</th>
-            <th class="text-center">Client name</th>
-            <th class="text-center">Product name</th>
-            <th class="text-center">Price</th>
-            <th class="text-center">Date</th>
-            @if (User.IsInRole("admin"))
-            {
-                <th></th>
-            }
-        </tr>
+            <tr>
+                <th class="text-center">Manager last name</th>
+                <th class="text-center">Client name</th>
+                <th class="text-center">Product name</th>
+                <th class="text-center">Price</th>
+                <th class="text-center">Date</th>
+                @if (User.IsInRole("admin"))
+                {
+                    <th></th>
+                }
+            </tr>
         </table>
         <div id="loading">
             <img class="center-block" src='@Url.Content("~/Content/loading_spinner.gif")'>

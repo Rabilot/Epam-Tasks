@@ -37,15 +37,8 @@ namespace Task5_DAL.Repositories
                 sale.Manager = createdManager;
             }
 
-            try
-            {
-                Sales.Add(sale);
-                Save();
-            }
-            catch
-            {
-                // ignored
-            }
+            Sales.Add(sale);
+            Save();
 
             Monitor.Exit(Locker);
         }
@@ -82,9 +75,9 @@ namespace Task5_DAL.Repositories
                 _db.Clients.Remove(_db.Clients.Find(sale.ClientId) ?? throw new InvalidOperationException());
                 _db.Products.Remove(_db.Products.Find(sale.ProductId) ?? throw new InvalidOperationException());
                 _db.Sales.Remove(sale);
+                _db.SaveChanges();
             }
-
-            _db.SaveChanges();
+            
             Monitor.Exit(Locker);
         }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Web.Mvc;
+using Serilog;
 using Task5_DAL.Repositories;
 using Task5_Model;
 
@@ -19,13 +20,21 @@ namespace Web.Controllers
         [Authorize(Roles = "admin")]
         public ActionResult Edit(int? id)
         {
-            var saleEdit = _unitOfWork.FindByIndex(id);
-            if (saleEdit == null)
+            try
             {
-                return HttpNotFound();
-            }
+                var saleEdit = _unitOfWork.FindByIndex(id);
+                if (saleEdit == null)
+                {
+                    return HttpNotFound();
+                }
 
-            return View(saleEdit);
+                return View(saleEdit);
+            }
+            catch (Exception e)
+            {
+                Log.Error(e.Message);
+                return RedirectToAction("Index");
+            }
         }
 
         [HttpPost, ActionName("Edit")]
@@ -33,9 +42,18 @@ namespace Web.Controllers
         [Authorize(Roles = "admin")]
         public ActionResult EditPost(SaleModel saleModel)
         {
-            if (saleModel != null && saleModel.IsValid())
+            try
             {
+                if (saleModel != null && saleModel.IsValid())
+                {
+                    throw new ArgumentException();
+                }
+
                 _unitOfWork.Edit(saleModel);
+            }
+            catch (Exception e)
+            {
+                Log.Error(e.Message);
             }
 
             return RedirectToAction("Index");
@@ -45,9 +63,18 @@ namespace Web.Controllers
         [Authorize(Roles = "admin")]
         public ActionResult Delete(int id)
         {
-            if (id >= 0)
+            try
             {
+                if (id < 0)
+                {
+                    throw new ArgumentException();
+                }
+
                 _unitOfWork.DeleteByIndex(id);
+            }
+            catch (Exception e)
+            {
+                Log.Error(e.Message);
             }
 
             return UpdateSalesTable(null, null, null);
@@ -65,9 +92,18 @@ namespace Web.Controllers
         [Authorize(Roles = "admin")]
         public ActionResult CreatePost(SaleModel saleModel)
         {
-            if (saleModel != null && saleModel.IsValid())
+            try
             {
+                if (saleModel != null && !saleModel.IsValid())
+                {
+                    throw new ArgumentException();
+                }
+
                 _unitOfWork.Add(saleModel);
+            }
+            catch (Exception e)
+            {
+                Log.Error(e.Message);
             }
 
             return RedirectToAction("Index");
@@ -75,13 +111,21 @@ namespace Web.Controllers
 
         public ActionResult UpdateSalesTable(string name, DateTime? fromDate, DateTime? toDate)
         {
-            if (name.Length > 20)
+            try
             {
-                throw new ArgumentException();
-            }
+                if (name != null && name.Length > 20)
+                {
+                    throw new ArgumentException();
+                }
 
-            var sales = _unitOfWork.GetAll(name, fromDate, toDate);
-            return PartialView("_SalesTable", sales);
+                var sales = _unitOfWork.GetAll(name, fromDate, toDate);
+                return PartialView("_SalesTable", sales);
+            }
+            catch (Exception e)
+            {
+                Log.Error(e.Message);
+                return RedirectToAction("Index");
+            }
         }
     }
 }
