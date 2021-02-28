@@ -77,7 +77,7 @@ namespace Task5_DAL.Repositories
                 _db.Sales.Remove(sale);
                 _db.SaveChanges();
             }
-            
+
             Monitor.Exit(Locker);
         }
 

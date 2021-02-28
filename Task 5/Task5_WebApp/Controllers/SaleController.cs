@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Web.Mvc;
 using Serilog;
+using Task5_DAL.Interfaces;
 using Task5_DAL.Repositories;
 using Task5_Model;
 
@@ -8,7 +9,7 @@ namespace Web.Controllers
 {
     public class SaleController : Controller
     {
-        private readonly EFUnitOfWork _unitOfWork = new EFUnitOfWork();
+        private readonly IUnitOfWork _unitOfWork = new EFUnitOfWork();
 
         [Authorize(Roles = "user")]
         public ActionResult Index()
