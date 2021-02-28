@@ -6,6 +6,7 @@ namespace Task5_Model
     public class ProductModel
     {
         public string Name { get; set; }
+
         [DataType(DataType.Currency)]
         [Column(TypeName = "money")]
         [Display(Name = "Price")]

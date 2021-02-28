@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Threading;
 using Task5_DAL.EF;
 using Task5_DAL.Interfaces;
 using Task5_DAL.Models;
 using Task5_Model;
-using Manager = Task5_DAL.Models.Manager;
 
 namespace Task5_DAL.Repositories
 {
@@ -26,6 +24,11 @@ namespace Task5_DAL.Repositories
 
         public void Add(SaleModel saleModel)
         {
+            if (!saleModel.IsValid())
+            {
+                throw new ArgumentException();
+            }
+
             var sale = Convert(saleModel);
             Monitor.Enter(Locker);
             var createdManager = _db.Managers.FirstOrDefault(o => o.LastName == sale.Manager.LastName);
@@ -39,7 +42,7 @@ namespace Task5_DAL.Repositories
                 Sales.Add(sale);
                 Save();
             }
-            catch (Exception e)
+            catch
             {
                 // ignored
             }
@@ -51,8 +54,9 @@ namespace Task5_DAL.Repositories
         {
             if (!saleModel.IsValid())
             {
-               throw new ArgumentException();
+                throw new ArgumentException();
             }
+
             Monitor.Enter(Locker);
             var sale = _db.Sales.Find(saleModel.Id);
             if (sale != null)
@@ -125,7 +129,7 @@ namespace Task5_DAL.Repositories
             var result = _db.Sales
                 .Where(sale => (string.IsNullOrEmpty(name) || sale.Manager.LastName == name) && sale.Date >= fromDate &&
                                sale.Date <= toDate)
-                .ToList().Select(x => new SaleModel() //.OrderBy(o => o.Id).Skip(10 * (page-1)).Take(10)
+                .ToList().Select(x => new SaleModel()
                 {
                     ClientModel = new ClientModel()
                     {
@@ -165,7 +169,7 @@ namespace Task5_DAL.Repositories
                 {
                     Name = saleModel.ClientModel.Name
                 },
-                Manager = new Models.Manager()
+                Manager = new Manager()
                 {
                     LastName = saleModel.ManagerModel.LastName
                 },
