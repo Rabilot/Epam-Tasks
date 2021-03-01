@@ -45,7 +45,7 @@ namespace Web.Controllers
         {
             try
             {
-                if (saleModel != null && saleModel.IsValid())
+                if (saleModel != null && !saleModel.IsValid())
                 {
                     throw new ArgumentException();
                 }
